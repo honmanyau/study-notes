@@ -20,7 +20,7 @@ Values that are coerced to `false` when evaluated as a condition, in comparisons
 * `undefined`
 * `false`
 
-Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md)
+Reference [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md)
 
 ### Hoisting
 
@@ -29,6 +29,10 @@ The behaviour where a variable or function declared is is accessible inside the 
 ### Polyfilling
 
 The act of replicating new features in the language using code that is compatible with older browsers. Notable example: https://github.com/es-shims/es6-shim.
+
+### Scope
+
+The result of a process in which, for a given location in some code, a set of rules for storing and retrieving variables is determined.
 
 ### Transpiling
 
@@ -44,7 +48,7 @@ As of ES6, there are six primitive data types in JavaScript: boolean, null, unde
 
 The remaining type, object, is a composite data type. It is worth noting that arrays and functions are also objects in JavaScript.
 
-Source: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
+Reference [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
 
 ## Patterns
 
@@ -84,7 +88,7 @@ cat.init('Nyan', 'Pasu');
 cat.meow(); // "Meow, Nyan Pasu!"
 ```
 
-Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md).
+Reference [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md).
 
 ## Questions
 
@@ -96,7 +100,7 @@ No, not necessarily; and that statement suggests a lack of understanding of the 
 
 > The JavaScript engine actually compiles the program on the fly and then immediately runs the compiled code.
 
-Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
+Reference [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
 ### What are the differences between var, let, and const?
 

@@ -18,7 +18,7 @@ Example:
 nyan = pasu * 2;
 ```
 
-Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
+Reference: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
 ### Expression
 
@@ -28,7 +28,7 @@ Expressions are most often combined to make [statements](#statement) that perfor
 
 Some examples of expressions include, but not limited to, literal value expression (`42`); literal string expression (`"nyanpasu"`); arithmetic expression (`n * 42`); variable expression (`nya`); and assignment expression (`nya = n * 42`). It is worth noting that a function call (`console.log()`) is also an expression.
 
-Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
+Reference: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
 ### Operators
 
