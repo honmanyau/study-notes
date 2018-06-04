@@ -26,6 +26,14 @@ Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%
 
 The behaviour where a variable or function declared is is accessible inside the entire enclosing scope. Variables declared with a `variable` statement using the `var` keyword and functions declaration using the `function` keyword are hoisted.
 
+### Polyfilling
+
+The act of replicating new features in the language using code that is compatible with older browsers. Notable example: https://github.com/es-shims/es6-shim.
+
+### Transpiling
+
+The act of converting code writing with a newer syntax into code that is compatible with older browsers that do not support the newer syntax. Notable example: https://babeljs.io.
+
 ### Truthy
 
 Anything that is not [falsey](#falsy).
