@@ -18,7 +18,7 @@ Example:
 nyan = pasu * 2;
 ```
 
-Reference: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
+Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
 ### Expression
 
@@ -28,7 +28,7 @@ Expressions are most often combined to make [statements](#statement) that perfor
 
 Some examples of expressions include, but not limited to, literal value expression (`42`); literal string expression (`"nyanpasu"`); arithmetic expression (`n * 42`); variable expression (`nya`); and assignment expression (`nya = n * 42`). It is worth noting that a function call (`console.log()`) is also an expression.
 
-Reference: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
+Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
 ### Operators
 
@@ -42,7 +42,7 @@ A data type that cannot be decomposed to smaller components.
 
 The result of a process in which, for a given location in some code, a set of rules for storing and retrieving variables is determined. See also [this figure](https://raw.githubusercontent.com/getify/You-Dont-Know-JS/master/scope%20%26%20closures/fig2.png) in YDKJS.
 
-Reference: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/fig2.png)
+Reference: [YDKJS, Scope & Closures, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/fig2.png)
 
 ### Static Typing
 
