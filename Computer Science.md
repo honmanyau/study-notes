@@ -34,6 +34,10 @@ Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%
 
 Operators are used to perform actions on values and variables.
 
+### Primitive Data Type
+
+A data type that cannot be decomposed to smaller components.
+
 ### Static Typing
 
 A language implementation that requires variables declared under this scheme to hold a specific type of value.

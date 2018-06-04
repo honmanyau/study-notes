@@ -4,12 +4,85 @@
 
 * [JavaScript](#javascript)
   * [Terminology](#terminology)
+  * [Patterns](#patterns)
   * [Questions](#questions)
   * [Resources](#resources)
 
 ## Terminology
 
+### Falsy
+
+Values that are coerced to `false` when evaluated as a condition, in comparisons, or in a conditional statement:
+
+* `""` or `''`
+* `0`, `-0` or `NaN`
+* `null`
+* `undefined`
+* `false`
+
+Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md)
+
+### Hoisting
+
+The behaviour where a variable or function declared is is accessible inside the entire enclosing scope. Variables declared with a `variable` statement using the `var` keyword and functions declaration using the `function` keyword are hoisted.
+
+### Truthy
+
+Anything that is not [falsey](#falsy).
+
+### Types
+
+As of ES6, there are six primitive data types in JavaScript: boolean, null, undefined, number, string and symbol.
+
+The remaining type, object, is a composite data type. It is worth noting that arrays and functions are also objects in JavaScript.
+
+Source: [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
+
+## Patterns
+
+### Immediately Invoked Function Expression (IIFE)
+
+A function that is immediately executed after it is created. This pattern is used to avoid scope-based variable conflicts as variables declared inside the IIFE are only scoped to that function.
+
+### Module
+
+A common pattern that utilises the concept of closure for hiding private implementations and exposing public methods via an AIP. For example:
+
+```javascript
+function Cat() {
+  let privateFirstName, privateLastName, privateFullName;
+
+  function init(firstName, lastName) {
+    privateFirstName = firstName;
+    privateLastName = lastName;
+    privateFullName = `${firstName} ${lastName}`;
+  }
+
+  function meow() {
+    console.log(`Meow, ${fullName}!`);
+  }
+
+  const publicAPI = {
+    init: init,
+    meow: meow
+  }
+
+  return publicAPI;
+}
+
+const cat = Cat();
+
+cat.init('Nyan', 'Pasu');
+cat.meow(); // "Meow, Nyan Pasu!"
+```
+
+Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md).
+
 ## Questions
+
+### Implicit in JavaScript coercion is evil.
+
+No, not necessarily; and that statement suggests a lack of understanding of the rules behind implicit coercion.
 
 ### Is JavaScript a compiled language or an interpreted language?
 
@@ -21,9 +94,9 @@ Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%
 
 `// Placeholder`
 
-### Implicit in JavaScript coercion is evil.
+### What is the only value in JavaScript that is not equal to itself?
 
-No, not necessarily; and that statement suggests a lack of understanding of the rules behind implicit coercion.
+`NaN`.
 
 ## Resources
 
