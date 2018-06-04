@@ -7,18 +7,11 @@
 
 ## Science Terminology
 
-### Statement
+### Data Structure
 
-> A group of words, numbers, and operators that performs a specific task is a
-statement."
+> A collection of data values, the relationships among them, and the functions or operations that can be applied to the data.
 
-Example:
-
-```
-nyan = pasu * 2;
-```
-
-Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
+Reference: [Wikipedia, Data Structure](https://en.wikipedia.org/wiki/Data_structure)
 
 ### Expression
 
@@ -43,6 +36,19 @@ A data type that cannot be decomposed to smaller components.
 The result of a process in which, for a given location in some code, a set of rules for storing and retrieving variables is determined. See also [this figure](https://raw.githubusercontent.com/getify/You-Dont-Know-JS/master/scope%20%26%20closures/fig2.png) in YDKJS.
 
 Reference: [YDKJS, Scope & Closures, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/fig2.png)
+
+### Statement
+
+> A group of words, numbers, and operators that performs a specific task is a
+statement."
+
+Example:
+
+```
+nyan = pasu * 2;
+```
+
+Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
 ### Static Typing
 
