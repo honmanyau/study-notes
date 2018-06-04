@@ -30,10 +30,6 @@ The behaviour where a variable or function declared is is accessible inside the 
 
 The act of replicating new features in the language using code that is compatible with older browsers. Notable example: https://github.com/es-shims/es6-shim.
 
-### Scope
-
-The result of a process in which, for a given location in some code, a set of rules for storing and retrieving variables is determined.
-
 ### Transpiling
 
 The act of converting code writing with a newer syntax into code that is compatible with older browsers that do not support the newer syntax. Notable example: https://babeljs.io.
@@ -104,7 +100,7 @@ Reference [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%2
 
 ### What are the differences between var, let, and const?
 
-`// Placeholder`
+`Placeholder`
 
 ### What is the only value in JavaScript that is not equal to itself?
 

@@ -38,6 +38,12 @@ Operators are used to perform actions on values and variables.
 
 A data type that cannot be decomposed to smaller components.
 
+### Scope
+
+The result of a process in which, for a given location in some code, a set of rules for storing and retrieving variables is determined. See also [this figure](https://raw.githubusercontent.com/getify/You-Dont-Know-JS/master/scope%20%26%20closures/fig2.png) in YDKJS.
+
+Reference: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/fig2.png)
+
 ### Static Typing
 
 A language implementation that requires variables declared under this scheme to hold a specific type of value.
@@ -45,3 +51,9 @@ A language implementation that requires variables declared under this scheme to 
 ### Weak/Dynamic Typing
 
 A language implementation that allows variables declared under this scheme to hold values of any type.
+
+## Questions
+
+### What is scope? Give an example to illustrate how you would utilise the concept of scope when designing software.
+
+`Placeholder`
