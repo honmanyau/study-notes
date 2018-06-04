@@ -7,7 +7,7 @@
 
 ## Science Terminology
 
-#### Statement
+### Statement
 
 > A group of words, numbers, and operators that performs a specific task is a
 statement."
@@ -20,7 +20,7 @@ nyan = pasu * 2;
 
 Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
-#### Expression
+### Expression
 
 > An expression is any reference to a variable or value, or a set of variable(s) and value(s) combined with operators.
 
@@ -30,14 +30,14 @@ Some examples of expressions include, but not limited to, literal value expressi
 
 Source: [YDKJS](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
-#### Operators
+### Operators
 
 Operators are used to perform actions on values and variables.
 
-#### Static Typing
+### Static Typing
 
 A language implementation that requires variables declared under this scheme to hold a specific type of value.
 
-#### Weak/Dynamic Typing
+### Weak/Dynamic Typing
 
 A language implementation that allows variables declared under this scheme to hold values of any type.
