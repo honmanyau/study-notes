@@ -31,6 +31,12 @@ Operators are used to perform actions on values and variables.
 
 A data type that cannot be decomposed to smaller components.
 
+### Process
+
+A process is an image of the executable machine code of a program with resources that includes, but not limited to, memory and system specific descriptors and attributes required, either by the system and/or the program, to carry out certain tasks.
+
+Reference: [Process (Computing)](https://en.wikipedia.org/wiki/Process_(computing))
+
 ### Scope
 
 The result of a process in which, for a given location in some code, a set of rules for storing and retrieving variables is determined. See also [this figure](https://raw.githubusercontent.com/getify/You-Dont-Know-JS/master/scope%20%26%20closures/fig2.png) in YDKJS.
@@ -54,6 +60,14 @@ Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Kno
 
 A language implementation that requires variables declared under this scheme to hold a specific type of value.
 
+### Thread
+
+A subset/component of a process and is the "is the smallest sequence of programmed instructions that can be managed independently by a scheduler".
+
+Where multiple threads are concerned, they share the same memory address space (stack, heap, data, code/text) but each of them has its own call stack.
+
+Reference: [Wikipedia, Thread (Computing)](https://en.wikipedia.org/wiki/Thread_%28computing%29#Threads_vs._processes)
+
 ### Weak/Dynamic Typing
 
 A language implementation that allows variables declared under this scheme to hold values of any type.
@@ -61,5 +75,9 @@ A language implementation that allows variables declared under this scheme to ho
 ## Questions
 
 ### What is scope? Give an example to illustrate how you would utilise the concept of scope when designing software.
+
+`Placeholder`
+
+### What are the relationship and difference between a process and a thread? (Potential follow-up question: what do and do not multiple threads share?)
 
 `Placeholder`

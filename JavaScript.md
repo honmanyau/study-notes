@@ -34,6 +34,8 @@ A interpreter's mechanism for keeping track its location in code and prioritisin
 
 For example, when the interpreter encounters a function call, say `fn()`, it is added to the call stack and executed. Once every line inside `fn()` has been executed, the interpreter goes back to where `fn()` was initially invoked, continues to execute the rest of the code, and removes `fn()` from the call stack.
 
+The call stack is a LIFO data structure.
+
 Reference: [MDN Web Docs, Call Stack](https://developer.mozilla.org/en-US/docs/Glossary/Call_Stack)
 
 ### Closure
@@ -80,6 +82,12 @@ Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Kno
 The behaviour where a variable or function declared is is accessible inside the entire enclosing scope. Variables declared with a `variable` statement using the `var` keyword and functions declaration using the `function` keyword are hoisted. In JavaScript, functions are hoisted before variables.
 
 Reference: [YDKJS, Scope & Closures, Chapter 4](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch4.md)
+
+### Host Environment
+
+A container that primarily converts source code into executable code with an engine and provides a set of tools for interacting with the host application. In terms of JavaScript, the host environment could be a web browser like Firefox or a Node.js environment, which are built on different engines.
+
+Just as host environments may be built on different engines, the tools that are globally available (through APIs) are also different and are not part of standard JavaScript/ECMAScript. For example, `console.log()` is not part of standard JavaScript and is provided by the host environment.
 
 ### Key Access
 
@@ -198,6 +206,38 @@ Reference: [YDKJS, Types & Grammar, Chapter 2](https://github.com/getify/You-Don
 
 ## Patterns
 
+### Cooperativity
+
+An approach that employs asynchrony to break a task into smaller chunks such that the thread can be freed up temporarily for other tasks queued in the call stack. For example:
+
+```JavaScript
+const collection = [];
+
+function processData(data) {
+  const chunk = data.splice(0, 1000).map((user) => {
+    const { firstName, lastName } = user;
+
+    return `${firstName} ${lastName}`;
+  });
+
+  if (data.length) {
+    setTimeout(() => {
+      processData(data);
+    }, 0);
+  }
+}
+
+fetch('https://nyanpasu.com/api/endpoint1')
+  .then((response) => response.json())
+  .then((data) => processData);
+
+fetch('https://nyanpasu.com/api/endpoint2')
+  .then((response) => response.json())
+  .then((data) => processData);
+```
+
+Reference: [YDKJS, Async and Performance, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch1.md)
+
 ### Immediately Invoked Function Expression (IIFE)
 
 A function that is immediately executed after it is created. This pattern is used to avoid scope-based variable conflicts as variables declared inside the IIFE are only scoped to that function.
@@ -269,6 +309,16 @@ Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Kno
 ### Given an object, `a`, how does one create another object, `b`, that is prototype-linked to `a` using 1. `Object.create()` and 2. `Object.setPrototypeOf()`?
 
 `Placeholder`
+
+### Given that JavaScript is single-threaded, how does asynchrony actually work in JavaScript? (Sort of a trick question)
+
+Asynchrony in JavaScript does not refer to multiple processes or threads running at the same time (as in parallelism).
+
+It simply refer to the behaviour where code execution is "deferred" until a response is received from the host environment. When the response is picked up by the host environment, it is enqueued by the event loop as a message to the... well, queue, which contains also the function to be executed (callback function). When the call stack is empty, the event loop will dequeue its messages and call the callback functions, one by one, in a FIFO manner.
+
+In essence, this is simply how the event loop and call stack works together to begin with, and it's simply a parallax error on the part of the observer, presumably caused by concurrency, to think that things are happening in parallel.
+
+Reference: [YDKJS, Async & Performance, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch1.md), [MDN Web Docs, Event Loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop), [MDN Web Docs, Call Stack](https://developer.mozilla.org/en-US/docs/Glossary/Call_Stack)
 
 ### Given the assignments `let a = new String('nyanpasu')` and `"let b = nyanpasu"`, what is the difference between `a` and `b`? (Potential follow-up questions: what do `a.length` and `b.length` return? In addition, why does `b.length` returns what it returns?)
 
