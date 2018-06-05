@@ -10,15 +10,58 @@
 
 ## Terminology
 
+### Boxing
+
+The behaviour where a primitive is automatically "boxed"/"wrapped" with the appropriate native/built-in function so that the functionalities required by the author is made available. For example:
+
+```JavaScript
+const str = 'nyanpasu'; // Primitive (typeof str returns "string")
+
+str.length; // Boxing occurs here—effectively (new String(str)).length
+```
+
+In addition:
+
+> Browsers long ago performance-optimized the common cases like .length, which means your program will actually go slower if you try to "preoptimize" by directly using the object form (which isn't on the optimized path).
+
+See also [unboxing](#unboxing).
+
+Reference: [YDKJS, Types & Grammar, Chapter 3](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch3.md)
+
+### Call Stack
+
+A interpreter's mechanism for keeping track its location in code and prioritising the order that functions should be called.
+
+For example, when the interpreter encounters a function call, say `fn()`, it is added to the call stack and executed. Once every line inside `fn()` has been executed, the interpreter goes back to where `fn()` was initially invoked, continues to execute the rest of the code, and removes `fn()` from the call stack.
+
+Reference: [MDN Web Docs, Call Stack](https://developer.mozilla.org/en-US/docs/Glossary/Call_Stack)
+
 ### Closure
 
 > Closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope.
 
 Reference: [YDKJS, Scope & Closures, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch5.md)
 
+### Coercion
+
+The definition varies but in the context of JavaScript, and according to common "understanding", coercion usually refers to the process in which a value is converted from one type to another, whether explicitly or implicitly, in a dynamically-typed language. For example:
+
+```JavaScript
+const num = 42;
+
+String(num); // "42", explicit
+num + ''; // "42", implicit
+```
+
+In JavaScript, coercions **always** result in a scalar primitive.
+
+Continuing on with the distinction made above, the corresponding, explicit conversion in a statically-typed language is called type casting.
+
+Reference: [YDKJS, Types & Grammar, Chapter 4](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch4.md)
+
 ### Falsy
 
-Values that are coerced to `false` when evaluated as a condition, in comparisons, or in a conditional statement:
+Values that are coerced to `false` when evaluated as a condition, in comparisons, or in a conditional statement. In standard JavaScript, these values are:
 
 * `""` or `''`
 * `0`, `-0` or `NaN`
@@ -26,7 +69,11 @@ Values that are coerced to `false` when evaluated as a condition, in comparisons
 * `undefined`
 * `false`
 
-Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md)
+In addition, where browser APIs are involved:
+
+* `document.all` (yes, this is a falsy **object** for which `typeof` returns `undefined`...)
+
+Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md), [YDKJS, Types & Grammar, Chapter 4](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch4.md)
 
 ### Hoisting
 
@@ -64,6 +111,24 @@ A set of properties that describes how a given property in an object behaves; th
 
 Reference: [YDKJS, `this` & Object Prototypes, Chapter 3](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch3.md)
 
+### Reference-Copy
+
+When a copy of the reference to a value is created before it is assigned or passed. In JavaScript, this happens with the composite data types such as objects, arrays and functions. For example:
+
+```JavaScript
+let objA = { a: 1, b: 2 };
+let objB = objA;
+
+objB.c = 3;
+
+console.log(objA); // Object { a: 1, b: 2, c: 3 }
+console.log(objB); // Object { a: 1, b: 2, c: 3 }
+```
+
+See also [value-copy](#value-copy).
+
+Reference: [YDKJS, Types & Grammar, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch2.md)
+
 ### `this`
 
 The ultimate pun creator.
@@ -95,6 +160,42 @@ The remaining type, object, is a composite data type. It is worth noting that ar
 
 Reference: [MDN Web Docs, JavaScript Data Types and Data Structures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
 
+### Unboxing
+
+The value stored in a "boxed" object can be accessed using the `valueOf()` function or by implicit means. For example:
+
+```JavaScript
+let str = new String('nyanpasu');
+
+typeof str.valueOf(); // "string"
+typeof (str + '') // "string"
+```
+
+See also [boxing](#boxing).
+
+Reference: [YDKJS, Types & Grammar, Chapter 3](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch3.md)
+
+### Value-Copy
+
+When a copy of a value is created before it is assigned or passed. In JavaScript, this happens with the primitive data types. For example:
+
+```JavaScript
+let a = 'nyan';
+let b = a;
+
+b = 'pasu';
+
+console.log(a); // "nyan"
+console.log(b); // "pasu"
+
+// Assignment to 'b' does not affect the value of 'a' because 'nyan' is a
+// string primitive and a copy of it is created with the assignment let b = a;
+```
+
+See also [reference-copy](#referece-copy).
+
+Reference: [YDKJS, Types & Grammar, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch2.md)
+
 ## Patterns
 
 ### Immediately Invoked Function Expression (IIFE)
@@ -105,7 +206,7 @@ A function that is immediately executed after it is created. This pattern is use
 
 A common pattern that utilises the concept of closure for hiding private implementations and exposing public methods via an AIP. For example:
 
-```javascript
+```JavaScript
 function Cat() {
   let privateFirstName, privateLastName, privateFullName;
 
@@ -161,13 +262,21 @@ Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Kno
 
 `Placeholder`
 
-### Do you know of a use for scope in garbage collection?
+### Do you know of a use for scope in terms of garbage collection?
 
 `Placeholder`
 
-### Given an object, `a`, how does one create another object, `b`, that is prototypically delegated to `a` using 1. `Object.create()` and 2. `Object.setPrototypeOf()`?
+### Given an object, `a`, how does one create another object, `b`, that is prototype-linked to `a` using 1. `Object.create()` and 2. `Object.setPrototypeOf()`?
 
 `Placeholder`
+
+### Given the assignments `let a = new String('nyanpasu')` and `"let b = nyanpasu"`, what is the difference between `a` and `b`? (Potential follow-up questions: what do `a.length` and `b.length` return? In addition, why does `b.length` returns what it returns?)
+
+`Placeholder`
+
+### Given three variables `a`, `b` and `c`, and that they are assigned, **in no particular order** the following expressions `new String('nyanpasu')`, `new Array('nyanpasu')`, `{ 'nyan': 'pasu' }`; what would the `typeof` operator return for each of the variables? How would you determine whether the given variables is a string, an array, or an object?
+
+`typeof` will return `"object"` in all cases. One way to quickly inspect the internal classification of the object is to use `Object.prototype.toString.call()`.
 
 ### How does one prevent further properties from being added to an object? (Potential follow ups: 1. How would one achieve the same if it is an array? 2. What are the differences between the functions mentioned?)
 
@@ -190,6 +299,10 @@ Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Kno
 ### What are some potential gotchas that you may run into When updating older code to use the newer `let` and `const` variable declaration keywords?
 
 `Placeholder`
+
+### What is the difference between `new Date()` and `Date()`?
+
+They both return the current time; however, `new Date()` returns a `Date` object/data structure and `Date()` returns a string primitive in a non-standardised format.
 
 ### What are the differences between `var`, `let`, and `const`?
 
@@ -217,12 +330,23 @@ Reference: [YDKJS, `this` & Object Prototypes, Chapter 3](https://github.com/get
 
 `NaN`.
 
+### What is returned by the statement `parseInt( 1/0, 19 )` and why?
+
+`Placeholder`
+
 ### Where does the prototype chain end? (Potential follow-up question: what can be found there?)
 
 `Object.prototype`.
+
+### Why is the statement `var a = b = 42;` potentially a bad idea?
+
+`Placeholder`
 
 ## Resources
 
 * [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS)
 * [MDN Web Docs, JavaScript Expression and Operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators)
 * [MDN Web Docs, JavaScript Data Types and Data Structures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
+* [MDN Web Docs, Standard Built-in Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
+* [MDN Web Docs, Glossary](https://developer.mozilla.org/en-US/docs/Glossary)
+* [MDN Web Docs, Operator Precedence](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence)
