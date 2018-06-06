@@ -19,9 +19,13 @@ It appears that I focused too much on the coding part in the last year or so of 
 ## Progress
 
 Current Material: [YDKJS, Async & Performance](https://github.com/getify/You-Dont-Know-JS/tree/master/async%20%26%20performance)
+
 Books Completed: 4
+
 Courses Completed: 0
+
 Total Points Earned: 800
+
 Total Time Spent since 2018.06.04 (approx.): 18 hours
 
 | Date Finished | Activity                  | Points | Links  |
