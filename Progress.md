@@ -8,7 +8,7 @@ In addition to keep track of my progress, the [study notes](https://github.com/h
 
 In case the speed at which I go through materials seems unusually fast to anyone who comes across this repository, I was unemployed when this first started on 2018.06.04 and am dedicating approximately 8–12 hours a day, excluding breaks, on studying. I will try my best to document "interruptions" so that the picture is realistic for anyone who happens to come across this.
 
-I envisage that there will also be times when I seem to be going through material too slowly (if there are no documented interruptions). In those cases it is most likely because for each task/type of material I am going through, I would usually check the references suggested in it, too. An good example is understanding how the (call) stack, queue, heap, event loop, and the "microstack" used by the JavaScript `Promise`s fit together and what each individual parts do—which took a substantial amount of time.
+I envisage that there will also be times when I seem to be going through material too slowly (if there are no documented interruptions). In those cases it is most likely because for each task/type of material I am going through, I would usually check the references suggested in it, too. An good example is understanding how the (call) stack, queue, heap, event loop, and the "microqueue" used by the JavaScript `Promise`s fit together and what each individual parts do—which took a substantial amount of time.
 
 ## Goals
 
