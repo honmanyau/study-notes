@@ -2,7 +2,7 @@
 
 ## Introduction
 
-I came across [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea a few days after starting the [Computer Science and Web Development](https://github.com/P1xt/p1xt-guides/blob/master/cs-wd.md) guide—just as I was wondering how long it will all take (well, the goal is a bit of a moving target at the time of writing). It seems like the perfect way to keep myself accountable and motivated, as well as to serve as an indication of what can and cannot be achieved to others.
+I came across [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea a few days after starting the [Computer Science and Web Development](https://github.com/P1xt/p1xt-guides/blob/master/cs-wd.md) guide—just as I was wondering how long it will all take (well, the goal is a bit of a moving target at the time of writing). It seems like the perfect way to keep myself accountable and motivated, as well as to serve as an indication of what can and cannot be achieved to others. This document is derived from the [Computer Science and Web Development template](https://github.com/P1xt/speedstudy/blob/master/progress-2018/template/template-wd-cs.md) in the SpeedStudy repository.
 
 In addition to keep track of my progress, the [study notes](https://github.com/honmanyau/study-notes) found in the other files and directories in this repository are also there to keep myself accountable and are intended to be review material for myself (or perhaps others). They are not organised by the material they are collected/interpreted from. Due references to resources are made wherever possible.
 
@@ -18,9 +18,11 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Course:     
-Courses Completed: 0  
-Total Points earned:
+Current Material: [YDKJS, Async & Performance](https://github.com/getify/You-Dont-Know-JS/tree/master/async%20%26%20performance)
+Books Completed: 4
+Courses Completed: 0
+Total Points Earned: 800
+Total Time Spent since 2018.06.04 (approx.): 18 hours
 
 | Date Finished | Activity                  | Points | Links  |           
 | 2018.06.04 | Book | 200 | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |
