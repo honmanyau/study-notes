@@ -24,7 +24,8 @@ Courses Completed: 0
 Total Points Earned: 800
 Total Time Spent since 2018.06.04 (approx.): 18 hours
 
-| Date Finished | Activity                  | Points | Links  |           
+| Date Finished | Activity                  | Points | Links  |
+| ------------- | ------------------------- | ------ | ------ |         
 | 2018.06.04 | Book | 200 | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |
 | 2018.06.04 | Book | 200 | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |
 | 2018.06.05 | Book | 200 | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |
