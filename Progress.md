@@ -18,7 +18,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [YDKJS, Async & Performance](https://github.com/getify/You-Dont-Know-JS/tree/master/async%20%26%20performance)
+Current Material: [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css/)
 
 Books Completed: 5
 
@@ -26,7 +26,7 @@ Courses Completed: 0
 
 Total Points Earned: 1000
 
-Total Time Spent since 2018.06.04 (approx.): 35 hours
+Total Time Spent since 2018.06.04 (approx.): 37 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
