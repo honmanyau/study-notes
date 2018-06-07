@@ -7,11 +7,11 @@
 * [Introduction](#introduction)
 * [A Note on the Notes](#a-note-on-the-notes)
 * [Notes by Topic](#notes-by-topic)
-* [Progress](#progress)
-* [JavaScript](#javascript)
-* [HTML](#html)
-* [CSS](#css)
-* [Computer Science](#computer-science)
+  * [Progress](#progress)
+  * [JavaScript](#javascript)
+  * [HTML](#html)
+  * [CSS](#css)
+  * [Computer Science](#computer-science)
 * [Contributing](#contributing)
 
 ## Introduction
