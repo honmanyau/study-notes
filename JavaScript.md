@@ -841,6 +841,10 @@ Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Kno
 
 `Placeholder`
 
+### What does the `super` keyword do?
+
+`Placeholder`
+
 ### What is the difference between `new Date()` and `Date()`?
 
 They both return the current time; however, `new Date()` returns a `Date` object/data structure and `Date()` returns a string primitive in a non-standardised format.
