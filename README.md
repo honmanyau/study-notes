@@ -1,7 +1,6 @@
 # Study Notes
 
-> Notes made to help with understanding and memorising computer science and
-development fundamentals.
+> Notes made to help myself (and maybe you) understanding and memorising computer science and web development fundamentals.
 
 ## Table of Contents
 
