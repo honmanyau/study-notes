@@ -48,7 +48,6 @@ Study notes for CSS-related things! They can be found [here](https://github.com/
 
 Study notes for computer science-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Computer%20Science.md).
 
-
 ## Contributing
 
 Please feel free to submit issues regarding typos, missing references, incorrect content and incomplete content (incomplete means where my thoughts obviously drifted away and forgot to write the rest of a sentence or paragraph).
