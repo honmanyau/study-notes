@@ -6,7 +6,7 @@ I came across [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea a few
 
 In addition to keep track of my progress, the [study notes](https://github.com/honmanyau/study-notes) found in the other files and directories in this repository are also there to keep myself accountable and are intended to be review material for myself (or perhaps others). They are not organised by the material they are collected/interpreted from. Due references to resources are made wherever possible.
 
-In case the speed at which I go through materials seems unusually fast to anyone who comes across this repository, I was unemployed when this first started on 2018.06.04 and am dedicating approximately 8–12 hours a day, excluding breaks, on studying. I will try my best to document "interruptions" so that the picture is realistic for anyone who happens to come across this.
+In case the speed at which I go through materials seems unusually fast to anyone who comes across this repository—when I just started I am already quite comfortable working with JavaScript, HTML and CSS and have done some computer science basics. Also, I was unemployed when this first started on 2018.06.04 and am dedicating approximately 8–12 hours a day, excluding breaks, on studying. I will try my best to document "interruptions" so that the picture is realistic for anyone who happens to come across this.
 
 I envisage that there will also be times when I seem to be going through material too slowly (if there are no documented interruptions). In those cases it is most likely because for each task/type of material I am going through, I would usually check the references suggested in it, too. An good example is understanding how the (call) stack, queue, heap, event loop, and the "microqueue" used by the JavaScript `Promise`s fit together and what each individual parts do—which took a substantial amount of time.
 
@@ -18,15 +18,15 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css/)
+Current Material: [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css/)
 
-Books Completed: 5
+Books Completed: 6
 
 Courses Completed: 0
 
 Total Points Earned: 1000
 
-Total Time Spent since 2018.06.04 (approx.): 37 hours
+Total Time Spent since 2018.06.04 (approx.): 44 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -35,11 +35,13 @@ Total Time Spent since 2018.06.04 (approx.): 37 hours
 | 2018.06.05 | Book | 200 | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |
 | 2018.06.06 | Book | 200 | [YDKJS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |
 | 2018.06.07 | Book | 200 | [You Don't Know JS: Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&%20performance/README.md#you-dont-know-js-async--performance) |
+| 2018.08.09 | Book | 200 | Learn to Code HTML & CSS |
+|  |  |  |  |
 |  |  |  |  |
 
 ## Web Dev with Computer Science
 
-* [ ] Course: [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)
+* [x] Course: [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)
 * [ ] Course: [Introduction to Computer Science - CS50](https://www.edx.org/course/introduction-computer-science-harvardx-cs50x#!)
 * [ ] Course: [Learn to Code Advanced HTML & CSS](http://learn.shayhowe.com/advanced-html-css/)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
