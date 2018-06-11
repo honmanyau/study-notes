@@ -24,9 +24,9 @@ Books Completed: 6
 
 Courses Completed: 0
 
-Total Points Earned: 1000
+Total Points Earned: 1100
 
-Total Time Spent since 2018.06.04 (approx.): 44 hours
+Total Time Spent since 2018.06.04 (approx.): 50 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -35,8 +35,8 @@ Total Time Spent since 2018.06.04 (approx.): 44 hours
 | 2018.06.05 | Book | 200 | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |
 | 2018.06.06 | Book | 200 | [YDKJS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |
 | 2018.06.07 | Book | 200 | [You Don't Know JS: Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&%20performance/README.md#you-dont-know-js-async--performance) |
-| 2018.08.09 | Book | 200 | Learn to Code HTML & CSS |
-|  |  |  |  |
+| 2018.06.09 | Book | 200 | [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css) |
+| 2018.06.11 | Book | 200 | [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css) |
 |  |  |  |  |
 
 ## Web Dev with Computer Science
