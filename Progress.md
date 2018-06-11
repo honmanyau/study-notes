@@ -18,13 +18,13 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css/)
+Current Material: [YDKJS, ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond)
 
 Books Completed: 6
 
 Courses Completed: 0
 
-Total Points Earned: 1100
+Total Points Earned: 1200
 
 Total Time Spent since 2018.06.04 (approx.): 50 hours
 
