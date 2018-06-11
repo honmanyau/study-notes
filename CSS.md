@@ -57,6 +57,18 @@ Reference: [Learn to Code HTML & CSS, Lesson 3](https://learn.shayhowe.com/html-
 
 > ... designates exactly which element or elements within our HTML to target and apply styles (such as color, size, and position) to.
 
+Some common selectors are:
+
+* Universal selector—for example, `*`
+* Type selector—for example, `a`
+* Class selector—for example, `.container`
+* ID selector—for example, `#container`
+* Attribute selector—for example, `[name="email"]`, `a[href^="mailto:"]`, `a[href*="dev"]`, `a[href$=".org"]`, `a[href|="en"]`, `button[class~="btn"]`, `[data-key="42"]`
+* Descendent combinator—for example, `p a`
+* Child combinator—for example, `p > a`
+* General sibling combinator—for example, `h1 ~ p`
+* Adjacent sibling combinator—for example, `h1 + p`
+
 Reference: [Learn to Code HTML & CSS, Lesson 1](https://learn.shayhowe.com/html-css/building-your-first-web-page/)
 
 ## Patterns
@@ -88,9 +100,11 @@ Note: that this pattern is anti-semantic.
 }
 .container {
   clear: both;
-  *zoom: 1;
+  *zoom: 1; /* Triggers IE (of course...) 6 & 7's hasLayout mechanism */
 }
 ```
+
+References: [Learn to Code HTML & CSS, Lesson 5](https://learn.shayhowe.com/html-css/positioning-content/), [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css/detailed-css-positioning/)
 
 ### Clearfix without Support for old IEs
 
@@ -162,7 +176,19 @@ I personally don't think so because it's actually easier to read and distinguish
 
 `Placeholder`
 
+### What are some problems associated with overly specific selectors? How do you avoid these problems?
+
+`Placeholder`
+
 ### Why is it often a good idea to keep specificity of a selector, or a combination of selectors, low?
+
+`Placeholder`
+
+### What is the major difference between `absolute`ly and `relative`ly positioned elements?
+
+`Placeholder`
+
+### What expression does the `:nth-child()` pseudoclass accept? Given an example of how one would select every third `<li>` in a list.
 
 `Placeholder`
 
