@@ -11,6 +11,7 @@
   * [JavaScript](#javascript)
   * [HTML](#html)
   * [CSS](#css)
+  * [Web Development](#web-development)
   * [Computer Science](#computer-science)
 * [Contributing](#contributing)
 
@@ -43,6 +44,10 @@ Study notes for HTML-related things! They can be found [here](https://github.com
 ### CSS
 
 Study notes for CSS-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/CSS.md).
+
+### Web Development
+
+Study notes for computer web development-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Web%20Development.md).
 
 ### Computer Science
 
