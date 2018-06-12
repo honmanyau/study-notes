@@ -41,7 +41,7 @@ Total Time Spent since 2018.06.04 (approx.): 80 hours
 |  |  |  |  |
 |  |  |  |  |
 
-## Material Finished
+## Materials Finished
 
 * [x] Book: [You Don't Know JS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going)
 * [x] Book: [You Don't Know JS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures)
