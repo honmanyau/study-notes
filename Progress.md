@@ -26,7 +26,7 @@ Courses Completed: 0
 
 Total Points Earned: 1600
 
-Total Time Spent since 2018.06.04 (approx.): 76 hours
+Total Time Spent since 2018.06.04 (approx.): 80 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
