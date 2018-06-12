@@ -18,25 +18,27 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [YDKJS, ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond)
+Current Material: [DOM Enlightenment](http://domenlightenment.com)
 
 Books Completed: 6
 
 Courses Completed: 0
 
-Total Points Earned: 1200
+Total Points Earned: 1600
 
-Total Time Spent since 2018.06.04 (approx.): 50 hours
+Total Time Spent since 2018.06.04 (approx.): 76 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
-| 2018.06.04 | Book | 200 | [YDKJS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |
-| 2018.06.04 | Book | 200 | [YDKJS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |
-| 2018.06.05 | Book | 200 | [YDKJS: this & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |
-| 2018.06.06 | Book | 200 | [YDKJS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |
+| 2018.06.04 | Book | 200 | [You Don't Know JS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |
+| 2018.06.04 | Book | 200 | [You Don't Know JS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |
+| 2018.06.05 | Book | 200 | [You Don't Know JS: `this` & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |
+| 2018.06.06 | Book | 200 | [You Don't Know JS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |
 | 2018.06.07 | Book | 200 | [You Don't Know JS: Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&%20performance/README.md#you-dont-know-js-async--performance) |
 | 2018.06.09 | Book | 200 | [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css) |
 | 2018.06.11 | Book | 200 | [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css) |
+| 2018.06.12 | Book | 200 | [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond) |
+|  |  |  |  |
 |  |  |  |  |
 
 ## Web Dev with Computer Science
