@@ -13,6 +13,14 @@
 
 Reference: [Wikipedia, Data Structure](https://en.wikipedia.org/wiki/Data_structure)
 
+### Endianness/Byte-order
+
+The order in which bytes that makes up numbers are stored. Little-endian refers to when bytes of a number are stored from the least significant to the most significant byte, and big-endian refers to the opposite order.
+
+For example, the number `1337` is stored as 16-bit number, 2 bytes are required and the number is stored as `0x39` `0x05` according to the little-endian system, and `0x05` `0x39` according to the big-endian system.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch5.md), [MDN Web Docs, Endianness](https://developer.mozilla.org/en-US/docs/Glossary/Endianness)
+
 ### Expression
 
 > An expression is any reference to a variable or value, or a set of variable(s) and value(s) combined with operators.

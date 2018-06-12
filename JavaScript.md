@@ -116,6 +116,16 @@ Continuing on with the distinction made above, the corresponding, explicit conve
 
 Reference: [YDKJS, Types & Grammar, Chapter 4](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch4.md)
 
+### `const`
+
+One of the two keywords introduced in ES6 for block-scoped variable declaration. A variable declared with `const` is not hoisted or, in other words, the code that comes before a variable declared with `const` is a TDZ.
+
+A variable declared with `const` prevents further assignment and is **not** immutable; for this reason, and for example, one can `push` a value into an array declared with `const`.
+
+> Warning: Assigning an object or array as a constant means that value will not be able to be garbage collected until that constant's lexical scope goes away, as the reference to the value can never be unset.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch2.md)
+
 ### Falsy
 
 Values that are coerced to `false` when evaluated as a condition, in comparisons, or in a conditional statement. In standard JavaScript, these values are:
@@ -186,23 +196,33 @@ Just as host environments may be built on different engines, the tools that are 
 
 > ... an object that contains an iterator that can iterate over its values.
 
-Reference: [YDKJS, Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md)
+Reference: [YDKJS, Async & Performance, Chapter 4](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md)
 
 ### Iterator
 
-> ... a well-defined interface for stepping through a series of values from a producer
+> ... a well-defined interface for stepping through a series of values from a producer.
 
-Reference: [YDKJS, Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md)
+> ... a way of organizing ordered, sequential, pull-based consumption of data.
+
+Reference: [YDKJS, Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch4.md), [YDKJS, ES6 & Beyond, Chapter 3](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch3.md)
 
 ### Key Access
 
 Accessing the value of a property in an object using the `[]` syntax; for example, `obj['property']`. The property name accessed in this manner is a UTF-8/unicode-compatible string.
 
-Reference: [YDKJS, `this` & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch3.md)
+Reference: [YDKJS, `this` & Object Prototypes, Chapter 3](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch3.md)
 
-### Polyfilling
+### `Map`
 
-The act of replicating new features in the language using code that is compatible with older browsers. Notable example: https://github.com/es-shims/es6-shim.
+`Map`s and `Object`s in JavaScript are similar in that they both store, retrieve, and delete key-value pairs. However, the keys of `Map`s can be any value—not just `String`s and `Symbol`s as it is for `Object`s.
+
+In addition, `Map`s are iterables and have methods like `size()` (similar to the `length()` method), `keys()`, `values()` and `entries()` available to them.
+
+Reference: [MDN Web Docs, Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+
+### Polyfill
+
+Using code that is compatible with older browsers to replicating newer features in a language. Notable example: https://github.com/es-shims/es6-shim.
 
 ### Property Access
 
@@ -218,9 +238,27 @@ Assigning value to a property to a given object, where the same property can be 
 
 Reference: [YDKJS, `this` & Object Prototypes, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch5.md)
 
+### Shim
+
+See [polyfill](#polyfill).
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch1.md)
+
 ### Tail Call
 
-A function call that is the last thing to do inside a function.
+> A tail call is a return statement with a function call, where nothing has to happen after the call except returning its value.
+
+> This optimization can only be applied in strict mode.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md)
+
+### Tail Call Optimisation
+
+An engine implementation in which a proper tail call (PTC) is optimised to use the stack frame allocated to its calling function instead of creating a new frame.
+
+At the time of writing, even though this is in the ES6 specifications, not all engines have this feature implemented and should only be used with caution.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md)
 
 ### Promise
 
@@ -439,6 +477,93 @@ fetch('https://nyanpasu.com/api/endpoint2')
 ```
 
 Reference: [YDKJS, Async and Performance, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch1.md)
+
+### Destructuring Restructuring
+
+```JavaScript
+const defaults = {
+  name: 'nyanpasu',
+  server: 'https://nyanpasu.co',
+  options: {
+    secure: true,
+    remote: false
+  }
+};
+
+let config = {
+  name: 'nyanpawsu',
+  server: 'https://nyanpawsu.net'
+};
+
+config.options = config.options || {};
+
+({
+  name: config.name = defaults.name,
+  server: config.server = defaults.server,
+  options: {
+    secure: config.options.secure = defaults.options.secure,
+    remote: config.options.remote = defaults.options.remote
+  }
+} = config);
+
+config;
+// {
+//   "name": "nyanpawsu",
+//   "server": "https://nyanpawsu.net",
+//   "options": {
+//     "secure": true,
+//     "remote": false
+//   }
+// }
+```
+
+Alternatively:
+
+```JavaScript
+const defaults = {
+  name: 'nyanpasu',
+  server: 'https://nyanpasu.co',
+  options: {
+    secure: true,
+    remote: false
+  }
+};
+
+let config = {
+  name: 'nyanpawsu',
+  server: 'https://nyanpawsu.net'
+};
+
+{
+  let {
+    name = defaults.name,
+    server = defaults.server,
+    options: {
+      secure = defaults.options.secure,
+      remote = defaults.options.remote
+    } = {}
+  } = config;
+
+  config = {
+    name,
+    server,
+    options: { secure, remote }
+  };
+}
+
+config;
+
+// {
+//   "name": "nyanpawsu",
+//   "server": "https://nyanpawsu.net",
+//   "options": {
+//     "secure": true,
+//     "remote": false
+//   }
+// }
+```
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch2.md)
 
 ### Handling Asynchrony with Callbacks
 
@@ -707,6 +832,116 @@ cat.meow(); // "Meow, Nyan Pasu!"
 
 Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md) and [YDKJS, Scope & Closures, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch5.md).
 
+### Self-adjusted Recursion Mitigation
+
+This pattern follows from the examples given in [Tail Call Optimisation](#tail-call-optimisation) and [Trampolining](#trampolining):
+
+```JavaScript
+'use strict';
+
+function factorial(n) {
+  let product = 1;
+
+  function _factorial() {
+    product *= n;
+    n--;
+
+    if (n === 1) {
+      return product;
+    }
+
+    return _factorial();
+  }
+
+  while (n > 1) {
+    try {
+      _factorial();
+    }
+    catch (error) { }
+  }
+
+  return product;
+}
+```
+
+It allows recursion to be run for as long as possible until an error is thrown, which is then caught by a `while` loop and "restarted". This requires the parameters that keeps track of the progress and the result of the function that is being recursively called to be available to both the `while` loop and the function being recursively called.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md)
+
+### Tail Call Optimisation
+
+Consider the following non-optimised function, where a sufficiently large `n` will lead to the error `RangeError: Maximum call stack size exceeded` (this example isn't realistic since the result returned by a very large `n` will be **very well over** `Number.Number.MAX_SAFE_INTEGER`—but the idea holds):
+
+```JavaScript
+'use strict';
+
+function factorial(n) {
+  if (n === 2) {
+    return 2;
+  }
+
+  return n * factorial(n - 1);
+}
+```
+
+A tail-call optimised version may look like this:
+
+```JavaScript
+'use strict';
+
+function factorial(n, product = 1) {
+  if (n === 2) {
+    return product * 2;
+  }
+
+  return factorial(n - 1, n * product); // Proper tail call
+}
+```
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md)
+
+### Trampolining
+
+It is not always possible to take advantage of [Tail Call Optimisation Pattern](#tail-call-optimisation) because, at least the time of writing, it's not supported in many engines.
+
+The Trampolining pattern is another pattern for managing call stack size:
+
+```JavaScript
+'use strict';
+
+function trampoline(response) {
+  while (typeof response === 'function') {
+    response = response();
+  }
+
+  return response;
+}
+
+let factorial = (function() {
+  function _factorial(n, product = 1) {
+    if (n === 2) {
+      return product * 2;
+    }
+
+    return function partial() {
+      return _factorial(n - 1, n * product);
+    }
+  }
+
+  return function(n) {
+    return trampoline(_factorial(n));
+  }
+})();
+
+factorial(100000);
+```
+
+When `factorial` is initially called, the `trampoline` function is returned along with the "private" function, `_factorial`, as the argument.
+
+Instead of recursively calling itself, `_factorial` returns another function, `partial`, that in turns produces itself, which allows a constant call stack size to be maintained.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md)
+
 ## Questions
 
 ### Can you tell me anything about `Object.create(null)`?
@@ -718,6 +953,10 @@ Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Kno
 `Placeholder`
 
 ### Describe an example, such as a common pattern, that demonstrates the concept of closure.
+
+`Placeholder`
+
+### Discuss the difference and use cases for `Array.prorotype.indexOf()`, `Array.prorotype.some()`, `Array.prorotype.every()`, `Array.prorotype.find()` and `Array.prorotype.findIndex()`.
 
 `Placeholder`
 
@@ -761,7 +1000,7 @@ Reference: [YDKJS, Async & Performance, Chapter 6](https://github.com/getify/You
 
 `Placeholder`
 
-### Given an object, `a`, how does one create another object, `b`, that is prototype-linked to `a` using 1. `Object.create()` and 2. `Object.setPrototypeOf()`?
+### Given an object, `a`, how does one create another object, `b`, that is prototype-linked to `a` using 1. `Object.create()` and 2. `Object.setPrototypeOf()`? How would you do this with ES6 classes?
 
 `Placeholder`
 
@@ -790,6 +1029,10 @@ Reference: [YDKJS, Async & Performance, Chapter 1](https://github.com/getify/You
 ### How does one prevent further properties from being added to an object? (Potential follow-up questions: 1. How would one achieve the same if it is an array? 2. What are the differences between the functions mentioned?)
 
 `Object.preventExtensions()`, `Object.seal()`, `Object.freeze()`.
+
+### How is object introspection performed in JavaScript? What about classes?
+
+`Object.prototype.isPropertyOf()`, `new.target`.
 
 ### How does one create an object using the object literal syntax with computed properties?
 
@@ -847,7 +1090,17 @@ Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Kno
 
 ### What does the `super` keyword do?
 
-`Placeholder`
+It allows access to the constructor of the parent of an extended class. It is worth noting that `super` behaves differently when called in the `constructor` of a class, in that it cannot be used to access the properties and methods of the parent class.
+
+The `super` keyword is also available in a conscious method of an object literal.
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch3.md)
+
+### What does the `static` keyword do?
+
+It allows method to be added to a class's function object (instead of the function's prototype).
+
+Reference: [YDKJS, ES6 & Beyond, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch3.md)
 
 ### What is the difference between `new Date()` and `Date()`?
 
@@ -879,6 +1132,14 @@ Reference: [YDKJS, Async & Performance, Chapter 3](https://github.com/getify/You
 
 The thrown error will force a `reject`ion and none of the code beyond that point inside the `Promise` will be executed. If the error is thrown inside a `then()`, another `Promise` object that carries a rejection will be returned and can be caught by the next `then()`, if present.
 
+### What is the difference between a `Map` and a `WeakMap`?
+
+`Placeholder`
+
+### What is the difference between a `Set` and a `WeakSet`?
+
+`Placeholder`
+
 ### What is the difference between `'p' in obj` and `obj.hasOwnproperty('p')`?
 
 The `in` keyword traverses the prototype chain of an object and `hasOwnproperty()` does not.
@@ -890,6 +1151,10 @@ Reference: [YDKJS, `this` & Object Prototypes, Chapter 3](https://github.com/get
 `NaN`.
 
 ### What is returned by the statement `parseInt( 1/0, 19 )` and why?
+
+`Placeholder`
+
+### What is the difference between arrow functions and functions created with the `function` keyword?
 
 `Placeholder`
 
