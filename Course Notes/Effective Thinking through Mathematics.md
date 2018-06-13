@@ -20,6 +20,8 @@
 ### Strategies for Solving Puzzles
 
 * Ignoring the superfluous details and get to the essence
+* Don't rush
+* List all the possibilities methodically, including the incorrect ones, and articulate **why** the incorrect ones are incorrect
 
 ## Puzzles
 
@@ -61,6 +63,14 @@ What does weighing once mean? Can does that mean putting things down AND removin
 **SCALE!?**
 
 Waaaaah, we are talking about those scales!? **FACEPALM**
+
+Oh... It's actually drawn earlier. o^O
+
+**Conclusion**
+
+* Don't rush
+* List all the possibilities methodically, including the incorrect ones, and articulate **why** the incorrect ones are incorrect
+* That was embarrassing, do better next time!
 
 ## Questions
 
