@@ -46,7 +46,7 @@ Is it possible for Allie to select the slightly heavier stone using just the two
 It's definitely possible, but how probable is another matter. The first thing that comes to mind for maximising the probability is a binary search. Assuming the worst case scenario:
 
 1. Divide the pile into 2 piles, one containing 5 stones and the other 4
-2. Use a balance once and and find out (by averaging the weights) that the stone is in the pile of 5
+2. Use a balance once and find out which pile has a heavier averaged weight. The worse outcome is that the stone is in the pile of 5
 3. Divide the pile of 5 stones again into one pile of 2 stones and one pile with 3 stones, use the remaining balance, and find out that the stone is in the pile with 3 stones
 4. The probability of picking the one containing the jewel is 1/3
 
