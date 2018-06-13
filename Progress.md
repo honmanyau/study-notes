@@ -18,15 +18,15 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [DOM Enlightenment](http://domenlightenment.com)
+Current Material: 
 
-Books Completed: 6
+Books Completed: 8
 
 Courses Completed: 0
 
-Total Points Earned: 1600
+Total Points Earned: 1800
 
-Total Time Spent since 2018.06.04 (approx.): 80 hours
+Total Time Spent since 2018.06.04 (approx.): 84 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -38,7 +38,7 @@ Total Time Spent since 2018.06.04 (approx.): 80 hours
 | 2018.06.09 | Book | 200 | [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css) |
 | 2018.06.11 | Book | 200 | [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css) |
 | 2018.06.12 | Book | 200 | [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond) |
-|  |  |  |  |
+| 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
 |  |  |  |  |
 
 ## Materials Finished
