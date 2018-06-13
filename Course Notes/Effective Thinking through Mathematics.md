@@ -108,6 +108,12 @@ Double check:
 
 Am I missing something or misunderstanding something? If that is indeed the case then even as the number of couples attended increases, this will stay true.
 
+Oh, I'm an idiot, another attempt:
+
+* Stacy shakes hands with 2 people, X and Y must shake at least 1 hand, but that's impossible since either X or Y shook hand 0 times
+* Stacy shakes hands with 1 person, say X, X shakes hand 2 times (Stacy and Sam) and Y shakes hands 0 times—okay
+* Stacy shakes hands with nobody, X or Y must shake hands with 2 people—but that's impossible because Stacy is out
+
 ## Questions
 
 ## Resources
