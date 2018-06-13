@@ -72,6 +72,15 @@ Oh... It's actually drawn earlier. o^O
 * List all the possibilities methodically, including the incorrect ones, and articulate **why** the incorrect ones are incorrect
 * That was embarrassing, do better next time!
 
+### Puzzle 2—A Shaky Story
+
+Stacey and Sam (Smith).
+
+Party, five couples. Shook hands.
+
+* Nobody shook hands with herself/himself
+* Nobody shook hands with their own spouse
+
 ## Questions
 
 ## Resources
