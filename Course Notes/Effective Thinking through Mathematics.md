@@ -4,7 +4,7 @@
 
 * [Effective Thinking Through Mathematics](#html)
   * [Notes](#otes)
-  * [Exercise](#exercise)
+  * [Puzzles](#puzzles)
   * [Questions](#questions)
 
 
@@ -18,7 +18,16 @@
 * Follow the flow of ideas
 * Change
 
-## Exercise
+### Strategies for Solving Puzzles
+
+* Ignoring the superfluous details and get to the essence
+
+
+## Puzzles
+
+### Puzzle 1
+
+
 
 ## Questions
 
