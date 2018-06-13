@@ -142,7 +142,7 @@ After going through the rest of the videos on the puzzle, it seems that the focu
 
 3 admirals and 3 pirates walking across a terrain and they come across a river. No bridge, can't swim across because river too wide. Need to use a boat. Boat only has room for 2 people. If the pirates ever outnumber the admiral, bad things happen.
 
-**Summarise Key Detail**
+**Summarise key details**
 
 * 3 Admirals
 * 3 Pirates
@@ -166,6 +166,27 @@ Let admiral be `a` and pirates be `p`. Suppose we start with the representation 
 9. 0a-0p | 0a-0p | 3a-3p
 
 Done!
+
+**Half way through the the solution video**
+
+Umm... I looks like I assumed that a pirate staying on a boat doesn't count (clearly silly to have thought that)... A better representation is with just two sections and an asterisk indication the location of the boat. Another attempt:
+
+0. `3a-3p *|  0a-0p`
+1. `2a-2p  |* 1a-1p`
+2. `3a-2p *|  0a-1p`
+3. `3a-0p  |* 0a-3p`
+4. `3a-1p *|  0a-2p`
+5. `1a-1p  |* 2a-2p`
+6. `2a-2p *|  1a-1p`
+7. `0a-2p  |* 3a-1p`
+8. `0a-3p *|  3a-0p`
+9. `0a-1p  |* 3a-2p`
+10. `0a-2p  *|  3a-1p`
+10. `0a-0p   |* 3a-3p`
+
+**Remarks**
+
+Mine was not a bad approach to begin with but I clearly confused myself with the partitioning. :( And it's just a bit creepy that my approach an choice of abbreviation seem to be exactly the same... I swear that was my own work. o___O
 
 ## Questions
 
