@@ -188,6 +188,17 @@ Umm... I looks like I assumed that a pirate staying on a boat doesn't count (cle
 
 Mine was not a bad approach to begin with but I clearly confused myself with the partitioning. :( And it's just a bit creepy that my approach an choice of abbreviation seem to be exactly the same... I swear that was my own work. o___O
 
+### Puzzle 4—Tower of Hanoi
+
+* 3 Pegs
+* 8 Discs of different sizes stacked, from smallest to largest going from top to bottom, on one of the pegs
+
+Constraints:
+
+* Only move 1 disc at a time
+* Never a bigger disc on top of a smaller disc
+
+
 ## Questions
 
 ## Resources
