@@ -149,8 +149,23 @@ After going through the rest of the videos on the puzzle, it seems that the focu
 * Boat that can fit 2 people
 * How to get everyone across the river without the pirates ever outnumbering the admirals.
 
+**Attempt**
 
+Let admiral be `a` and pirates be `p`. Suppose we start with the representation 3a-3p | 0a-0p | 0a-0p, where the left hand side is the starting point, the middle is the boat, and the right hand side is the other side of the river.
 
+0. 3a-3p | 0a-0p | 0a-0p
+1. 2a-2p | 1a-1p | 0a-0p
+2. 2a-2p | 1a-0p | 0a-1p
+3. 2a-1p | 1a-1p | 0a-1p
+4. 2a-1p | 0a-1p | 1a-1p
+5. 1a-1p | 1a-1p | 1a-1p
+6. 1a-1p | 0a-1p | 2a-1p
+7. 1a-0p | 0a-2p | 2a-1p
+8. 1a-0p | 0a-1p | 2a-2p
+9. 0a-0p | 0a-1p | 3a-2p
+9. 0a-0p | 0a-0p | 3a-3p
+
+Done!
 
 ## Questions
 
