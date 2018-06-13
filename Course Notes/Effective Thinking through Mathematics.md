@@ -54,6 +54,10 @@ Can't immediately think of a better solution to maximise Allie's chance.
 
 Ah, one could put one to the side to start with, that will lead to a worst case scenario of 50% instead of 1/3.
 
+**Random thought**
+
+What does weighing once mean? Can does that mean putting things down AND removing them? :p
+
 ## Questions
 
 ## Resources
