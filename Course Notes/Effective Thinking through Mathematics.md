@@ -198,6 +198,85 @@ Constraints:
 * Only move 1 disc at a time
 * Never a bigger disc on top of a smaller disc
 
+Let's try this!
+
+* Note: possible moves do not include the ones that can return the game to an earlier state (combinations, not permutations)
+
+| Turn | Peg A | Peg B | Peg C | Remarks |
+| ---- | ----- | ----- | ----- | ------- |
+| 1 | 1 2 3 4 5 6 7 8 |  |  | Two possible moves |
+| 2a | 2 3 4 5 6 7 8 | 1 |  | One possible move |
+| 2b | 2 3 4 5 6 7 8 |  | 1 | Not explored, the solution is probably symmetrical about the two empty pegs at the beginning and if the other route ends up being a solution for moving all to the end, this route is the opposite |
+| 3-2a | 3 4 5 6 7 8 | 1 | 2 | Two possible moves |
+| 4a-3-2a | 3 4 5 6 7 8 |  | 1 2 | One possible move, taking 4b into account |
+| 4b-3-2a | 1 3 4 5 6 7 8 |  | 2 | Dead end—this can only return to 3-* or 4a-* |
+| 5-4a-3-2a | 4 5 6 7 8 | 3 | 1 2 | Two possible moves |
+| 6a-5-4a-3-2a | 1 4 5 6 7 8 | 3 | 2 | One possible move, taking 6b-* into account |
+| 6b-5-4a-3-2a | 4 5 6 7 8 | 1 3 | 2 | Dead end—this can only return to 5-* or 6a-* |
+| 7-6a-5-4a-3-2a | 1 4 5 6 7 8 | 2 3 |  | Two possible moves |
+| 8a-7-6a-5-4a-3-2a | 4 5 6 7 8 | 1 2 3 |  | One possible move |
+| 8b-7-6a-5-4a-3-2a | 4 5 6 7 8 | 2 3 | 1 | `Not yet explored`. Intuition says no. |
+
+Going with intuition at this point:
+
+| Turn | Peg A | Peg B | Peg C | Remarks |
+| ---- | ----- | ----- | ----- | ------- |
+| 9-8a-* | 5 6 7 8 | 1 2 3 | 4 |  |
+| 10 | 5 6 7 8 | 2 3 | 1 4 |  |
+| 11 | 2 5 6 7 8 | 3 | 1 4 |  |
+| 12 | 1 2 5 6 7 8 | 3 | 4 |  |
+| 13 | 1 2 5 6 7 8 |  | 3 4 |  |
+| 14 | 2 5 6 7 8 | 1 | 3 4 |  |
+| 15 | 5 6 7 8 | 1 | 2 3 4 |  |
+| 16 | 5 6 7 8 |  | 1 2 3 4 |  |
+| 17 | 6 7 8 | 5 | 1 2 3 4 |  |
+| 18 | 6 7 8 | 1 5 | 2 3 4 |  |
+| 19 | 2 6 7 8 | 1 5 | 3 4 |  |
+| 20 | 2 6 7 8 | 5 | 1 3 4 |  |
+| 21 | 6 7 8 | 2 5 | 1 3 4 |  |
+| 22 | 6 7 8 | 1 2 5 | 3 4 |  |
+| 23 | 3 6 7 8 | 1 2 5 | 4 |  |
+| 24 | 3 6 7 8 | 2 5 | 1 4 |  |
+| 25 | 2 3 6 7 8 | 5 | 1 4 |  |
+| 26 | 1 2 3 6 7 8 | 5 | 4 |  |
+| 27 | 1 2 3 6 7 8 | 4 5 |  |  |
+| 28 | 2 3 6 7 8 | 4 5 | 1 |  |
+| 29 | 3 6 7 8 | 2 4 5 | 1 |  |
+| 30 | 3 6 7 8 | 1 2 4 5 |  |  |
+| 30 | 6 7 8 | 1 2 4 5 | 3 |  |
+| 31 | 1 6 7 8 | 2 4 5 | 3 |  |
+| 32 | 1 6 7 8 | 4 5 | 2 3 |  |
+| 32 | 6 7 8 | 4 5 | 1 2 3 |  |
+| 33 | 4 6 7 8 | 5 | 1 2 3 |  |
+| 34 | 4 6 7 8 | 1 5 | 2 3 |  |
+| 35 | 2 4 6 7 8 | 1 5 | 3 |  |
+| 36 | 1 2 4 6 7 8 | 5 | 3 |  |
+| 37 | 1 2 4 6 7 8 | 3 5 |  |  |
+| 38 | 2 4 6 7 8 | 3 5 | 1 |  |
+| 39 | 4 6 7 8 | 2 3 5 | 1 |  |
+| 40 | 4 6 7 8 | 1 2 3 5 |  |  |
+| 41 | 6 7 8 | 1 2 3 5 | 4 |  |
+| 42 | 1 6 7 8 | 2 3 5 | 4 |  |
+| 43 | 1 6 7 8 | 3 5 | 2 4 |  |
+| 43 | 6 7 8 | 3 5 | 1 2 4 |  |
+| 44 | 3 6 7 8 | 5 | 1 2 4 |  |
+| 45 | 3 6 7 8 | 1 5 | 2 4 |  |
+| 46 | 2 3 6 7 8 | 1 5 | 4 |  |
+| 47 | 1 2 3 6 7 8 | 5 | 4 |  |
+| 48 | 1 2 3 6 7 8 | 4 5 |  |  |
+| 49 | 2 3 6 7 8 | 4 5 | 1 |  |
+| 50 | 3 6 7 8 | 2 4 5 | 1 |  |
+| 51 | 6 7 8 | 1 2 4 5 | 3 |  |
+| 52 | 6 7 8 | 2 4 5 | 1 3 |  |
+| 53 | 2 6 7 8 | 4 5 | 1 3 |  |
+| 54 | 1 2 6 7 8 | 4 5 | 3 |  |
+| 55 | 1 2 6 7 8 | 3 4 5 |  |  |
+| 56 | 2 6 7 8 | 3 4 5 | 1 |  |
+| 57 | 6 7 8 | 2 3 4 5 | 1 |  |
+| 58 | 6 7 8 | 1 2 3 4 5 |  |  |
+| 59 | 7 8 | 1 2 3 4 5 | 6 |  |
+
+Okay, intuition is working, but too tired to be able to verbalise it in a methodic way. Continue tomorrow!
 
 ## Questions
 
