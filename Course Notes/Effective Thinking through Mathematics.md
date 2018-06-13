@@ -58,6 +58,10 @@ Ah, one could put one to the side to start with, that will lead to a worst case 
 
 What does weighing once mean? Can does that mean putting things down AND removing them? :p
 
+**SCALE!?**
+
+Waaaaah, we are talking about those scales!? **FACEPALM**
+
 ## Questions
 
 ## Resources
