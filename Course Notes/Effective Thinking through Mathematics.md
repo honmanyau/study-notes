@@ -111,8 +111,26 @@ Am I missing something or misunderstanding something? If that is indeed the case
 Oh, I'm an idiot, another attempt:
 
 * Stacy shakes hands with 2 people, X and Y must shake at least 1 hand, but that's impossible since either X or Y shook hand 0 times
-* Stacy shakes hands with 1 person, say X, X shakes hand 2 times (Stacy and Sam) and Y shakes hands 0 times—okay
+* Stacy shakes hands with 1 person, say X, X shakes hand 2 times (Stacy and Sam) and Y shakes hands 0 times [okay]
 * Stacy shakes hands with nobody, X or Y must shake hands with 2 people—but that's impossible because Stacy is out
+
+Three couples—Stacy, Sam, A, B, X, Y (game pad?)
+
+* Stacy 4 times, meaning A, B, X and Y must shake hands at least 1 times, but that's impossible since someone shook hands 0 times
+* Stacy 3 times (B, X, Y), A 0 times, B 1 time (Y), X 2 times (Stacy, Sam), Y 4 times (Stacy, Sam... doesn't work)
+
+
+Wait, sudden thought: in the simpler example the sum of all hand shakes between couple is 2. This sum, for any number of couples, can be (I think) calculated as (numberOfCouples - 1) * 2; 2 couples is 2, 3 couples is 4 and, indeed, 5 couples is 8 as given.
+
+If we continue with this conjecture, and since it doesn't matter how many times Sam shakes hands with people (between 0 to the maximum number for a given party size), the number of times that Sam has to shake hands in the 3-couple case is:
+
+4 * 3 - 4 - 3 - 2 - 1 = 12 - 10 = 2
+
+So Stacy has to shake hands 2 times. In that scenario, we get left with 0, 1, 3, 4, and the only combination is 1-3 and 0-4. Let's try that:
+
+Stacy 2 times (B, Y), A 0 time, B 4 times (Stacy, Sam, X, Y), X 1 time (B), Y 3 times (Stacy, Sam, B), Sam (B, Y)
+
+I haven't proven that the other combinations are wrong yet, but this seems to work!
 
 ## Questions
 
