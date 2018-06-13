@@ -74,7 +74,7 @@ Oh... It's actually drawn earlier. o^O
 
 ### Puzzle 2—A Shaky Story
 
-Stacey and Sam (Smith).
+Stacy and Sam (Smith).
 
 Party, five couples. Shook hands.
 
@@ -83,8 +83,20 @@ Party, five couples. Shook hands.
 
 Sam asked each of the nine people at the end of the night how many hands have each of them shaken, and each of them gave a different answer. That is 0, 1, 2, 3, 4, 5, 6, 7, 8. Determine the number of times that Stacy shook hands with other people.
 
-**Thoughts**
+**Can you pose a simpler question that would be related, but much simpler?**
 
+Suppose there is only one other couple other than Stacy and Sam. Then Sam asks the other 3 at the end of the night and the answers were 0, 1 and 2.
+
+Suppose the other 2 guests are labelled as X and Y:
+
+| Stacy | X | Y |
+| ----- | - | - |
+| 2     | 1 | 0 |
+| 2     | 0 | 1 |
+| 1     | 2 | 0 |
+| 1     | 0 | 2 |
+| 0     | 2 | 1 |
+| 0     | 1 | 2 |
 
 
 ## Questions
