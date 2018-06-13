@@ -22,6 +22,9 @@
 * Ignoring the superfluous details and get to the essence
 * Don't rush
 * List all the possibilities methodically, including the incorrect ones, and articulate **why** the incorrect ones are incorrect
+* If a question has a big number in it, try it with a smaller number first
+* Approach a specific case, and not the great generality, first
+* Ask the question "what is the real question?"
 
 ## Puzzles
 
@@ -119,7 +122,6 @@ Three couples—Stacy, Sam, A, B, X, Y (game pad?)
 * Stacy 4 times, meaning A, B, X and Y must shake hands at least 1 times, but that's impossible since someone shook hands 0 times
 * Stacy 3 times (B, X, Y), A 0 times, B 1 time (Y), X 2 times (Stacy, Sam), Y 4 times (Stacy, Sam... doesn't work)
 
-
 Wait, sudden thought: in the simpler example the sum of all hand shakes between couple is 2. This sum, for any number of couples, can be (I think) calculated as (numberOfCouples - 1) * 2; 2 couples is 2, 3 couples is 4 and, indeed, 5 couples is 8 as given.
 
 If we continue with this conjecture, and since it doesn't matter how many times Sam shakes hands with people (between 0 to the maximum number for a given party size), the number of times that Sam has to shake hands in the 3-couple case is:
@@ -131,6 +133,24 @@ So Stacy has to shake hands 2 times. In that scenario, we get left with 0, 1, 3,
 Stacy 2 times (B, Y), A 0 time, B 4 times (Stacy, Sam, X, Y), X 1 time (B), Y 3 times (Stacy, Sam, B), Sam (B, Y)
 
 I haven't proven that the other combinations are wrong yet, but this seems to work!
+
+**Remarks**
+
+After going through the rest of the videos on the puzzle, it seems that the focus is not on solving that problem for now. I'm not sure if proving all other combinations is incorrect is trivial, so I'll leave that for now and stick with the answer to the original question as 4.
+
+### Puzzle 3—The Pirates and the Admirals
+
+3 admirals and 3 pirates walking across a terrain and they come across a river. No bridge, can't swim across because river too wide. Need to use a boat. Boat only has room for 2 people. If the pirates ever outnumber the admiral, bad things happen.
+
+**Summarise Key Detail**
+
+* 3 Admirals
+* 3 Pirates
+* Boat that can fit 2 people
+* How to get everyone across the river without the pirates ever outnumbering the admirals.
+
+
+
 
 ## Questions
 
