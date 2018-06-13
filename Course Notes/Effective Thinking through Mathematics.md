@@ -7,7 +7,6 @@
   * [Puzzles](#puzzles)
   * [Questions](#questions)
 
-
 ## Notes
 
 ### 5 Elements of Effective Thinking (Introduction)
@@ -21,7 +20,6 @@
 ### Strategies for Solving Puzzles
 
 * Ignoring the superfluous details and get to the essence
-
 
 ## Puzzles
 
@@ -51,6 +49,10 @@ It's definitely possible, but how probable is another matter. The first thing th
 4. The probability of picking the one containing the jewel is 1/3
 
 Can't immediately think of a better solution to maximise Allie's chance.
+
+**After watching the first walkthrough**
+
+Ah, one could put one to the side to start with, that will lead to a worst case scenario of 50% instead of 1/3.
 
 ## Questions
 
