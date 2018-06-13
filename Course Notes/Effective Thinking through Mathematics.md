@@ -81,6 +81,12 @@ Party, five couples. Shook hands.
 * Nobody shook hands with herself/himself
 * Nobody shook hands with their own spouse
 
+Sam asked each of the nine people at the end of the night how many hands have each of them shaken, and each of them gave a different answer. That is 0, 1, 2, 3, 4, 5, 6, 7, 8. Determine the number of times that Stacy shook hands with other people.
+
+**Thoughts**
+
+
+
 ## Questions
 
 ## Resources
