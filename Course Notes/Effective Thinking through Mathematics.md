@@ -98,6 +98,15 @@ Suppose the other 2 guests are labelled as X and Y:
 | 0     | 2 | 1 |
 | 0     | 1 | 2 |
 
+It **seems** like **ALL** solutions are valid. *Scratch head*
+
+Double check:
+
+* Stacy cannot shake hands with Sam and herself, but can shake hands with X or Y—maximum of 2 and minimum of 0
+* X cannot shake hands with X or Y, but can shake hands with Sam or Stacy—maximum of 2 and minimum of 0
+* Y cannot shake hands with Y or X, but can shake hands with Sam or Stacy—maximum of 2 and minimum of 0
+
+Am I missing something or misunderstanding something? If that is indeed the case then even as the number of couples attended increases, this will stay true.
 
 ## Questions
 
