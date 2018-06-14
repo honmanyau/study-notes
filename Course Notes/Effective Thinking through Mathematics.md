@@ -340,6 +340,64 @@ Step 4's logic is incorrect. Brain-dump re-attempt:
 
 Having a quick look at the initial attempt (the table), it looks like one must always strive to create two subtowers as it is the only way that an empty spot can be created.
 
+1. `depth = 0`, `target = 1`. Find empty slots
+    ```
+    pegA = [1, 2, 3, 4, 5, 6, 7, 8];
+    pegB = [];
+    pegC = [];
+    ```
+2. Empty slots found, referring to the table above, it looks like the subtower just move between `pegB` and `pegC`. Since we want the last subtower (all discs, that is) to be in the center, start with `pegC`
+3. Move `target = 1` from `pegA` to `pegC`
+
+    ```
+    pegA = [2, 3, 4, 5, 6, 7, 8];
+    pegB = [];
+    pegC = [1];
+    ```
+4. Has subtower based on `target = 1` been created? Yes, `target = 2` (don't need `depth` it seems)
+
+    ```
+    pegA = [2, 3, 4, 5, 6, 7, 8];
+    pegB = [];
+    pegC = [1];
+    ```
+
+5. `target = 2`. There must be an empty slot because a subtower has just been completed. Move `2` from `pegB` to `pegC`:
+
+    ```
+    pegA = [3, 4, 5, 6, 7, 8];
+    pegB = [2];
+    pegC = [1];
+    ```
+
+6. `target = 2`. Target satisified. Treat it as similar to an empty peg and build a subtower of the next smaller size (let's say `subTarget = 2 - 1`) on top of it:
+
+    ```
+    pegA = [3, 4, 5, 6, 7, 8];
+    pegB = [1, 2];
+    pegC = [];
+    ```
+
+7. Target satisified. `subTarget = 1 - 1`. All done. Whenever `subTarget = 0` we have an empty slot. Increment target and move new target to empty slot. `target = 3`:
+
+    ```
+    pegA = [4, 5, 6, 7, 8];
+    pegB = [1, 2];
+    pegC = [3];
+    ```
+
+8. Try repeating Step 6. Target satisified. `subTarget = 3 - 1`... or not, because you can't move `2`. It seems reasonably to assume that `subTarget` actually starts at `0` and increases by `1` every target is achieved? Let's try `subTarget = 1`. Which slot to move to? If we use the rule established from the beginning and want the current subtower `[1, 2]` to end up on `[3]`, we
+
+    ```
+    pegA = [4, 5, 6, 7, 8];
+    pegB = [1, 2];
+    pegC = [3];
+    ```
+
+Okay, this looks like recursion with this pseudo code:
+
+
+
 ## Questions
 
 ## Resources
