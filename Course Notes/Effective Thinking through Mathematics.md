@@ -394,9 +394,88 @@ Having a quick look at the initial attempt (the table), it looks like one must a
     pegC = [3];
     ```
 
-Okay, this looks like recursion with this pseudo code:
+Okay, this looks like recursion. Let's try coding:
 
+```javascript
+const pegA = [2, 3, 4, 5, 6, 7, 8];
+const pegB = [];
+const pegC = [1];
+let counter = 0;
 
+function solvePuzzle(pegs, list = [1]) {
+  if (pegB.toString() === '1,2,3,4,5,6,7,8') {
+    console.log(pegs);
+    console.log(`pegA: [${pegA}], pegB: [${pegB}], pegC: [${pegC}]`);
+    console.log('Done!');
+    return;
+  }
+  else {
+    counter++;
+    if (counter > 250) {
+      return;
+    }
+  }
+
+  pegs.sort(function(a, b) {
+    return (a[0] || 0) - (b[0] || 0);
+  });
+
+  let newList = list.slice();
+  let sourcePeg, targetPeg;
+
+  console.log(pegs);
+
+  sourcePeg = pegs[2];
+  targetPeg = pegs.filter((peg) => !peg[0])[0];
+  newList.push(sourcePeg[0]);
+  targetPeg.unshift(sourcePeg.shift());
+
+  for (let i = 0; i < list.length; i++) {
+    counter++;
+    console.log(pegs);
+
+    let disc = list[i];
+
+    sourcePeg = pegs.filter((peg) => peg[0] === disc)[0];
+    targetPeg = pegs.filter((peg) => {
+      return (
+        peg[0] !== disc &&
+        ((peg[0] > disc && (peg[0] - disc) % 2) || !peg[0])
+      );
+    })[0];
+
+    targetPeg.unshift(sourcePeg.shift());
+    newList.push(disc);
+  }
+
+  solvePuzzle(pegs, newList);
+}
+
+solvePuzzle([pegA, pegB, pegC]);
+```
+
+Ended up noticing an easier pattern when coding! This is how it works:
+
+1. Keep track of three arrays, each corresponds to one of the begs. Starting with [2, 3, 4, 5, 6, 7, 8], [], and [1] to avoid selecting the alternative solution
+2. Keep a `list` of moves made so far (starting at `[1]` because of the preconfiguration mentioned above)
+3. Make a copy of `list` and assign it to `newList`
+4. A the beginning of each loop, move the largest number at the top of any peg, for example, the first loop is `2`
+5. Append the number of the disc that has just been move to `newList`
+6. Go through each of the items in `list`, move the disc with the number corresponding to each of the number to the peg with a number at the top that is:
+
+    * Not equal to the current number picked from `list`
+    * Is larger than the current number picked from `list` **AND** their difference is an odd number
+    * If second condition cannot be met and an empty peg is available, pick the empty peg
+7. Replace `list` with `newList`
+8. Repeat Step 4 to Step 6 until the required solution is found
+
+If we mark the moves made during Step 4 with an asterisk, `list` grows as follows:
+
+* 1\*
+* 1 2\* 1
+* 1 2 1 3\* 1 2 1
+* 1 2 1 3 1 2 1 4\* 1 2 1 3 1 2 1
+* 1 2 1 3 1 2 1 4 1 2 1 3 1 2 1 5\* 1 2 1 3 1 2 1 4 1 2 1 3 1 2 1 ... etc.
 
 ## Questions
 
