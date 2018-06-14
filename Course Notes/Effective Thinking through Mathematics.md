@@ -477,6 +477,12 @@ If we mark the moves made during Step 4 with an asterisk, `list` grows as follow
 * 1 2 1 3 1 2 1 4\* 1 2 1 3 1 2 1
 * 1 2 1 3 1 2 1 4 1 2 1 3 1 2 1 5\* 1 2 1 3 1 2 1 4 1 2 1 3 1 2 1 ... etc.
 
+**Remarks**
+
+Half way through going through the rest of the videos to make sure that I haven't missed anything was kind of painful; not so much that the videos are terrible, but having spent so much time on it already and that I've already gone through the whole process almost exactly like the method that Prof. Starbird lead the students to do suggested to the students (and superior, because I was also marking branches, minimisation... etc.), it's a bit like an anticlimax.
+
+If I had broken down the problem and slowly build it up like how puzzle 3 was solved, I think I would have noticed the pattern that I used in the end much earlier.
+
 ## Questions
 
 ## Resources
