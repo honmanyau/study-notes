@@ -25,6 +25,8 @@
 * If a question has a big number in it, try it with a smaller number first
 * Approach a specific case, and not the great generality, first
 * Ask the question "what is the real question?"
+* Reductionist approach!
+
 
 ## Puzzles
 
