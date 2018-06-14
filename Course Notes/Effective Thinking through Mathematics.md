@@ -278,6 +278,57 @@ Going with intuition at this point:
 
 Okay, intuition is working, but too tired to be able to verbalise it in a methodic way. Continue tomorrow!
 
+I think that's quite enough to formulate a non-brute force algorithm. Let's try this:
+
+* Represent the disc with numbers from `1` to `8`; `1` being the smallest and `8` being the largest
+* Represent the pegs as arrays, with identifiers of `pegA`, `pegB` and `pegC`
+* Initially `pegA` has a value of `[1, 2, 3, 4, 5, 6, 7, 8]`, the other arrays are empty, that is `[]`
+
+1. Find an empty array and mark it
+2. Compare the first element (index `0`) of the arrays not marked in Step 1 and move the largest number to one of the marked arrays (if available). Comment: if I'm not mistaken, the only time there are two empty spots is at the beginning of the game and at the end of the game, and whether the game ends `pegB` or `pegC` being filled depends on the very first step of the game
+
+    ```
+    pegA = [2, 3, 4, 5, 6, 7, 8];
+    pegB = [1];
+    pegC = [];
+    ```
+
+3. Repeat Step 1 and 2 until there are no empty arrays. Comment: At this point, the next one that really needs to be moved next is the largest number, but it can't be moved because any moves involving it is **invalid** (is there a way to determine this without calculating all possibilities, even though there are only two? Or maybe because there are only two it's faster to just try both, and fail, for a computer?)
+
+    ```
+    pegA = [3, 4, 5, 6, 7, 8];
+    pegB = [1];
+    pegC = [2];
+    ```
+
+4. [Decision fork 1] Let's continue assuming that one doesn't need to calculate all possibilities. So, no peg is empty, move the smallest number to the peg with the second smallest number (obviously this has to be `unshift`ed into the array)
+
+    ```
+    pegA = [3, 4, 5, 6, 7, 8];
+    pegB = [];
+    pegC = [1 2];
+    ```
+
+5. Repeat Step 1 and Step 2... and Step 3. Oh, Step 3 is not actually a Step and should probably be combined with Step 2. Let's leave that for now
+
+    ```
+    pegA = [4, 5, 6, 7, 8];
+    pegB = [3];
+    pegC = [1 2];
+    ```
+
+6. Repeat Step 4. Okay, this seems wrong, because 2 needs to be on top of 3 in order for an empty slot to be created.
+
+    ```
+    pegA = [4, 5, 6, 7, 8];
+    pegB = [1 3];
+    pegC = [2];
+    ```
+
+Step 4's logic is incorrect. Brain-dump re-attempt:
+
+
+
 ## Questions
 
 ## Resources
