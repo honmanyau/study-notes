@@ -327,7 +327,18 @@ I think that's quite enough to formulate a non-brute force algorithm. Let's try 
 
 Step 4's logic is incorrect. Brain-dump re-attempt:
 
+1. The `target` is to move increasingly higher numbers to an empty slot
+2. In order to move a number of higher value, one needs to move the one before it
+3. Suppose we start at a `depth` of `0`, the first move's `target` is `0 + 1` = `1`
+4. After the first move has been successfully **moved to be the bottom of a peg**, increase `depth++`
+5. `depth` is now `1` and `target` is `1 + 1` = `2`
+6. Is there an empty slot? Yes—meaning that `2` can be moved to become **the bottommost number of a peg**, `depth++`
+7. `depth` is now `2` and `target` is `2 + 1` = `3`
+8. Target cannot be moved to the bottom of a peg, **prioritise creating a subtower at the current depth of `2`**
+9. Can `depth - 1` be moved? Yes, move `1` to `2`
+10. Now there is an empty slot, reprioritise `target` (`3`)
 
+Having a quick look at the initial attempt (the table), it looks like one must always strive to create two subtowers as it is the only way that an empty spot can be created.
 
 ## Questions
 
