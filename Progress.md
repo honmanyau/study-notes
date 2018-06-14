@@ -18,15 +18,15 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: 
+Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
-Books Completed: 8
+Books Completed: 9
 
 Courses Completed: 0
 
 Total Points Earned: 1800
 
-Total Time Spent since 2018.06.04 (approx.): 84 hours
+Total Time Spent since 2018.06.04 (approx.): 90 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -51,12 +51,12 @@ Total Time Spent since 2018.06.04 (approx.): 84 hours
 * [x] Book: [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20&%20beyond/README.md#you-dont-know-js-es6--beyond)
 * [x] Course: [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)
 * [x] Course: [Learn to Code Advanced HTML & CSS](http://learn.shayhowe.com/advanced-html-css/)
-* [ ] Book: [DOM Enlightenment](http://domenlightenment.com/)
+* [x] Book: [DOM Enlightenment](http://domenlightenment.com/)
+* [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 ## Web Dev with Computer Science
 
 * [ ] Course: [Introduction to Computer Science - CS50](https://www.edx.org/course/introduction-computer-science-harvardx-cs50x#!)
-* [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 * [ ] Course: [Getting Sassy with CSS](http://www.sassshop.com/#/)
 * [ ] Course: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
 * [ ] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
