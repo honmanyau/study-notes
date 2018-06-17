@@ -24,9 +24,9 @@ Books Completed: 9
 
 Courses Completed: 0
 
-Total Points Earned: 1800
+Total Points Earned: 1900
 
-Total Time Spent since 2018.06.04 (approx.): 90 hours
+Total Time Spent Since 2018.06.04 (approx.): 98 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -40,6 +40,17 @@ Total Time Spent since 2018.06.04 (approx.): 90 hours
 | 2018.06.12 | Book | 200 | [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond) |
 | 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
 |  |  |  |  |
+
+Total Time Spent Since 2018.06.04 (approx.): 15 hours
+
+| Date Finished | Activity                  | Points | Links  |
+| ------------- | ------------------------- | ------ | ------ |   
+| 2018.06.17 | Book | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |
+|  |  |  |  |
+
+## Interruptions
+
+Started [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) but decided to do it concurrently with computer science material because the latter is more important for now. Spent approximately
 
 ## Materials Finished
 
