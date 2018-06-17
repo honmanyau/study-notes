@@ -50,7 +50,7 @@ Total Time Spent Since 2018.06.04 (approx.): 15 hours
 
 ## Interruptions
 
-Started [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) but decided to do it concurrently with computer science material because the latter is more important for now. Spent approximately
+* 2018.06.17: Started [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) on 2018.06.13 but decided to do it concurrently with computer science material because the latter is more important for now.
 
 ## Materials Finished
 
