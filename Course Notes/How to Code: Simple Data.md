@@ -145,6 +145,109 @@ Took just shy of 2 hours to go through all of the material by watching at 2x spe
 
 ### 1a: Beginning Student Language
 
+#### Full Speed HtDF Recipe
 
+* `check-expect`
+
+1. Signature, purpose and stub
+2. Define examples, wrap each in check-expect
+3. Template and inventory
+4. Code the function body
+5. Test and debug until correct
+
+**Remarks**: TDD!
+
+#### Slow Motion HtDF Recipe
+
+#### A First HtDF Problem
+
+>  Problem: Design a function that pluralizes a given word. (Pluralize means to convert the word to its plural form.) For simplicity you may assume that just adding s is enough to pluralize a word.
+
+Attempt:
+
+```BSL
+;; String -> String
+;; Add 's' to the end of a the given string
+
+(check-expect (pluralise "cat") "cats")
+(check-expect (pluralise "nyanpasu") (string-append "nyanpasu" "s"))
+
+;; (define (pluralise str) "") // Stub
+;; (define (pluralise str) (... str)) // Template
+
+(define (pluralise str) (string-append str "s"))
+```
+
+* Code coverage—how much of the code is actually tested. For example, if a return value is never tested, it means that there are not enough tests (coverage not perfect).
+
+
+### Recommended Problems
+
+#### HtDF P2 - Less Than 5
+
+> Design a problem to check if the length of a string is less than 5.
+
+Attempt:
+
+```BSL
+;; String -> String // Signature
+;; Check the length of a string, return true if it is less than 5, otherwise return false // Purpose
+(check-expect (str-len-less-than-5? "nyanpasu") false)
+(check-expect (str-len-less-than-5? "cat") true)
+
+;; (define (str-len-less-than-5? str) "") // Stub
+;; (define (str-len-less-than-5? str) (... str)) // Template
+
+(define (str-len-less-than-5? str)
+  (if (< (string-length str) 5)
+      true
+      false
+  )
+)
+```
+
+#### HtDF P3 - Boxify
+
+> Design a function to put a box around a given image.
+
+Attempt:
+
+;; Image -> Image // Signature
+;; Take an image, gets its height and width in pixels, overlay it on top of a rectangle that has an outline of 1px // Purpose
+;; (define (boxify img) IMAGE) // Stub
+(check-expect (image-width (boxify IMAGE)) (+ (image-width IMAGE) 1))
+(check-expect (image-height (boxify IMAGE)) (+ (image-height IMAGE) 1))
+
+
+;; (define (boxify img) (
+;;   (... (... (image-width img) (... (image-height img)))
+;; )) // Template
+
+(define (boxify img)
+  (overlay
+    img
+    (rectangle (+ (image-width img) 1) (+ (image-height img) 1) "outline" "black")
+  )
+)
+
+#### HtDF P6 - Double Error
+
+> Fix the error(s) in a function that doubles a given number.
+
+Attempt:
+
+```BSL
+;; Number -> Number
+;; doubles n
+(check-expect (double 0) 0)
+(check-expect (double 4) 8)
+(check-expect (double 3.3) (* 2 3.3))
+(check-expect (double -1) -2)
+
+;; (define (double n) 0) ; stub
+
+(define (double n)
+  (* 2 n))
+```
 
 ## Questions
