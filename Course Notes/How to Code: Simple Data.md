@@ -9,14 +9,14 @@
 
 ## Notes
 
-### 0: Introduction
+### Module 0: Introduction
 
 * It's hard to write a program because it's usually given as a poorly-formed problem
 * Figure out exactly what it is that we want the program to do first
 * Then learn to break down the problem into well-choosen pieces first that can be well-tested and maintained and modified
 * BSL (Beginning Student Language)
 
-### 1a: Beginning Student Language
+### Module 1a: Beginning Student Language
 
 #### Expressions
 
@@ -114,7 +114,7 @@ Images can be defined by copy and pasting it as an expression, too!
 
 #### Recommended Problems
 
-BSL P16—Foo Evaluation
+**BSL P16—Foo Evaluation**
 
 ```
 (define (foo s)
@@ -143,7 +143,7 @@ BSL P16—Foo Evaluation
 
 Took just shy of 2 hours to go through all of the material by watching at 2x speed, while completing all quizzes and problems in between. Only attempted the "most difficult" of the recommend since.
 
-### 1a: Beginning Student Language
+### 1b: How to Design Functions
 
 #### Full Speed HtDF Recipe
 
@@ -181,9 +181,9 @@ Attempt:
 * Code coverage—how much of the code is actually tested. For example, if a return value is never tested, it means that there are not enough tests (coverage not perfect).
 
 
-### Recommended Problems
+#### Recommended Problems
 
-#### HtDF P2 - Less Than 5
+**HtDF P2 - Less Than 5**
 
 > Design a problem to check if the length of a string is less than 5.
 
@@ -206,7 +206,7 @@ Attempt:
 )
 ```
 
-#### HtDF P3 - Boxify
+**HtDF P3 - Boxify**
 
 > Design a function to put a box around a given image.
 
@@ -230,7 +230,7 @@ Attempt:
   )
 )
 
-#### HtDF P6 - Double Error
+**HtDF P6 - Double Error**
 
 > Fix the error(s) in a function that doubles a given number.
 
@@ -252,7 +252,7 @@ Attempt:
 
 ### Quiz
 
-```
+```BSL
 ;; Signature:
 ;; Image -> Boolean
 
@@ -286,5 +286,344 @@ Overloooked the an additional `Image` in the signature. Signature may or may not
 It is worth noting that the problem appears to be ambiguous. Larger could be perceived differently depending on what measures we are talking about.
 
 I actually considered writing more tests and the video suggests 9 if a successful test is that both dimensions of `imgA` is larger than those of `imgB`. However, I would argue that it should be 4 because it's either larger or not larger; equal already means that it's not larger and is implied by the `>` operator. Given that I implemented an area test, instead of both of the dimensions individually, I feel that the 2 tests is sufficient.
+
+### Module 2: How to Design Data
+
+#### cond Expressions
+
+* `cond [<expression> <expression>]` (like a `switch`, except that each case takes a question and an answer)
+
+#### Data definitions
+
+* Code that describes how information in the problem domain is mapped (represented/interpreted) by data in the program.
+
+#### Structure of Information Flows Through
+
+> Identifying the structure of the information is a key step in program design
+
+> Information -> Data -> template -> Functions, Tests
+
+#### Peer Question
+
+Attempt:
+
+```
+Without more information as to what the data type is used for, I think both are reasonable implementations in this particular case. The enumeration type comments excel at being semantic and the information-data mapping is therefore tighter.
+
+The interval method is good, but different, in the sense that it translates the information to data from a mathematical point of view—in cases where the data type is used for more than just identification, for example, where additional operations are performed based on the type of polygon is involved, the interval definition may be superior. Perhaps worth noting is that the interval type is is also easier to extend and, on that note, the semantic value of the enumeration method also decreases as the size of a regular polygon grows.
+```
+
+#### Recommended Problems
+
+**HtDD P2 - Demolish**
+
+Attempt:
+
+```BSL
+;; =================
+;; Data definitions:
+;; =================
+
+;; Building is one of:
+;; * "heritage"
+;; * "old"
+;; * "new"
+;;
+;; interpret a building is "heritage", "new" or "old" depending on how old they are
+#;
+(define (get-building-status status)
+  (cond [(string=? "new" status) (...)]
+        [(string=? "old" status) (...)]
+        [(string=? "heritage" status) (...)]))
+
+;; =================
+;; Functions:
+;; =================
+
+;; Signature:
+;; BuildingStatus -> Boolean
+
+;; Stub
+;; (define (tear-down-building status) false)
+
+;; Purpose:
+;; Return true, meaning that a building should be torn down, if a building's classification is old
+
+(check-expect (tear-down-building "old") true)
+(check-expect (tear-down-building "new") false)
+(check-expect (tear-down-building "heritage") false)
+
+;; Template:
+;; Using template from data definition
+#;
+(define (tear-down-building status)
+  (cond [(string=? "old" status) true]
+        [(string=? "new" status) false]
+        [(string=? "heritage" status) false]))
+
+;; Simplified attempt
+(define (tear-down-building status)
+  (cond [(string=? "old" status) true]
+        [else false]))
+```
+
+**HtDD P3 - Rocket Descent**
+
+Attempt:
+
+```BSL
+;; =================
+;; Data definitions:
+;; =================
+
+;; This is an itemisation problem because there are three states with different types of values
+;; RocketDescent is one of:
+;; * Number (0, 100]
+;; * false
+;;
+;; interp. a number between 0–100 (not including 0) means that the rocket is
+;; within 100 km to touchdown and has not touch down; else (distance is 0) the
+;; rocket has has touched down
+
+(define RD1 100)
+(define RD2 50)
+(define RD3 1)
+(define RD4 false)
+
+#;
+(define (fn-for-rocket-descent dist)
+  (cond [(and (number? dist) (<= dist 100) (> dist 0)) (... dist)]
+        [else (...)]))
+
+;; =================
+;; Functions:
+;; =================
+
+;; Signature:
+;; RocketDescent -> String
+;;
+;; Purpose:
+;; Return "Rocket is descending" when the rocket is not withing 100 km
+;; Return "Distance to touchdown: [dist]" when it is within 100 km but not 0 km
+;; Return "The rocket has landed!" if touched down.
+;;
+;; Stub:
+;;(define (rocket-descent-to-msg dist) "")
+
+;; Tests:
+(check-expect (rocket-descent-to-msg 100) "Distance to touchdown: 100")
+(check-expect (rocket-descent-to-msg 50) "Distance to touchdown: 50")
+(check-expect (rocket-descent-to-msg 1) "Distance to touchdown: 1")
+(check-expect (rocket-descent-to-msg false) "The rocket has landed!")
+
+;; Using template from RocketDescent definition
+
+(define (rocket-descent-to-msg dist)
+  (cond [
+         (and (number? dist) (<= dist 100) (> dist 0))
+         (string-append "Distance to touchdown: " (number->string dist))
+        ]
+        [
+         else
+         "The rocket has landed!"
+        ]
+  )
+)
+```
+
+#### Quiz
+
+Attempt:
+
+```BSL
+;; HtDD Design Quiz
+
+;; Age is Natural
+;; interp. the age of a person in years
+(define A0 18)
+(define A1 25)
+
+#;
+(define (fn-for-age a)
+  (... a))
+
+;; Template rules used:
+;; - atomic non-distinct: Natural
+
+
+; Problem 1:
+;
+; Consider the above data definition for the age of a person.
+;
+; Design a function called teenager? that determines whether a person
+; of a particular age is a teenager (i.e., between the ages of 13 and 19).
+
+
+;; Signature:
+;; Age -> Boolean
+
+;; Purpose:
+;; Return true if the input is a natural number between 13 and 19, inclusive.
+;; Otherwise return false.
+
+;; Stub:
+;; (define (teenager? age) false)
+
+;; Tests/examples:
+(check-expect (teenager? 12) false)
+(check-expect (teenager? 13) true)
+(check-expect (teenager? 16) true)
+(check-expect (teenager? 19) true)
+(check-expect (teenager? 20) false)
+
+;; Template rule used (see also template for Age):
+;; * Atomic Non-distinct: Natural
+;; (define (teenager? age) (... age))
+
+(define (teenager? age)
+  (and (>= age 13) (<= age 19))
+  )
+
+; Problem 2:
+;
+; Design a data definition called MonthAge to represent a person's age
+; in months.
+
+
+;; MonthAge is Natural
+;; interp. a person's age in number of months
+
+(define ONE 12)
+(define TWELVE 144)
+
+#;
+(define (fn-for-age age)
+  (... age)
+)
+
+;; Template rules used:
+;; * Atomic non-distinct: Natural
+
+; Problem 3:
+;
+; Design a function called months-old that takes a person's age in years
+; and yields that person's age in months.
+;
+
+
+;; Signature:
+;; MonthAge -> Natural
+
+;; Purpose:
+;; Takes a person's age in years, return the age times 12
+
+;; Stub;
+;;(define (months-old age) 0);
+
+;; Tests/examples;
+(check-expect (months-old 1) 12);
+(check-expect (months-old 12) 144);
+
+;; Template (see template for Age):
+#;
+(define (months-old age)
+  (... age)
+)
+
+(define (months-old age)
+  (* age 12)
+)
+
+; Problem 4:
+;
+; Consider a video game where you need to represent the health of your
+; character. The only thing that matters about their health is:
+;
+;   - if they are dead (which is shockingly poor health)
+;   - if they are alive then they can have 0 or more extra lives
+;
+; Design a data definition called Health to represent the health of your
+; character.
+;
+; Design a function called increase-health that allows you to increase the
+; lives of a character.  The function should only increase the lives
+; of the character if the character is not dead, otherwise the character
+; remains dead.
+
+
+;; =================
+;; Data definition:
+;; =================
+
+;; Health is one of:
+;; * Natural
+;; * false
+;;
+;; interp. if false the character is dead (0 health),
+;; otherwise a natural number represents the amount of extra lives
+
+(define H1 42)
+(define H2 false)
+
+;; Template rules used:
+;; * One of (itemisation) 2 cases
+;; * Atomic non-distinct: Natural
+;; * Atomic distinct: false
+(define (Health hp)
+  (cond [(number? hp) (... hp)]
+        [else (...)]
+  )
+)
+
+;; =================
+;; Function:
+;; =================
+
+;; Signature:
+;; Health -> Boolean
+
+;; Purpose:
+;; If the character is not dead, return true (allow lives to be increased);
+;; otherwise, return false (lives cannot be incresed because character is dead)
+
+;; Stub:
+#;
+(define (increase-health hp)
+  false
+)
+
+;; Tests/Examples
+(check-expect (increase-health false) false)
+(check-expect (increase-health 0) true)
+(check-expect (increase-health 42) true)
+
+;; Template (see definition for Health):
+;; * One of (itemisation) 2 cases
+;; * Atomic non-distinct: Natural
+;; * Atomic distinct: false
+#;
+(define (increase-health hp)
+  (cond [(number? hp) (... hp)]
+        [else (...)]
+  )
+)
+
+(define (increase-health hp)
+  (cond [(number? hp) true]
+        [else false]
+  )
+)
+```
+
+**Remarks after watching evaluation video**
+
+The design specification is ambiguous in what should be implemented in the function for Problem 4:
+
+> Design a function called increase-health that allows you to increase the
+lives of a character. The function should only increase the lives
+of the character if the character is not dead, otherwise the character
+remains dead.
+
+I implemented `Health -> Boolean` as it matches what the first sentence says and it doesn't specify whether a boolean (allowed or not), the amount of health to be added (`Natural`) or the new health (`Health`) should be returned; but it seems that they were expecting `Health -> Health`.
 
 ## Questions
