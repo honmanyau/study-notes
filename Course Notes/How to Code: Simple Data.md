@@ -250,4 +250,41 @@ Attempt:
   (* 2 n))
 ```
 
+### Quiz
+
+```
+;; Signature:
+;; Image -> Boolean
+
+;; Purpose:
+;; Take two images, say imgA and imgB, as inputs; calculate their areas
+;; return true if the area of imgA is greater than imgB
+;; otherwise return false
+
+(check-expect (img-larger? (square 20 "solid" "black") (square 10 "solid" "black")) true)
+(check-expect (img-larger? (square 10 "solid" "black") (square 20 "solid" "black")) false)
+
+;; Stub:
+;; (define (img-larger? imgA imgB) false)
+
+;; Template:
+;; (define (img-larger? imgA imgB)
+;;  ((... imgA) (... imgB))
+;;  )
+
+(require 2htdp/image)
+
+(define (img-larger? imgA imgB)
+  (>
+   (* (image-width imgA) (image-height imgA))
+   (* (image-width imgB) (image-height imgB)))
+  )
+```
+
+Overloooked the an additional `Image` in the signature. Signature may or may not be entirely appropriate, I think I would have used `(... (... imgA) (... imgB))` (with those extra ellipsis at the beginning); according to the evaluation tutorial video, `(... imgA imgB)` is considered good already.
+
+It is worth noting that the problem appears to be ambiguous. Larger could be perceived differently depending on what measures we are talking about.
+
+I actually considered writing more tests and the video suggests 9 if a successful test is that both dimensions of `imgA` is larger than those of `imgB`. However, I would argue that it should be 4 because it's either larger or not larger; equal already means that it's not larger and is implied by the `>` operator. Given that I implemented an area test, instead of both of the dimensions individually, I feel that the 2 tests is sufficient.
+
 ## Questions
