@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Effective Thinking Through Mathematics](#html)
-  * [Notes](#otes)
+  * [Notes](#notes)
   * [Puzzles](#puzzles)
   * [Questions](#questions)
 
