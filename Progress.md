@@ -18,6 +18,8 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
+Current Material: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
+
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 Books Completed: 9
@@ -26,7 +28,7 @@ Courses Completed: 0
 
 Total Points Earned: 1900
 
-Total Time Spent Since 2018.06.04 (approx.): 98 hours
+Total Time Spent Since 2018.06.04 (approx.): 100 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
