@@ -4,8 +4,6 @@
 
 * [How to Code: Simple Data](#how-to-code-simple-data)
   * [Notes](#notes)
-  * [Exercises](#exercises)
-  * [Questions](#questions)
 
 ## Notes
 
@@ -626,4 +624,216 @@ remains dead.
 
 I implemented `Health -> Boolean` as it matches what the first sentence says and it doesn't specify whether a boolean (allowed or not), the amount of health to be added (`Natural`) or the new health (`Health`) should be returned; but it seems that they were expecting `Health -> Health`.
 
-## Questions
+### 3a: How to Design Worlds
+
+#### Recommended Problems
+
+Did not attempt the recommend problems because I was already familiar with most of the concepts as I make my own games in JavaScript and haven't learnt anything new in this module. There is also going to be the quiz.
+
+### 3b: Compound Data
+
+* `define-struct <structure identifier> (<property name> <property name>...)`
+* Constructor call: `define <identifier> (make-<structure identifier> <arguments>)`
+* Property/key access: `<structure-identifier>-<property name>`
+
+#### Recommended Problems
+
+Skipped recommended problems again because it is starting to get repetitive and I feel that there is little to gain from going going through this. It's not that I don't think any of this is important, but having programmed for over a year and a half now, having gone through the the exercises in the first two modules diligently, having done TDD, and having started programming in TypeScript for a short while now; at this point it feels like I'm just spending time on learning new syntax in a language that I most likely won't be productive in is really far from ideal at a time where I have a pile of things to learn, too.
+
+#### Quiz
+
+Attempt:
+
+```BSL
+(require 2htdp/image)
+(require 2htdp/universe)
+
+;; =================
+;; Constants:
+(define STAGE-WIDTH 400)
+(define STAGE-HEIGHT 400)
+(define STAGE-CTR-X (/ STAGE-WIDTH 2))
+(define STAGE-CTR-Y (/ STAGE-HEIGHT 2))
+
+(define RADIUS 25)
+(define SPEED 2)
+
+(define MTScene (rectangle STAGE-WIDTH STAGE-HEIGHT "solid" "black"))
+
+;; =================
+;; Data definitions:
+
+(define-struct bloom (r x y dx dy colour))
+;; BloomState is (make-bloom Number Number Number Number Number String)
+;; interp. The current state of bloom, which is... well, just a circle
+;; but I obviosuly can't name it circle due to identifier conflict
+;; * r is the radius of the circle
+;; * x is the x-coordinate of the center of the circle
+;; * y is the y-coordinate of the center of the circle
+;; * dx is the current x velocity of the circle
+;; * dy is the current y velocity of the circle
+;; * colour is... obviously the colour! Only if we were encouraged to use meaningful variable names to begin with...
+
+(define BLOOM1 (make-bloom 25 200 200 1 1 "blue"))
+(define BLOOM2 (make-bloom 25 26 26 1 1 "pink"))
+
+;; Template rules used:
+;; * Compound: 6 fields
+#;
+(define (fn-for-bloom-state bloom)
+  (... (bloom-r bloom)
+       (bloom-x bloom)
+       (bloom-y bloom)
+       (bloom-dx bloom)
+       (bloom-dy bloom)
+       (bloom-colour bloom)
+  )
+)
+
+;; =================
+;; Functions:
+
+;; BloomState -> BloomState
+;; Main function that is also the game loop
+;; Start the world with (main (make-bloom RADIUS (/ STAGE-WIDTH 2) RADIUS SPEED SPEED "pink"))
+(define (main bloom)
+  (big-bang bloom                   ; WS
+            (on-tick update)     ; WS -> WS
+            (to-draw render)   ; WS -> Image
+           ; (on-mouse ...)      ; WS Integer Integer MouseEvent -> WS
+           ; (on-key ...)      ; WS KeyEvent -> WS
+  )
+)
+
+;; BloomState -> BloomState
+;; Return the x-velocity of the next frame: if at the left and right edge, return dx = -dx, otherwise return dx
+;; Right edge:
+(check-expect
+  (next-dx (make-bloom RADIUS (- STAGE-WIDTH RADIUS 1) (- STAGE-HEIGHT 200) SPEED SPEED "pink"))
+  (* SPEED -1)
+)
+;; Left edge:
+(check-expect
+  (next-dx (make-bloom RADIUS (- RADIUS SPEED) (- STAGE-HEIGHT 200) (* SPEED -1) SPEED "pink"))
+  SPEED
+)
+;; Center:
+(check-expect
+  (next-dx (make-bloom RADIUS (- STAGE-WIDTH 200) (- STAGE-HEIGHT 200) SPEED SPEED "pink"))
+  SPEED
+)
+
+;; Stub:
+;; (define (next-dx bloom) 1)
+
+;; Template:
+#;
+(define (next-dx bloom)
+  (... bloom)
+)
+
+(define (next-dx bloom)
+  (if
+    (or
+      (>= (+ (+ (bloom-x bloom) (bloom-r bloom)) (bloom-dx bloom)) STAGE-WIDTH)
+      (<= (+ (- (bloom-x bloom) (bloom-r bloom)) (bloom-dx bloom)) 0)
+    )
+    (-(bloom-dx bloom))
+    (bloom-dx bloom)
+  )
+)
+
+;; BloomState -> Integer
+;; Return the y-velocity of the next frame: if at the left and right edge, return dy = -dy, otherwise return dy
+;; Right edge:
+(check-expect
+  (next-dy (make-bloom RADIUS (- STAGE-WIDTH 200) (- STAGE-HEIGHT RADIUS 1) SPEED SPEED "pink"))
+  (* SPEED -1)
+)
+;; Left edge:
+(check-expect
+  (next-dy (make-bloom RADIUS (- STAGE-WIDTH 200) (- RADIUS SPEED) SPEED (* SPEED -1) "pink"))
+  SPEED
+)
+;; Center:
+(check-expect
+  (next-dy (make-bloom RADIUS (- STAGE-WIDTH 200) (- STAGE-HEIGHT 200) SPEED SPEED "pink"))
+  SPEED
+)
+
+;; Stub:
+;; (define (next-dy bloom) 1)
+
+;; Template:
+#;
+(define (next-dy bloom)
+  (... bloom)
+)
+
+(define (next-dy bloom)
+  (if
+    (or
+      (>= (+ (+ (bloom-y bloom) (bloom-r bloom)) (bloom-dy bloom)) STAGE-WIDTH)
+      (<= (+ (- (bloom-y bloom) (bloom-r bloom)) (bloom-dy bloom)) 0)
+    )
+    (-(bloom-dy bloom))
+    (bloom-dy bloom)
+  )
+)
+
+;; BloomState -> BloomState
+;; Move bloom accoding to its velocities, and recalculate dx and dy using the next-dx and next-dy helper functions
+;; Top-left
+(check-expect
+  (update (make-bloom RADIUS (+ RADIUS SPEED) (+ RADIUS SPEED) (* SPEED -1) (* SPEED -1) "pink"))
+  (make-bloom RADIUS RADIUS RADIUS SPEED SPEED "pink")
+)
+;; Bottom-right
+(check-expect
+  (update (make-bloom RADIUS (- (- STAGE-WIDTH RADIUS) SPEED) (- (- STAGE-HEIGHT RADIUS) SPEED) SPEED SPEED "pink"))
+  (make-bloom RADIUS (- STAGE-WIDTH RADIUS) (- STAGE-HEIGHT RADIUS) (* SPEED -1) (* SPEED -1) "pink")
+)
+;; Center
+(check-expect
+  (update (make-bloom RADIUS (+ (- STAGE-WIDTH 200) SPEED) (+ (- STAGE-HEIGHT 200) SPEED) SPEED SPEED "pink"))
+  (update (make-bloom RADIUS (+ (- STAGE-WIDTH 200) SPEED) (+ (- STAGE-HEIGHT 200) SPEED) SPEED SPEED "pink"))
+)
+
+;; Template from BalloonState
+(define (update bloom)
+  (make-bloom
+    (bloom-r bloom)
+    (+ (bloom-x bloom) (bloom-dx bloom))
+    (+ (bloom-y bloom) (bloom-dy bloom))
+    (next-dx bloom)
+    (next-dy bloom)
+    (bloom-colour bloom)
+  )
+)
+
+;; BloomState -> Image
+;; Render blooms onto the MTScene
+(check-expect
+  (render (make-bloom RADIUS (- STAGE-WIDTH 200) (- STAGE-HEIGHT 200) SPEED SPEED "pink"))
+  (place-image
+    (circle RADIUS "solid" "pink")
+    (- STAGE-WIDTH 200)
+    (- STAGE-HEIGHT 200)
+    MTScene
+  )
+)
+
+;; Stub:
+;; (define (render bloom) MTScene)
+
+;; Template from BalloonState
+;; * Compound: 6 fields
+(define (render bloom)
+  (place-image
+    (circle (bloom-r bloom) "solid" (bloom-colour bloom))
+    (bloom-x bloom)
+    (bloom-y bloom)
+    MTScene
+  )
+)
+```
