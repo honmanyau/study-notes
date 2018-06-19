@@ -1054,3 +1054,156 @@ Attempt:
                (* (image-width (first loi)) (image-height (first loi)))
                (sigma-area (rest loi)))]))
 ```
+
+### 4b: Reference
+
+**Reference P1 - Alternative Tuition Graph**
+
+Attempt:
+
+```BSL
+
+;; alternative-tuition-graph-starter.rkt
+
+;
+; Consider the following alternative type comment for Eva's school tuition
+; information program. Note that this is just a single type, with no reference,
+; but it captures all the same information as the two types solution in the
+; videos.
+;
+; (define-struct school (name tuition next))
+; ;; School is one of:
+; ;;  - false
+; ;;  - (make-school String Natural School)
+; ;; interp. an arbitrary number of schools, where for each school we have its
+; ;;         name and its tuition in USD
+;
+; (A) Confirm for yourself that this is a well-formed self-referential data
+;     definition.
+;
+; (B) Complete the data definition making sure to define all the same examples as
+;     for ListOfSchool in the videos.
+;
+; (C) Design the chart function that consumes School. Save yourself time by
+;     simply copying the tests over from the original version of chart.
+;
+; (D) Compare the two versions of chart. Which do you prefer? Why?
+;
+
+
+;; ===========
+;; Problem (A)
+;; ===========
+
+;; The type comment is self-referential because School refers back to
+;; itself in (make-school String Natural School). When no school is present
+;; it defaults to false.
+
+;; ===========
+;; Problem (B)
+;; ===========
+
+(define-struct school (name tuition next))
+;; School is one of:
+;;  - false
+;;  - (make-school String Natural School)
+;; interp. an arbitrary number of schools, where for each school we have its
+;;         name and its tuition in USD
+(define S1 false)
+(define S2 (make-school "School1" 27797
+                        (make-school "School2" 23300
+                                     (make-school "School3" 28500 false))))
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic distinct: false
+;; * Compound: (make-school String Natural School)
+;; * Self reference: (fn-for-school (school-next los))
+#;
+(define (fn-for-school los)
+  (cond [(false?) (...)]
+        [else
+         (... (school-name los)
+         (school-tuition los)
+         (fn-for-school (school-next los)))]))
+
+;; ===========
+;; Problem (C)
+;; ===========
+
+(require 2htdp/image)
+
+;; Constants:
+(define FONT-SIZE 24)
+(define FONT-COLOR "black")
+
+(define Y-SCALE   1/200)
+(define BAR-WIDTH 30)
+(define BAR-COLOR "lightblue")
+
+;; School -> Image
+;; Produce a bar chat for a list of school, where the height of each bar is proportional to its tuition fee
+(check-expect (chart false) (square 0 "solid" "white"))
+(check-expect (chart (make-school "S1" 8000 false))
+              (beside/align "bottom"
+                            (overlay/align "center" "bottom"
+                                           (rotate 90 (text "S1" FONT-SIZE FONT-COLOR))
+                                           (rectangle BAR-WIDTH (* 8000 Y-SCALE) "outline" "black")
+                                           (rectangle BAR-WIDTH (* 8000 Y-SCALE) "solid" BAR-COLOR))
+                            (square 0 "solid" "white")))
+
+(check-expect (chart (make-school "S2" 12000 (make-school "S1" 8000 false)))
+              (beside/align "bottom"
+                            (overlay/align "center" "bottom"
+                                           (rotate 90 (text "S2" FONT-SIZE FONT-COLOR))
+                                           (rectangle BAR-WIDTH (* 12000 Y-SCALE) "outline" "black")
+                                           (rectangle BAR-WIDTH (* 12000 Y-SCALE) "solid" BAR-COLOR))
+                            (overlay/align "center" "bottom"
+                                           (rotate 90 (text "S1" FONT-SIZE FONT-COLOR))
+                                           (rectangle BAR-WIDTH (* 8000 Y-SCALE) "outline" "black")
+                                           (rectangle BAR-WIDTH (* 8000 Y-SCALE) "solid" BAR-COLOR))
+                            (square 0 "solid" "white")))
+
+;; Stub:
+;; (define (chart los) (square 0 "solid" "white"));
+
+;; Template:
+;; Use template from ListOfSchool definition:
+
+(define (chart los)
+  (cond [(false? los) (square 0 "solid" "white")]
+        [else
+         (beside/align "bottom"
+                       (overlay/align "center" "bottom"
+                                           (rotate 90 (text (school-name los) FONT-SIZE FONT-COLOR))
+                                           (rectangle BAR-WIDTH (* (school-tuition los) Y-SCALE) "outline" "black")
+                                           (rectangle BAR-WIDTH (* (school-tuition los) Y-SCALE) "solid" BAR-COLOR))
+                       (chart (school-next los)))]))
+
+;; ===========
+;; Problem (D)
+;; ===========
+
+;; Without breaking up los, and therefore the data structure, it is not possible
+;; to write a make-bar function as it was done using list in the videos (which has
+;; the `first` and `rest` syntax available for iteration. Therefore the one
+;; presented in the video is preferred.
+```
+
+**Reference P2 - Spinning Bears**
+
+Skipped in favour of moving forward.
+
+### 5a: Naturals
+
+
+
+
+
+
+
+
+
+
+
+```BSL
+```
