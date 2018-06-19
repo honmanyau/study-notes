@@ -624,13 +624,13 @@ remains dead.
 
 I implemented `Health -> Boolean` as it matches what the first sentence says and it doesn't specify whether a boolean (allowed or not), the amount of health to be added (`Natural`) or the new health (`Health`) should be returned; but it seems that they were expecting `Health -> Health`.
 
-### 3a: How to Design Worlds
+### Module 3a: How to Design Worlds
 
 #### Recommended Problems
 
 Did not attempt the recommend problems because I was already familiar with most of the concepts as I make my own games in JavaScript and haven't learnt anything new in this module. There is also going to be the quiz.
 
-### 3b: Compound Data
+### Module 3b: Compound Data
 
 * `define-struct <structure identifier> (<property name> <property name>...)`
 * Constructor call: `define <identifier> (make-<structure identifier> <arguments>)`
@@ -836,4 +836,221 @@ Attempt:
     MTScene
   )
 )
+```
+
+### Module 4a: Self-Reference
+
+#### List Mechanism
+
+* `cons <element> empty`
+* `first`
+
+* Simplest type of arbitrary-size data is a list of values
+* I really want to make myself feel that there is some deeper meaning behind it, and I'm sure there is always someone who can argue with references to computer science fundamentals, but lists in BSL looks like insanity so far. I'm not sure how `(cons 1 (cons 2 (cons 3 empty)))` is easier to understand for a beginner than `[1, 2, 3]`. It may also just be me being ignorant, of course.
+* Ohhhhhh, the self-referencing seems to be related to how iterators work and it relates back to the whole point of being arbitrary-size. I'm an idiot.
+
+#### Discussion Topic
+
+> The self-reference in the ListOfNatural type comment means that the type describes arbitrary-sized data. The list can have 0 elements, 1, 2 … any number. The idea that something can refer to itself may be surprising to you. Have you seen anything like self reference before? Where? (If you have programmed before, please do not use loops of any kind from other languages.)
+
+Recursion.
+
+#### Function Operating on List
+
+* Ahhhhhh, recursion, there it is
+
+#### Revising the Recipe for Lists
+
+* A well-formed self-reference will always have at least one base, non-self-reference case (`empty` in list, for example) and at least one self-reference case.
+
+#### Discussion Topic
+
+> You have now seen that because of the way the ListOfNumber type comment uses a base case, a cons and a self-reference it can represent arbitrary sized data. The type comment also leads to a template with a natural recursion. That template has 3 positions we can fill in, the base-case result, the contribution of the first and the combination. What the table suggests is that a given function might be specified from the type comment and the value that fills the positions alone.  Can you imagine programming that way?
+
+Yup! Everything is now coming together a lot more clearly and have learnt a lot!
+
+#### Recommended Problems
+
+**Self-Reference P2 - Double All**
+
+Attempt:
+
+```BSL
+;; ListOfNumber -> ListOfNumber
+;; For every number m in the list, return m * 2
+
+(check-expect (double-all empty) empty)
+(check-expect (double-all (cons 1 empty)) (cons 2 empty))
+(check-expect (double-all (cons 2 (cons 1 empty))) (cons 4 (cons 2 empty)))
+
+;; Stub:
+;; (define (double-all list) empty)
+
+;; Using template from ListOfNumber definition
+(define (double-all lon)
+  (cond [(empty? lon) empty]
+        [else
+         (cons (* (first lon) 2)
+               (double-all (rest lon)))]))
+```
+
+**Self-Reference P3 - Boolean List**
+
+Attempts:
+
+```BSL
+;; =================
+;; Data definitions:
+;; =================
+
+; PROBLEM A:
+;
+; Design a data definition to represent a list of booleans. Call it ListOfBoolean.
+
+
+;; ListOfBoolean is one of:
+;; * empty
+;; * (cons Boolean ListOfBoolean)
+;; interp. a list of Booleans
+
+(define LOB1 empty);
+(define LOB2 (cons true empty));
+(define LOB3 (cons false empty));
+(define LOB4 (cons true (cons true empty)));
+(define LOB5 (cons false (cons true empty)));
+(define LOB6 (cons true (cons false empty)));
+(define LOB7 (cons false (cons false empty)));
+
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic distinct: empty
+;; * Compound: (cons Boolean ListOfBoolean)
+;; * Self-reference: (rest lob) is ListOfBoolean
+
+(define (fn-for-lob lob)
+  (cond [(empty? lob) (...)]
+        [else (... (first lob)
+                   (fn-for-lob (rest lob)))]))
+
+;; =================
+;; Functions:
+;; =================
+
+; PROBLEM B:
+;
+; Design a function that consumes a list of boolean values and produces true
+; if every value in the list is true. If the list is empty, your function
+; should also produce true. Call it all-true?
+
+;; ListOfBoolean -> Boolean
+;; Check if every item in the last is true; if yes, return true; otherwise, return false.
+
+(check-expect (all-true empty) false)
+(check-expect (all-true (cons true empty)) true)
+(check-expect (all-true (cons false empty)) false)
+(check-expect (all-true (cons true (cons true empty))) true)
+(check-expect (all-true (cons false (cons true empty))) false)
+(check-expect (all-true (cons true (cons false empty))) false)
+(check-expect (all-true (cons false (cons false empty))) false)
+
+;; Stub:
+;; (define (all-true lob) false)
+
+;; Using template from ListOfBoolean definition
+
+(define (all-true lob)
+  (cond [(empty? lob) false]
+        [else (and (first lob)
+                   (if (empty? (rest lob))
+                       true
+                       (all-true (rest lob))))]))
+```
+
+**Self-Reference P5 - Largest**
+
+Attempt:
+
+```BSL
+;; ListOfNumber -> Natural
+;; Find and return the largest number in a list of type ListOfNumber
+
+(check-expect (largest-num empty) 0)
+(check-expect (largest-num (cons 0 empty)) 0)
+(check-expect (largest-num (cons 7 empty)) 7)
+(check-expect (largest-num (cons 42 (cons 7 empty))) 42)
+
+;; Stub
+;; (define (largest-num lon) 0)
+
+;; Using template from ListOfNumber definition
+
+(define (largest-num lon)
+  (cond [(empty? lon) 0]
+        [else
+         (max (first lon)
+              (largest-num (rest lon)))]))
+```
+
+**Self-Reference P6 - Image List**
+
+Attempt:
+
+```BSL
+(require 2htdp/image)
+
+;; =================
+;; Data definitions:
+;; =================
+
+; PROBLEM A:
+;
+; Design a data definition to represent a list of images. Call it ListOfImage.
+
+
+;; ListOfImage is one of:
+;; * empty
+;; * (cons Image ListOfImage)
+;; interp. a list of images
+
+(define LOI1 empty)
+(define LOI2 (cons (square 42 "solid" "black") (cons (square 24 "solid" "white") empty)))
+
+;; Template rules used:
+;;  * One of: 2 cases
+;;  * Atomic distinct: empty
+;;  * Compound: (cons Image ListOfImage)
+;;  * Self-reference: (rest lon) is ListOfImage
+
+(define (fn-for-loi loi)
+  (cond [(empty? loi) (...)]
+        [else (... (first loi) (fn-for-loi (rest loi)))]))
+
+;; =================
+;; Functions:
+;; =================
+
+; PROBLEM B:
+;
+; Design a function that consumes a list of images and produces a number
+; that is the sum of the areas of each image. For area, just use the image's
+; width times its height.
+
+
+;; ListOfImage -> Natural
+;; Return the sum of the area, (* (image-width Image) (image-height Image)), of each imagein ListOfImage
+
+(check-expect (sigma-area empty) 0)
+(check-expect (sigma-area (cons (square 10 "solid" "black") empty)) 100)
+(check-expect (sigma-area (cons (square 20 "solid" "black") (cons (square 10 "solid" "black") empty))) 500)
+
+;; Stub:
+;; (define (sigma-area loi) 0)
+
+;; Using template from ListOfImage definition
+
+(define (sigma-area loi)
+  (cond [(empty? loi) 0]
+        [else (+
+               (* (image-width (first loi)) (image-height (first loi)))
+               (sigma-area (rest loi)))]))
 ```
