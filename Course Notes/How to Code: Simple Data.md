@@ -1195,11 +1195,111 @@ Skipped in favour of moving forward.
 
 ### 5a: Naturals
 
+**Naturals P2 - Decreasing Image**
+
+Attempt:
+
+```BSL
+(require 2htdp/image)
+
+;; decreasing-image-starter.rkt
+
+;  PROBLEM:
+;  
+;  Design a function called decreasing-image that consumes a Natural n and produces an image of all the numbers
+;  from n to 0 side by side.
+;  
+;  So (decreasing-image 3) should produce .
 
 
+;; Natural is one of:
+;; * 0
+;; * (add1 Natural)
+;; Interp. a natural number
+
+(define N0 0)
+(define N1 (add1 N0))
+(define N2 (add1 N1))
+
+#;
+(define (fn-for-natural n)
+  (cond [(zero? n)(...)]
+        [else
+         (... n
+              (fn-for-natural (sub1 n)))]))
+
+;; Natural -> Image
+;; Produce an images of natural numbers for n, n - 1, n - 2, ..., 0
+(check-expect (decreasing-image 0) (text "0" 24 "black"))
+(check-expect (decreasing-image 1) (beside (text "1" 24 "black")
+                                           (text "0" 24 "black")))
+(check-expect (decreasing-image 3) (beside (text "3" 24 "black")
+                                           (text "2" 24 "black")
+                                           (text "1" 24 "black")
+                                           (text "0" 24 "black")))
+
+;; Stub:
+;; (define (decreasing-image n) (text "0" 24 "black"))
+
+;; Using template for Natural:
+
+(define (decreasing-image n)
+  (cond [(zero? n) (text "0" 24 "black")]
+        [else
+         (beside (text (number->string n) 24 "black")
+                 (decreasing-image (sub1 n)))]))
+```
+
+**Naturals P2 - Decreasing Image**
+
+``BSL
+
+;; odd-from-n-starter.rkt
+
+;  PROBLEM:
+;  
+;  Design a function called odd-from-n that consumes a natural number n, and produces a list of all
+;  the odd numbers from n down to 1.
+;  
+;  Note that there is a primitive function, odd?, that produces true if a natural number is odd.
+;  
 
 
+; Natural is one of:
+;; * 0
+;; * (add1 Natural)
+;; Interp. a natural number
 
+(define N0 0)
+(define N1 (add1 N0))
+(define N2 (add1 N1))
+
+#;
+(define (fn-for-natural n)
+  (cond [(zero? n)(...)]
+        [else
+         (... n
+              (fn-for-natural (sub1 n)))]))
+
+;; Natural -> ListOfNatural
+;; Produce a list of all the odd natural numbers between n and 1, inclusive
+(check-expect (odd-from-n 1) (cons 1 empty))
+(check-expect (odd-from-n 3) (cons 3 (cons 1 empty)))
+(check-expect (odd-from-n 5) (cons 5 (cons 3 (cons 1 empty))))
+
+;; Stub:
+;; (define (odd-from-n n) (cons 1 empty))
+
+;; Using template from Natural
+(define (odd-from-n n)
+  (cond [(= n 1) (cons 1 empty)]
+        [else (if (odd? n)
+                  (cons n
+                        (odd-from-n (sub1 n)))
+                  (odd-from-n (sub1 n)))]))
+```
+
+### Module 5b: Helpers
 
 
 
