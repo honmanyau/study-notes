@@ -4,6 +4,7 @@
 
 * [How to Code: Simple Data](#how-to-code-simple-data)
   * [Notes](#notes)
+  * [Resources](#resources)
 
 ## Notes
 
@@ -1528,11 +1529,100 @@ Solution to problem B definitely deviated from the templates and is not ideal. R
 was a bad idea to begin with since the problem can (now obviously) be solved without reversing
 the list. Should have taken a break and come back to it instead of pressing through it.
 
+### Module 6: Binary Search Tree
 
+#### Finish Problem from Starter
 
-
-
-
+Atttempt:
 
 ```BSL
+;; CONSTANTS
+
+(define TEST-ACCOUNTS (list (make-account 1 "abc") (make-account 4 "dcj") (make-account 3 "ilk")   (make-account 7 "ruf")))
+
+;; Accounts Natural -> String or false
+;; Try to find account with given number in accounts. If found produce name, otherwise produce false.
+(check-expect (lookup-name empty 1) false)
+(check-expect (lookup-name TEST-ACCOUNTS 1) "abc")
+(check-expect (lookup-name TEST-ACCOUNTS 7) "ruf")
+(check-expect (lookup-name TEST-ACCOUNTS 42) false)
+
+;; Stub
+;; (define (lookup-name accs n) false)
+
+;; Using template for Accounts
+(define (lookup-name accs n)
+  (cond [(empty? accs) false]
+        [else
+         (if (= (account-num (first accs)) n)
+             (account-name (first accs))
+             (lookup-name (rest accs) n))]))
 ```
+
+#### Recommend Problems
+
+**BST P2 - Sum Keys**
+
+```BSL
+;; BST -> Natural
+;; Produce the sum of all keys in the BST
+(check-expect (sum-of-keys BST0) 0)
+(check-expect (sum-of-keys BST1) 1)
+(check-expect (sum-of-keys BST4) 11)
+(check-expect (sum-of-keys BST3) 15)
+(check-expect (sum-of-keys BST42) 83)
+(check-expect (sum-of-keys BST10) 108)
+
+;; Stub:
+;; (define (sum-of-keys BST0) 0)
+
+;; Using template from BST definition:
+
+(define (sum-of-keys t)
+  (cond [(false? t) 0]
+        [else
+         (+ (node-key t)
+            (sum-of-keys (node-l t))
+            (sum-of-keys (node-r t)))]))
+```
+
+**BST P4 - Insert**
+
+```BSL
+;; Integer String BST -> BST
+;; Insert the key: value pair in the correct position in the BST accoriding
+;; to the key given
+(check-expect (insert-node 3 "ilk" BST0)
+              (make-node 3 "ilk" false false))
+(check-expect (insert-node 1 "abc" (make-node 3 "ilk" false false))
+              (make-node 3 "ilk" (make-node 1 "abc" false false) false))
+(check-expect (insert-node 4 "dcj" (make-node 3 "ilk" (make-node 1 "abc" false false) false))
+              (make-node 3 "ilk" (make-node 1 "abc" false false) (make-node 4 "dcj" false false)))
+(check-expect (insert-node 2 "nya" (make-node 3 "ilk" (make-node 1 "abc" false false) (make-node 4 "dcj" false false)))
+              (make-node 3 "ilk" (make-node 1 "abc" false (make-node 2 "nya" false false)) (make-node 4 "dcj" false false)))
+
+;; (define (insert-node key value bst) BST0)
+
+;; Using template for BST
+(define (insert-node key value t)
+  (cond [(false? t) (make-node key value false false)]
+        [else
+         (cond [(> (node-key t) key)
+                (make-node
+                 (node-key t)
+                 (node-val t)
+                 (insert-node key value (node-l t))
+                 (node-r t))]
+               [(< (node-key t) key)
+                (make-node
+                 (node-key t)
+                 (node-val t)
+                 (node-l t)
+                 (insert-node key value (node-r t)))])]))
+```
+
+
+
+## Resources
+
+*  The Career Development Series > Technical Interviews > What to Expect in A Technical Interview
