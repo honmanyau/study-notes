@@ -26,9 +26,9 @@ Books Completed: 9
 
 Courses Completed: 0
 
-Total Points Earned: 1800 + 100
+Total Points Earned: 1800 + 300
 
-Total Time Spent Since 2018.06.04 (approx.): 122.5 hours
+Total Time Spent Since 2018.06.04 (approx.): 123.5 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -43,11 +43,12 @@ Total Time Spent Since 2018.06.04 (approx.): 122.5 hours
 | 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
 |  |  |  |  |
 
-Total Time Spent Since 2018.06.04 (approx.): 15 hours
+Total Time Spent Since 2018.06.04 (approx.): 28 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |   
 | 2018.06.17 | Book | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |
+| 2018.06.23 | Project | 200 | Final Project for [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
 |  |  |  |  |
 
 ## Interruptions
