@@ -13,6 +13,7 @@
   * [CSS](#css)
   * [Web Development](#web-development)
   * [Computer Science](#computer-science)
+  * [Course Notes](#course-notes)
 * [Contributing](#contributing)
 
 ## Introduction
@@ -47,11 +48,19 @@ Study notes for CSS-related things! They can be found [here](https://github.com/
 
 ### Web Development
 
-Study notes for computer web development-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Web%20Development.md).
+Study notes for computer web development-related things, concepts that involve at least two of JavaScript, HTML and CSS can be found here. They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Web%20Development.md).
 
 ### Computer Science
 
 Study notes for computer science-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Computer%20Science.md).
+
+### Course Notes
+
+Notes and attempts to questions and answers for online courses:
+
+* [Effective Thinking through Mathematics](https://github.com/honmanyau/study-notes/blob/master/Course%20Notes/Effective%20Thinking%20through%20Mathematics.md)
+* [How to Code: Simple Data](https://github.com/honmanyau/study-notes/blob/master/Course%20Notes/How%20to%20Code:%20Simple%20Data.md)
+
 
 ## Contributing
 
