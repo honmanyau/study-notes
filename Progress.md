@@ -18,7 +18,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: --
+Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles (Seems perfect for the weekend!)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
