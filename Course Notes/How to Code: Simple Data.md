@@ -1621,7 +1621,1050 @@ Atttempt:
                  (insert-node key value (node-r t)))])]))
 ```
 
+### Final Project
 
+```BSL
+(require 2htdp/universe)
+(require 2htdp/image)
+
+;; =================
+;; Space Invaders
+;; =================
+
+;; =================
+;; Constants:
+;; =================
+
+(define WIDTH  300)
+(define HEIGHT 500)
+
+(define INVADER-X-SPEED 2)  ;speeds (not velocities) in pixels per tick
+(define INVADER-Y-SPEED 2)
+(define TANK-SPEED 5)
+(define MISSILE-SPEED 15)
+
+(define HIT-RANGE 10)
+
+(define INVADE-RATE 100)
+
+(define BACKGROUND (empty-scene WIDTH HEIGHT))
+
+; (overlay/xy (ellipse 10 15 "outline" "blue")              ;cockpit cover
+;               -5 6
+;               (ellipse 20 10 "solid"   "blue"))
+
+(define INVADER .) ;; Replace . with image
+(define INVADER-WIDTH (image-width INVADER))
+(define INVADER-HEIGHT (image-height INVADER))
+
+
+(define TANK
+  (overlay/xy (overlay (ellipse 28 8 "solid" "black")       ;tread center
+                       (ellipse 30 10 "solid" "green"))     ;tread outline
+              5 -14
+              (above (rectangle 5 10 "solid" "black")       ;gun
+                     (rectangle 20 10 "solid" "black"))))   ;main body
+
+(define TANK-HEIGHT (image-height TANK))
+(define TANK-HEIGHT/2 (/ TANK-HEIGHT 2))
+(define TANK-Y (- HEIGHT TANK-HEIGHT))
+
+(define MISSILE (circle 5 "solid" "red"))
+(define MISSILE-HEIGHT (image-height MISSILE))
+
+(define SPAWN-RATE 40)
+
+;; =================
+;; Data Definitions:
+;; =================
+
+(define-struct game (invaders missiles tank))
+;; Game is (make-game  (listof Invader) (listof Missile) Tank)
+;; interp. the current state of a space invaders game
+;;         with the current invaders, missiles and tank position
+
+;; Game constants defined below Missile data definition
+
+#;
+(define (fn-for-game s)
+  (... (fn-for-loinvader (game-invaders s))
+       (fn-for-lom (game-missiles s))
+       (fn-for-tank (game-tank s))))
+
+
+
+(define-struct tank (x dir))
+;; Tank is (make-tank Number Integer[-1, 1])
+;; interp. the tank location is x, HEIGHT - TANK-HEIGHT/2 in screen coordinates
+;;         the tank moves TANK-SPEED pixels per clock tick left if dir -1, right if dir 1
+
+(define T0 (make-tank (/ WIDTH 2) 0))   ;center going right
+(define T1 (make-tank 50 1))            ;going right
+(define T2 (make-tank 50 -1))           ;going left
+
+#;
+(define (fn-for-tank t)
+  (... (tank-x t) (tank-dir t)))
+
+
+
+(define-struct invader (x y dx))
+;; Invader is (make-invader Number Number Number)
+;; interp. the invader is at (x, y) in screen coordinates
+;;         the invader along x by dx pixels per clock tick
+
+(define I1 (make-invader 150 100 12))           ;not landed, moving right
+(define I2 (make-invader 150 HEIGHT -10))       ;exactly landed, moving left
+(define I3 (make-invader 150 (+ HEIGHT 10) 10)) ;> landed, moving right
+
+
+#;
+(define (fn-for-invader invader)
+  (... (invader-x invader) (invader-y invader) (invader-dx invader)))
+
+
+(define-struct missile (x y))
+;; Missile is (make-missile Number Number)
+;; interp. the missile's location is x y in screen coordinates
+
+(define M1 (make-missile 150 300))                       ;not hit U1
+(define M2 (make-missile (invader-x I1) (+ (invader-y I1) 10)))  ;exactly hit U1
+(define M3 (make-missile (invader-x I1) (+ (invader-y I1)  5)))  ;> hit U1
+
+#;
+(define (fn-for-missile m)
+  (... (missile-x m) (missile-y m)))
+
+
+
+(define G0 (make-game empty empty T0))
+(define G1 (make-game empty empty T1))
+(define G2 (make-game (list I1) (list M1) T1))
+(define G3 (make-game (list I1 I2) (list M1 M2) T1))
+
+;; ListOfInvaders is one of:
+;; * empty
+;; * (cons Invader ListOfInvaders)
+
+(define LOI0 empty)
+(define LOI1 (cons I1 empty))
+(define LOI2 (cons I2 (cons I1 empty)))
+
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic distinct: empty
+;; * Compound: (cons Invader ListOfInvaders)
+;; * Self-reference: (rest loi) is ListOfInvaders
+
+#;
+(define (fn-for-loi loi)
+  (cond [(empty? loi) (...)]
+        [else (... (fn-for-invader (first loi))
+                   (fn-for-loi (rest loi)))]))
+
+;; ListOfMissiles is one of:
+;; * empty
+;; * (cons Missile ListOfMissiles)
+
+(define LOM0 empty)
+(define LOM1 (cons M1 empty))
+(define LOM2 (cons M2 (cons M1 empty)))
+
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic distinct: empty
+;; * Compound: (cons Missile ListOfMissiles)
+;; * Self-reference: (rest lom) is ListOfMissiles
+
+#;
+(define (fn-for-lom lom)
+  (cond [(empty? lom) (...)]
+        [else (... (fn-for-missile (first lom))
+                   (fn-for-lom (rest lom)))]))
+
+;; ListOfImages is one of:
+;; * empty
+;; * (cons Image ListOfImages)
+
+(define LOIMG0 empty-image)
+(define LOIMG1 (list TANK))
+(define LOIMG2 (list INVADER TANK))
+
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic distinct: empty
+;; * Compound: (cons Image ListOfImages)
+;; * Self-reference: (rest loimg) is ListOfImages
+
+(define (fn-for-loimg loimg)
+  (cond [(empty? loimg) (...)]
+        [else (... (first loimg)
+                   (fn-for-loimg (rest loimg)))]))
+
+;; ListOfPosns is one of:
+;; * empty
+;; * (cons Posn ListOfPosns)
+
+(define POSNS0 empty)
+(define POSNS1 (list (make-posn (tank-x T0) TANK-Y)))
+(define POSNS2 (list (make-posn (tank-x T0) TANK-Y) (make-posn (invader-x I1) (invader-y I1))))
+
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic distinct: empty
+;; * Compound: (cons Posn ListOfPosns)
+;; * Self-reference: (rest loposn) is ListOfPosns
+
+(define (fn-for-loposn loposn)
+  (cond [(empty? loposn) (...)]
+        [else (... (first loposn)
+                   (fn-for-loposn (rest loposn)))]))
+
+;; =================
+;; Test Constants:
+;; =================
+
+(define INVADER-IMG-WIDTH (image-width INVADER))
+(define INVADER-MID-LEFT (make-invader 150 100 -1))
+(define INVADER-MID-LEFT-NEXT (make-invader (- 150 INVADER-X-SPEED) (+ 100 INVADER-Y-SPEED) -1))
+(define INVADER-MID-RIGHT (make-invader 150 100 1))
+(define INVADER-MID-RIGHT-NEXT (make-invader (+ 150 INVADER-X-SPEED) (+ 100 INVADER-Y-SPEED) 1))
+(define INVADER-LEFTBOUNCE (make-invader INVADER-X-SPEED 100 -1))
+(define INVADER-LEFTBOUNCE-NEXT (make-invader 0 (+ 100 INVADER-Y-SPEED) 1))
+(define INVADER-RIGHTBOUNCE (make-invader (- (- WIDTH INVADER-IMG-WIDTH) INVADER-X-SPEED) 100 1))
+(define INVADER-RIGHTBOUNCE-NEXT (make-invader (- WIDTH INVADER-IMG-WIDTH) (+ 100 INVADER-Y-SPEED) -1))
+
+(define MISSILE-FREE (make-missile 150 300))
+(define MISSILE-FREE-NEXT (make-missile 150 (- (missile-y MISSILE-FREE) MISSILE-SPEED)))
+(define MISSILE-FREE2 (make-missile 80 180))
+(define MISSILE-HIT (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))
+(define MISSILE-HIT-NEXT (make-missile (invader-x INVADER-MID-LEFT) (- (invader-y INVADER-MID-LEFT) MISSILE-SPEED)))
+(define MISSILE-OUB (make-missile 150 (- 0 MISSILE-HEIGHT)))
+
+;; =================
+;; Functions:
+;; =================
+
+;; Game -> Game
+;; Shortcut for (main (make-game empty empty T0))
+;; Start the game with (init 0)
+(define (init n)
+  (main (make-game empty empty T0)))
+
+;; =================
+;; main
+;; =================
+
+;; Game -> Game
+;; start the world with (main (make-game empty empty T0)) or simply (init 0)
+(define (main game)
+  (big-bang game
+    (on-tick update-game) ;; Game -> Game
+    (to-draw render-game) ;; Game -> Image
+    (on-key handle-key) ;; Game -> Game
+    (on-release handle-release) ;; Game -> Game
+    (stop-when gameover-check) ;; Game -> Boolean
+  )
+)
+
+
+;; =================
+;; update-game
+;; =================
+
+;; Game -> Game
+;; Produce the next game state
+
+;; Stub:
+;; (define (update-game game) (make-game empty empty T0))
+
+;; Using template for Game:
+(define (update-game game)
+   (randomly-generate-invader (collision-detection (update-pos game))))
+
+
+;; =========================
+;; randomly-generate-invader
+;; =========================
+
+;; Game -> Game
+;; Randomly generate invaders
+
+;; Stub:
+;; (define (randomly-generate-invader game) game)
+
+;; Using template from Game:
+
+(define (randomly-generate-invader game)
+  (make-game (cond [(< (random SPAWN-RATE) 1) (spawn-invader (game-invaders game))]
+                   [else (game-invaders game)])
+             (game-missiles game)
+             (game-tank game)))
+
+
+;; =============
+;; spawn-invader
+;; =============
+
+;; ListOfInvaders -> ListOfInvaders
+;; Spawn an invader
+(check-expect (length (spawn-invader empty)) 1)
+(check-expect (length (spawn-invader (list INVADER-MID-LEFT))) 2)
+
+;; Stub:
+;; (define (spawn-invader game) game)
+
+;; Using template from ListOfInvaders:
+
+(define (spawn-invader loi)
+  (cons (make-invader (+ INVADER-WIDTH (random (- WIDTH (* INVADER-WIDTH 2))))
+                      (- 0 INVADER-HEIGHT)
+                      (if (> (random 2) 0)
+                          1
+                          -1))
+        loi))
+
+
+;; =================
+;; update-pos
+;; =================
+
+;; Game -> Game
+;; Update positions of invaders and missiles
+(check-expect (update-game (make-game empty empty T0)) (make-game empty empty T0))
+(check-expect (update-game (make-game (list INVADER-MID-LEFT) empty T0))
+              (make-game (list INVADER-MID-LEFT-NEXT) empty T0))
+(check-expect (update-game (make-game (list INVADER-MID-LEFT INVADER-MID-RIGHT) empty T0))
+              (make-game (list INVADER-MID-LEFT-NEXT INVADER-MID-RIGHT-NEXT) empty T0))
+(check-expect (update-game (make-game empty (list MISSILE-FREE) T0))
+              (make-game empty (list MISSILE-FREE-NEXT) T0))
+(check-expect (update-game (make-game empty (list MISSILE-FREE MISSILE-HIT) T0))
+              (make-game empty (list MISSILE-FREE-NEXT MISSILE-HIT-NEXT) T0))
+(check-expect (update-game (make-game (list INVADER-LEFTBOUNCE INVADER-RIGHTBOUNCE) (list MISSILE-FREE MISSILE-HIT) T0))
+              (make-game (list INVADER-LEFTBOUNCE-NEXT INVADER-RIGHTBOUNCE-NEXT) (list MISSILE-FREE-NEXT MISSILE-HIT-NEXT) T0))
+
+;; Stub:
+;; (define (update-pos game) (make-game empty empty T0))
+
+
+;; Using template for Game:
+
+(define (update-pos game)
+  (make-game (update-loi-pos (game-invaders game))
+             (update-lom-pos (game-missiles game))
+             (update-tank-pos (game-tank game))))
+
+
+;; ===============
+;; update-tank-pos
+;; ===============
+
+;; Tank -> Tank
+;; Move the tank according to the current direction
+(check-expect (update-tank-pos (make-tank 100 0)) (make-tank 100 0))
+(check-expect (update-tank-pos (make-tank 100 1))
+              (make-tank (+ 100 TANK-SPEED) 1))
+(check-expect (update-tank-pos (make-tank 100 -1))
+              (make-tank (+ 100 (* TANK-SPEED -1)) -1))
+
+;; Stub:
+;; (define (update-tank-pos tank) T0)
+
+;; Using template for Tank:
+(define (update-tank-pos tank)
+  (make-tank (+ (tank-x tank) (* TANK-SPEED (tank-dir tank))) (tank-dir tank)))
+
+
+;; =================
+;; update-loi-pos
+;; =================
+
+;; ListOfInvaders -> ListOfInvaders
+;; Apply physics updates to the list of invaders
+(check-expect (update-loi-pos empty) empty)
+(check-expect (update-loi-pos (list INVADER-MID-LEFT)) (list INVADER-MID-LEFT-NEXT))
+(check-expect (update-loi-pos (list INVADER-MID-LEFT INVADER-MID-RIGHT)) (list INVADER-MID-LEFT-NEXT INVADER-MID-RIGHT-NEXT))
+
+;; Stub
+;; (define (update-loi-pos loi) empty)
+
+;; Using template for ListOfInvaders:
+(define (update-loi-pos loi)
+  (cond [(empty? loi) empty]
+        [else (cons (update-invader (first loi))
+                    (update-loi-pos (rest loi)))]))
+
+
+;; =================
+;; update-invader
+;; =================
+
+;; Invader -> Invader
+;; Apply physics update to a single invader
+(check-expect (update-invader INVADER-MID-LEFT) INVADER-MID-LEFT-NEXT)
+(check-expect (update-invader INVADER-MID-RIGHT) INVADER-MID-RIGHT-NEXT)
+(check-expect (update-invader INVADER-LEFTBOUNCE) INVADER-LEFTBOUNCE-NEXT)
+(check-expect (update-invader INVADER-RIGHTBOUNCE) INVADER-RIGHTBOUNCE-NEXT)
+
+;; Stub:
+;; (define (update-invader invader) (make-invader 150 100 1))
+
+;; Using template for Invader:
+(define (update-invader invader)
+  (update-invader-dx (update-invader-pos invader)))
+
+
+;; ==================
+;; update-invader-pos
+;; ==================
+
+;; Invader -> Invader
+;; Update x and y positions of invader
+(check-expect (update-invader-pos INVADER-MID-LEFT) INVADER-MID-LEFT-NEXT)
+(check-expect (update-invader-pos INVADER-MID-RIGHT) INVADER-MID-RIGHT-NEXT)
+(check-expect (update-invader-pos INVADER-LEFTBOUNCE) (make-invader 0 (+ 100 INVADER-Y-SPEED) -1))
+(check-expect (update-invader-pos INVADER-RIGHTBOUNCE) (make-invader (- WIDTH INVADER-IMG-WIDTH) (+ 100 INVADER-Y-SPEED) 1))
+
+;; Stub:
+;; (define (update-invader-pos invader) INVADER-MID-LEFT)
+
+;; Using template from Invader:
+(define (update-invader-pos invader)
+  (make-invader (+ (invader-x invader) (* (invader-dx invader) INVADER-X-SPEED))
+                (+ (invader-y invader) INVADER-Y-SPEED)
+                (invader-dx invader)
+  )
+)
+
+
+;; =================
+;; update-invader-dx
+;; =================
+
+;; Invader -> Invader
+;; Update dx position of invader
+(check-expect (update-invader-dx (make-invader 150 100 -1)) (make-invader 150 100 -1))
+(check-expect (update-invader-dx (make-invader 150 100 1)) (make-invader 150 100 1))
+(check-expect (update-invader-dx (make-invader 0 100 -1)) (make-invader 0 100 1))
+(check-expect (update-invader-dx (make-invader (- WIDTH INVADER-IMG-WIDTH) 100 1)) (make-invader (- WIDTH INVADER-IMG-WIDTH) 100 -1))
+
+;; Stub:
+;; (define (update-invader-pos invader) INVADER-MID-LEFT)
+
+;; Using template from Invader:
+(define (update-invader-dx invader)
+  (make-invader (invader-x invader)
+                (invader-y invader)
+                (if (or (<= (invader-x invader) 0)
+                        (>= (invader-x invader) (- WIDTH INVADER-IMG-WIDTH)))
+                    (* (invader-dx invader) -1)
+                    (invader-dx invader))
+  )
+)
+
+
+;; ===================
+;; collision-detection
+;; ===================
+
+;; Game -> Game
+;; Execute collision detection algorithm and remove the following:
+;; * Out-of-bounds missiles
+;; * Missiles collided with an invaders
+;; * Invaders collided with missiles
+
+;; List of invaders examples
+(check-expect (collision-detection (make-game empty empty T0)) (make-game empty empty T0))
+(check-expect (collision-detection (make-game (list INVADER-MID-LEFT) empty T0)) (make-game (list INVADER-MID-LEFT) empty T0))
+(check-expect (collision-detection (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty T0)) (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty T0))
+(check-expect (collision-detection (make-game empty (list MISSILE-FREE) T0)) (make-game empty (list MISSILE-FREE) T0))
+(check-expect (collision-detection (make-game empty (list MISSILE-FREE MISSILE-HIT) T0)) (make-game empty (list MISSILE-FREE MISSILE-HIT) T0))
+(check-expect (collision-detection (make-game empty (list MISSILE-OUB) T0)) (make-game empty empty T0))
+(check-expect (collision-detection (make-game empty (list MISSILE-FREE MISSILE-OUB) T0)) (make-game empty (list MISSILE-FREE) T0))
+(check-expect (collision-detection (make-game (list INVADER-MID-LEFT) (list MISSILE-OUB) T0)) (make-game (list INVADER-MID-LEFT) empty T0))
+(check-expect (collision-detection (make-game (list INVADER-MID-LEFT)
+                                              (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))
+                                              T0))
+              (make-game empty empty T0))
+(check-expect (collision-detection (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE)
+                                              (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                                                    (make-missile (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE)))
+                                              T0))
+              (make-game empty empty T0))
+(check-expect (collision-detection (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE INVADER-RIGHTBOUNCE)
+                                              (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                                                    (make-missile (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE)))
+                                              T0))
+              (make-game (list INVADER-RIGHTBOUNCE) empty T0))
+
+;; Stub:
+;; (define (collision-detection game) (make-game empty empty T0))
+
+;; Using template for Game:
+(define (collision-detection game)
+  (make-game (collision-detection-invader (game-invaders game) (game-missiles game) empty)
+             (collision-detection-missile (game-missiles game) (game-invaders game) empty)
+             (game-tank game)))
+
+
+;; ===========================
+;; collision-detection-invader
+;; ===========================
+
+;; ListOfInvaders ListOfMissiles ListOfInvaders -> ListOfInvaders
+;; For each invader, check if it has collided with any missiles and remove accordingly
+(check-expect (collision-detection-invader (list INVADER-MID-LEFT)
+                                           (list MISSILE-FREE)
+                                           empty)
+              (list INVADER-MID-LEFT))
+(check-expect (collision-detection-invader (list INVADER-MID-LEFT)
+                                           (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))
+                                           empty)
+              empty)
+(check-expect (collision-detection-invader (list INVADER-MID-LEFT)
+                                           (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))
+                                           empty)
+              empty)
+(check-expect (collision-detection-invader (list INVADER-MID-LEFT INVADER-LEFTBOUNCE)
+                                           (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))
+                                           empty)
+              (list INVADER-LEFTBOUNCE))
+(check-expect (collision-detection-invader (list INVADER-MID-LEFT INVADER-LEFTBOUNCE)
+                                           (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                                                 (make-missile (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE)))
+                                           empty)
+              empty)
+
+;; Stub:
+;; (define (collision-detection-invader loi lom newloi) empty)
+
+;; Using template for ListOfInvaders
+
+(define (collision-detection-invader loi lom newloi)
+  (cond [(empty? loi) newloi]
+        [(empty? lom) loi]
+        [else (if (invader-dead? (first loi) lom)
+                  (collision-detection-invader (rest loi) lom newloi)
+                  (collision-detection-invader (rest loi) lom (append newloi (list (first loi)))))]))
+
+
+;; =============
+;; invader-dead?
+;; =============
+
+;; Invader ListOfMissiles -> Boolean
+;; For each missile in ListOfMissiles, check if it has collided with the invader
+(check-expect (invader-dead? INVADER-MID-LEFT empty) false)
+(check-expect (invader-dead? INVADER-MID-LEFT (list (make-missile (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE)))) false)
+(check-expect (invader-dead? INVADER-MID-LEFT (list (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))) true)
+(check-expect (invader-dead? INVADER-MID-LEFT (list (make-missile (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))
+                                                  (make-missile (invader-x INVADER-RIGHTBOUNCE) (invader-y INVADER-RIGHTBOUNCE))))
+              false)
+(check-expect (invader-dead? INVADER-MID-LEFT (list (make-missile (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))
+                                                  (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))))
+              true)
+
+;; Stub:
+;; (define (invader-dead? invader lom) false)
+
+;; Using template for ListOfMissiles
+(define (invader-dead? invader lom)
+  (cond [(null? invader) true]
+        [(empty? lom) false]
+        [else (if (<= (dist-between invader (first lom)) (/ INVADER-HEIGHT 2))
+                  (invader-dead? null (rest lom))
+                  (invader-dead? invader (rest lom)))]))
+
+
+;; ===========================
+;; collision-detection-missile
+;; ===========================
+
+;; ListOfMissiles ListOfInvaders ListOfMissiles -> ListOfMissiles
+;; For each missile in ListOfMissiles, check if it has collided with any invaders
+;; or the top boundary and remove accordingly
+(check-expect (collision-detection-missile (list MISSILE-FREE)
+                                           (list INVADER-MID-LEFT)
+                                           empty)
+              (list MISSILE-FREE))
+(check-expect (collision-detection-missile (list MISSILE-FREE MISSILE-HIT)
+                                           (list INVADER-LEFTBOUNCE)
+                                           empty)
+              (list MISSILE-FREE MISSILE-HIT))
+(check-expect (collision-detection-missile (list MISSILE-FREE)
+                                           (list (make-invader (missile-x MISSILE-FREE) (- (- (missile-y MISSILE-FREE) (/ INVADER-HEIGHT 2)) 1) 1))
+                                           empty)
+              (list MISSILE-FREE))
+(check-expect (collision-detection-missile (list MISSILE-FREE)
+                                           (list (make-invader (missile-x MISSILE-FREE) (- (missile-y MISSILE-FREE) (/ INVADER-HEIGHT 2)) 1))
+                                           empty)
+              empty)
+(check-expect (collision-detection-missile (list MISSILE-OUB)
+                                           empty
+                                           empty)
+              empty)
+(check-expect (collision-detection-missile (list MISSILE-OUB)
+                                           (list INVADER-MID-LEFT)
+                                           empty)
+              empty)
+(check-expect (collision-detection-missile (list MISSILE-FREE)
+                                           (list (make-invader (missile-x MISSILE-FREE) (missile-y MISSILE-FREE) 1))
+                                           empty)
+              empty)
+(check-expect (collision-detection-missile (list MISSILE-FREE
+                                                 MISSILE-FREE2)
+                                           (list (make-invader (missile-x MISSILE-FREE) (missile-y MISSILE-FREE) 1))
+                                           empty)
+              (list MISSILE-FREE2))
+(check-expect (collision-detection-missile (list MISSILE-FREE
+                                                 MISSILE-FREE2)
+                                           (list (make-invader (missile-x MISSILE-FREE) (missile-y MISSILE-FREE) 1)
+                                                 (make-invader (missile-x MISSILE-FREE2) (missile-y MISSILE-FREE2) 1))
+                                           empty)
+              empty)
+
+;; Stub:
+;; (define (collision-detection-missile lom loi newlom) empty)
+
+;; Using template for ListOfInvaders
+(define (collision-detection-missile lom loi newlom)
+  (cond [(empty? lom) newlom]
+        [(<= (missile-y (first lom)) (- 0 MISSILE-HEIGHT))
+         (collision-detection-missile (rest lom) loi newlom)] ;; Remove out of bounds missiles
+        [else (if (destroy-missile? (first lom) loi)
+                  (collision-detection-missile (rest lom) loi newlom)
+                  (collision-detection-missile (rest lom) loi (append newlom (list (first lom)))))]))
+
+
+;; ================
+;; destroy-missile?
+;; ================
+
+;; Missile ListOfInvaders -> Boolean
+;; For each invader in ListOfInvaders, check if it has collided with the invader
+(check-expect (destroy-missile? MISSILE-FREE empty) false)
+(check-expect (destroy-missile? MISSILE-FREE
+                                (list INVADER-MID-LEFT)) false)
+(check-expect (destroy-missile? MISSILE-FREE (list (make-invader (missile-x MISSILE-FREE) (missile-y MISSILE-FREE) 1))) true)
+(check-expect (destroy-missile? MISSILE-FREE (list INVADER-MID-LEFT INVADER-LEFTBOUNCE))
+              false)
+(check-expect (destroy-missile? MISSILE-FREE (list (make-invader (missile-x MISSILE-FREE) (missile-y MISSILE-FREE) 1)
+                                                   INVADER-LEFTBOUNCE))
+              true)
+
+;; Stub:
+;; (define (destroy-missile? invader lom) false)
+
+;; Using template for ListOfInvaders
+(define (destroy-missile? missile loi)
+  (cond [(null? missile) true]
+        [(empty? loi) false]
+        [else (if (<= (dist-between (first loi) missile) (/ INVADER-HEIGHT 2))
+                  (destroy-missile? null (rest loi))
+                  (destroy-missile? missile (rest loi)))]))
+
+
+;; =================
+;; dist-between
+;; =================
+
+;; Invader Missile -> Number
+;; Calculate the distance between and invader and a missile
+(check-expect (dist-between INVADER-MID-LEFT (make-missile (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT)))
+              0)
+(check-expect (dist-between INVADER-MID-LEFT (make-missile (+ (invader-x INVADER-MID-LEFT) 30) (+ (invader-y INVADER-MID-LEFT) 40)))
+              50)
+
+;; Stub:
+;; (define (dist-between invader lom) 0)
+
+;; Using template for Invader:
+(define (dist-between invader missile)
+  (sqrt (+ (sqr (- (invader-x invader) (missile-x missile)))
+           (sqr (- (invader-y invader) (missile-y missile))))))
+
+;; =================
+;; render-game
+;; =================
+
+;; Game -> Image
+;; Render the game to an image!
+(check-expect (render-game (make-game empty empty T0))
+              (place-images/align (list TANK)
+                                  (list (make-posn (tank-x T0) TANK-Y))
+                                  "left" "top" BACKGROUND))
+(check-expect (render-game (make-game (list INVADER-MID-LEFT) empty T0))
+              (place-images/align (list INVADER TANK)
+                                  (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                                        (make-posn (tank-x T0) TANK-Y))
+                                  "left" "top" BACKGROUND))
+(check-expect (render-game (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty T0))
+              (place-images/align (list INVADER
+                                        INVADER
+                                        TANK)
+                                 (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                                       (make-posn (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))
+                                       (make-posn (tank-x T0) TANK-Y))
+                                  "left" "top" BACKGROUND))
+(check-expect (render-game (make-game empty (list MISSILE-FREE) T0))
+              (place-images/align (list MISSILE
+                                        TANK)
+                                 (list (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                                       (make-posn (tank-x T0) TANK-Y))
+                                  "left" "top" BACKGROUND))
+(check-expect (render-game (make-game empty (list MISSILE-FREE MISSILE-HIT) T0))
+              (place-images/align (list MISSILE
+                                        MISSILE
+                                        TANK)
+                                 (list (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                                       (make-posn (missile-x MISSILE-HIT) (missile-y MISSILE-HIT))
+                                       (make-posn (tank-x T0) TANK-Y))
+                                  "left" "top" BACKGROUND))
+(check-expect (render-game (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) (list MISSILE-FREE MISSILE-HIT) T0))
+              (place-images/align (list INVADER
+                                        INVADER
+                                        MISSILE
+                                        MISSILE
+                                        TANK)
+                                 (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                                       (make-posn (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))
+                                       (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                                       (make-posn (missile-x MISSILE-HIT) (missile-y MISSILE-HIT))
+                                       (make-posn (tank-x T0) TANK-Y))
+                                  "left" "top" BACKGROUND))
+
+;; Stub:
+#;
+(define (render-game game) (place-images/align (list TANK)
+                                               (list (make-posn (tank-x T0) TANK-Y))
+                                               "left" "top" BACKGROUND))
+
+;; Using template for Game:
+(define (render-game game)
+  (place-images/align (generate-image-list game)
+                      (generate-posn-list game)
+                      "left" "top" BACKGROUND))
+
+;; ====================
+;; generate-image-list
+;; ====================
+
+;; Game -> ListOfImages
+;; Produce a list of images from Game for rendering using place-imgages
+(check-expect (generate-image-list (make-game empty empty T0))
+              (list TANK))
+(check-expect (generate-image-list (make-game (list INVADER-MID-LEFT) empty T0))
+              (list INVADER TANK))
+(check-expect (generate-image-list (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty T0))
+              (list INVADER INVADER TANK))
+(check-expect (generate-image-list (make-game empty (list MISSILE-FREE) T0))
+              (list MISSILE TANK))
+(check-expect (generate-image-list (make-game empty (list MISSILE-FREE MISSILE-HIT) T0))
+              (list MISSILE MISSILE TANK))
+(check-expect (generate-image-list (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE)
+                                              (list MISSILE-FREE MISSILE-HIT)
+                                              T0))
+              (list INVADER INVADER MISSILE MISSILE TANK))
+
+;; Stub:
+;; (define (generate-image-list game) (list TANK))
+
+;; Using template for Game:
+(define (generate-image-list game)
+  (append (generate-image-list-invader (game-invaders game) empty)
+          (generate-image-list-missile (game-missiles game) empty)
+          (list TANK)))
+
+
+;; ===========================
+;; generate-image-list-invader
+;; ===========================
+
+;; ListOfInvaders ListOfImages -> ListOfImages
+;; Produce a list of images from ListOfInvaders
+(check-expect (generate-image-list-invader empty empty) empty)
+(check-expect (generate-image-list-invader (list INVADER-MID-LEFT) empty) (list INVADER))
+(check-expect (generate-image-list-invader (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty) (list INVADER INVADER))
+
+;; Stub:
+;; (define (generate-image-list-invader loi loimg) empty)
+
+;; Using template for ListOfInvaders:
+(define (generate-image-list-invader loi loimg)
+  (cond [(empty? loi) loimg]
+        [else (cons INVADER (generate-image-list-invader (rest loi) loimg))]))
+
+
+;; ===========================
+;; generate-image-list-missile
+;; ===========================
+
+;; ListOfMissiles ListOfImages -> ListOfImages
+;; Produce a list of images from ListOfMissiles
+(check-expect (generate-image-list-missile empty empty) empty)
+(check-expect (generate-image-list-missile (list MISSILE-FREE) empty) (list MISSILE))
+(check-expect (generate-image-list-missile (list MISSILE-FREE MISSILE-HIT) empty) (list MISSILE MISSILE))
+
+;; Stub:
+;; (define (generate-image-list-missile lom loimg) empty)
+
+;; Using template for ListOfMissiles
+(define (generate-image-list-missile lom loimg)
+  (cond [(empty? lom) loimg]
+        [else (cons MISSILE (generate-image-list-missile (rest lom) loimg))]))
+
+
+;; ====================
+;; generate-posn-list
+;; ====================
+
+;; Game -> ListofPosns
+;; Produce a list of images from Game for rendering using place-imgages
+(check-expect (generate-posn-list (make-game empty empty T0)) (list (make-posn (tank-x T0) TANK-Y)))
+(check-expect (generate-posn-list (make-game (list INVADER-MID-LEFT) empty T0))
+              (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                    (make-posn (tank-x T0) TANK-Y)))
+(check-expect (generate-posn-list (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty T0))
+              (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                    (make-posn (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))
+                    (make-posn (tank-x T0) TANK-Y)))
+(check-expect (generate-posn-list (make-game empty (list MISSILE-FREE) T0))
+              (list (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                    (make-posn (tank-x T0) TANK-Y)))
+(check-expect (generate-posn-list (make-game empty (list MISSILE-FREE MISSILE-HIT) T0))
+              (list (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                    (make-posn (missile-x MISSILE-HIT) (missile-y MISSILE-HIT))
+                    (make-posn (tank-x T0) TANK-Y)))
+(check-expect (generate-posn-list (make-game (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) (list MISSILE-FREE MISSILE-HIT) T0))
+              (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                    (make-posn (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))
+                    (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                    (make-posn (missile-x MISSILE-HIT) (missile-y MISSILE-HIT))
+                    (make-posn (tank-x T0) TANK-Y)))
+
+;; Stub:
+;; (define (generate-posn-list game) (list (make-posn (tank-x T0) TANK-Y)))
+
+;; Using template for Game:
+(define (generate-posn-list game)
+  (append (generate-posn-list-invader (game-invaders game) empty)
+          (generate-posn-list-missile (game-missiles game) empty)
+          (generate-posn-list-tank (game-tank game))))
+
+
+;; ==========================
+;; generate-posn-list-invader
+;; ==========================
+
+;; ListOfInvaders ListOfPosns -> ListOfPosns
+;; Produce a list of images from Game for rendering using place-imgages
+(check-expect (generate-posn-list-invader empty empty) empty)
+(check-expect (generate-posn-list-invader (list INVADER-MID-LEFT) empty)
+              (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))))
+(check-expect (generate-posn-list-invader (list INVADER-MID-LEFT INVADER-LEFTBOUNCE) empty)
+              (list (make-posn (invader-x INVADER-MID-LEFT) (invader-y INVADER-MID-LEFT))
+                    (make-posn (invader-x INVADER-LEFTBOUNCE) (invader-y INVADER-LEFTBOUNCE))))
+
+;; Stub:
+;; (define (generate-posn-list-invader game loposn) empty)
+
+;; Using template for ListOfInvaders
+(define (generate-posn-list-invader loi loposn)
+  (cond [(empty? loi) loposn]
+        [else (cons (make-posn (invader-x (first loi)) (invader-y (first loi)))
+                    (generate-posn-list-invader (rest loi) loposn))]))
+
+
+;; ==========================
+;; generate-posn-list-missile
+;; ==========================
+
+;; ListOfMissiles ListOfPosns -> ListOfPosns
+;; Produce a list of images from Game for rendering using place-imgages
+(check-expect (generate-posn-list-missile empty empty) empty)
+(check-expect (generate-posn-list-missile (list MISSILE-FREE) empty)
+              (list (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))))
+(check-expect (generate-posn-list-missile (list MISSILE-FREE MISSILE-HIT) empty)
+              (list (make-posn (missile-x MISSILE-FREE) (missile-y MISSILE-FREE))
+                    (make-posn (missile-x MISSILE-HIT) (missile-y MISSILE-HIT))))
+
+;; Stub:
+;; (define (generate-posn-list-missile game loposn) empty)
+
+;; Using template for ListOfMissiles
+(define (generate-posn-list-missile lom loposn)
+  (cond [(empty? lom) loposn]
+        [else (cons (make-posn (missile-x (first lom)) (missile-y (first lom)))
+                    (generate-posn-list-missile (rest lom) loposn))]))
+
+
+;; =======================
+;; generate-posn-list-tank
+;; =======================
+
+;; Tank -> ListOfPosn
+;; Produce a list of images from Game for rendering using place-imgages
+(check-expect (generate-posn-list-tank T0) (list (make-posn (tank-x T0) TANK-Y)))
+
+;; Stub:
+;; (define (generate-posn-list-tank tank) (list (make-posn (tank-x T0) TANK-Y)))
+
+;; Using template for Tank
+(define (generate-posn-list-tank tank)
+  (list (make-posn (tank-x tank) TANK-Y)))
+
+
+;; =================
+;; update-lom-pos
+;; =================
+
+;; ListOfMissiles -> ListOfMissiles
+;; Apply physics updates to the list of missiles
+(check-expect (update-lom-pos empty) empty)
+(check-expect (update-lom-pos (list MISSILE-FREE)) (list MISSILE-FREE-NEXT))
+(check-expect (update-lom-pos (list MISSILE-FREE MISSILE-HIT)) (list MISSILE-FREE-NEXT MISSILE-HIT-NEXT))
+
+;; Stub
+;; (define (update-lom-pos lom) empty)
+
+;; Using template for ListOfMissiles
+(define (update-lom-pos lom)
+  (cond [(empty? lom) empty]
+        [else (cons (update-missile-pos (first lom))
+                    (update-lom-pos (rest lom)))]))
+
+
+;; ==================
+;; update-missile-pos
+;; ==================
+
+;; Missile -> Missile
+;; Apply physics update to a single missile
+(check-expect (update-missile-pos MISSILE-FREE) MISSILE-FREE-NEXT)
+(check-expect (update-missile-pos MISSILE-HIT) MISSILE-HIT-NEXT)
+
+;; Stub:
+;; (define (update-missile missile) MISSILE-FREE-NEXT)
+
+;; Using template for Missile:
+(define (update-missile-pos missile)
+  (make-missile (missile-x missile) (- (missile-y missile) MISSILE-SPEED)))
+
+
+;; =================
+;; gameover-check
+;; =================
+
+;; Game -> Boolean
+;; Check if the game is over
+(check-expect (gameover-check (make-game empty empty T0)) false)
+(check-expect (gameover-check (make-game (list (make-invader 50 (+ HEIGHT INVADER-HEIGHT) 1)) empty T0)) true)
+(check-expect (gameover-check (make-game (list (make-invader 50 (+ HEIGHT INVADER-HEIGHT) 1) INVADER-MID-LEFT) empty T0)) true)
+
+;; Stub:
+;; (define (gameover-check game) false)
+
+;; Using template from Game:
+(define (gameover-check game)
+  (invader-at-bottom? (game-invaders game)))
+
+
+;; ==================
+;; invader-at-bottom?
+;; ==================
+
+;; ListOfInvaders -> Boolean
+;; Check if the game is over
+(check-expect (invader-at-bottom? empty) false)
+(check-expect (invader-at-bottom? (list (make-invader 50 (+ HEIGHT INVADER-HEIGHT) 1))) true)
+(check-expect (invader-at-bottom? (list (make-invader 50 (+ HEIGHT INVADER-HEIGHT) 1) INVADER-MID-LEFT)) true)
+
+;; Stub:
+;; (define (invader-at-bottom? loi) false)
+
+;; Using template for ListOfInvaders:
+(define (invader-at-bottom? loi)
+  (cond [(empty? loi) false]
+        [else (if (>= (+ (invader-y (first loi)) INVADER-HEIGHT) HEIGHT)
+                  true
+                  (invader-at-bottom? (rest loi)))]))
+
+
+;; ==========
+;; handle-key
+;; ==========
+
+;; Game -> Game
+;; Handle key presses:
+;; * If left then move tank to the left
+;; * If right then move tank to the right
+;; * If spacebar then fire
+(check-expect (handle-key (make-game empty empty T0) "x") (make-game empty empty T0))
+(check-expect (handle-key (make-game empty empty (make-tank 100 0)) "left")
+              (make-game empty empty (make-tank 100 -1)))
+(check-expect (handle-key (make-game empty empty (make-tank 100 0)) "right")
+              (make-game empty empty (make-tank 100 1)))
+
+;; Stub:
+;; (define (handle-key game key) game)
+
+(define (handle-key game key)
+  (cond [(key=? key " ") (make-game (game-invaders game)
+                                    (fire-missile game)
+                                    (game-tank game))]
+        [(key=? key "left") (make-game (game-invaders game)
+                                       (game-missiles game)
+                                       (make-tank (tank-x (game-tank game)) -1))]
+        [(key=? key "right") (make-game (game-invaders game)
+                                       (game-missiles game)
+                                       (make-tank (tank-x (game-tank game)) 1))]
+        [else game]))
+
+
+;; ============
+;; fire-missile
+;; ============
+
+;; Game -> ListOfMissiles
+;; Generate a new missile above the tank
+(check-expect (fire-missile (make-game empty empty T0))
+             (list (make-missile (tank-x T0) (- HEIGHT TANK-HEIGHT))))
+(check-expect (fire-missile (make-game empty (list (make-missile (tank-x T0) (/ HEIGHT 2))) T0))
+              (list (make-missile (tank-x T0) (- HEIGHT TANK-HEIGHT)) (make-missile (tank-x T0) (/ HEIGHT 2))))
+
+
+;; Stub:
+;; (define (fire-missile game) empty)
+
+;; Using template for Tank:
+(define (fire-missile game)
+  (cons
+   (make-missile (tank-x (game-tank game)) (- HEIGHT TANK-HEIGHT))
+   (game-missiles game)))
+
+
+;; ==============
+;; handle-release
+;; ==============
+
+;; Game -> Game
+;; If left or right key is released, reset tank direction
+(check-expect (handle-release (make-game empty empty T0) "x") (make-game empty empty T0))
+(check-expect (handle-release (make-game empty empty (make-tank 100 1)) "left")
+              (make-game empty empty (make-tank 100 0)))
+(check-expect (handle-release (make-game empty empty (make-tank 100 -1)) "right")
+              (make-game empty empty (make-tank 100 0)))
+
+;; Stub:
+;; (define (handle-release game key) game)
+
+(define (handle-release game key)
+  (cond [(or (key=? key "left") (key=? key "right"))
+         (make-game (game-invaders game)
+                    (game-missiles game)
+                    (make-tank (tank-x (game-tank game)) 0))]
+        [else game]))
+```
 
 ## Resources
 
