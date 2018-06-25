@@ -101,6 +101,159 @@ There is no MR in the case below even though nya is in its definition `nya`:
 ;; * (make-nya Nyu)
 ```
 
-### 8a: Two One-of Types 
+### 8a: Two One-of Types
+
+#### Cross Product Table
+
+* When two of a one-of type is used, the cross product of the subtypes in their type comments is helpful in determining the minimum amount of examples that need to be written
+
+
+#### Cross Product Code
+
+* Cross product table can also help with template-writing; however, instead of writing a `cond` case for each of the product, examine the possible examples for similarities (hopefully written correctly and exhaustively) and simplify the cases first
+
+**Comment**
+
+It seems like the examples are starting to get complex enough such that it's starting to deviate from the simple templating approach (without reasoning about what should and shouldn't got into the template anymore). Hmm...
+
+#### Recommended Problems
+
+**2 One-Of P2 - Merge**
+
+```BSL
+;; ListOfNumbers is one of:
+;; * empty
+;; * (cons Number ListOfNumbers)
+;; interp. a list of numbers that are sorted in ascending order
+
+(define LON0 empty);
+(define LON1 (list 1));
+(define LON2 (list 2));
+(define LON37 (list 3 7));
+(define LON49 (list 4 9));
+
+;; Template rules:
+;; * One of: 2 cases
+;; * Atomic-distinct: empty
+;; * Compound (cons Number ListOfNumbers)
+;; * Self-reference: (rest lon) is ListOfNumbers
+(define (fn-for-lon lon)
+  (cond [(empty? lon) (...)]
+        [else (... (first lon)
+                   (fn-for-lon (rest lon)))]))
+
+;; =================
+;; Function
+;; =================
+
+;; The function merge takes two ListOfNumbers and produces one ListOfNumbers, where
+;; ListOfNumbers is sorted in ascending order.
+
+;; Signature:
+;; ListOfNumbers ListOfNumbers -> ListOfNumbers
+
+;; Cross Product Table:
+;; |       | empty |       lona       |
+;; |-------|-------|------------------|
+;; | empty | empty |       lonb       |
+;; | lonb  | lona  | merge lona lonb  |
+;;
+;; The case of empty empty doesn't actually need to be handled
+;; because empty [(empty? lona) lonb] actually already takes
+;; care of it and vice versa.
+
+;; Examples:
+(check-expect (merge empty empty) empty)
+(check-expect (merge LON1 empty) LON1)
+(check-expect (merge LON37 empty) LON37)
+(check-expect (merge empty LON1) LON1)
+(check-expect (merge empty LON37) LON37)
+(check-expect (merge LON1 LON2) (append LON1 LON2))
+(check-expect (merge LON2 LON1) (append LON1 LON2))
+(check-expect (merge LON1 LON49) (cons 1 (cons 4 (cons 9 empty))))
+(check-expect (merge LON49 LON1) (cons 1 (cons 4 (cons 9 empty))))
+(check-expect (merge LON37 LON49) (cons 3 (cons 4 (cons 7 (cons 9 empty)))))
+(check-expect (merge LON49 LON37) (cons 3 (cons 4 (cons 7 (cons 9 empty)))))
+
+;; Stub:
+;; (define (merge lona lonb) empty)
+
+;; Template
+#;
+(define (merge lona lonb)
+  (cond [(empty? lona) lonb]
+        [(empty? lonb) lona]
+        [else (... (first lona)
+                   (first lonb)
+                   (merge (rest lona) (rest lonb)))]))
+
+(define (merge lona lonb)
+  (cond [(empty? lona) lonb]
+        [(empty? lonb) lona]
+        [else (if (< (first lona) (first lonb))
+                  (append (list (first lona) (first lonb)) (merge (rest lona) (rest lonb)))
+                  (append (list (first lonb) (first lona)) (merge (rest lona) (rest lonb))))]))
+```
+
+**2 One-Of P4 - Pattern Match**
+
+```BSL
+;; Function pattern-match? checks whether or a given Pattern and ListOf1String
+;; are complements according tothe rules described above
+
+;; Signature:
+;; Pattern ListOf1String -> Boolean
+
+;; Cross Product Table:
+;; |                              | empty |  (cons "A" Pattern)  |  (cons "N" Pattern)  |
+;; |------------------------------|-------|----------------------|----------------------|
+;; |             empty            | true  |         false        |         false        |
+;; | (cons 1String ListOf1String) | false | pattern-match? p los | pattern-match? p los |
+
+(check-expect (pattern-match? empty empty) true)
+(check-expect (pattern-match? (list "N") empty) false)
+(check-expect (pattern-match? (list "N") empty) false)
+(check-expect (pattern-match? empty (list "1")) false)
+(check-expect (pattern-match? empty (list "1" "2")) false)
+(check-expect (pattern-match? (list "A") empty) false)
+(check-expect (pattern-match? empty (list "X")) false)
+(check-expect (pattern-match? (list "N") (list "1")) true)
+(check-expect (pattern-match? (list "A") (list "1")) false)
+(check-expect (pattern-match? (list "A") (list "X")) true)
+(check-expect (pattern-match? (list "N") (list "X")) false)
+(check-expect (pattern-match? (list "N" "A") (list "1" "X")) true)
+(check-expect (pattern-match? (list "A" "N") (list "X" "1")) true)
+(check-expect (pattern-match? (list "N" "A") (list "X" "1")) false)
+(check-expect (pattern-match? (list "A" "N") (list "1" "X")) false)
+(check-expect (pattern-match? (list "A" "N" "A" "N" "A" "N")
+                              (list "V" "6" "T" "1" "Z" "4")) true)
+
+;; Stub:
+;; (define (pattern-match? p los) true)
+
+;; Template:
+#;
+(define (pattern-match? p los)
+  (cond [(and (empty? p) (empty? los)) true]
+        [(empty? p) false]
+        [(empty? los) false]
+        [(... (first p)
+              (first los)
+              (pattern-match? (rest p) (rest los)))]))
+
+(define (pattern-match? p los)
+  (cond [(and (empty? p) (empty? los)) true]
+        [(empty? p) false]
+        [(empty? los) false]
+        [(string=? (first p) "A")
+         (if (alphabetic? (first los))
+             (pattern-match? (rest p) (rest los))
+             false)]
+        [(string=? (first p) "N")
+         (if (numeric? (first los))
+             (pattern-match? (rest p) (rest los))
+             false)]))
+```
+
 
 ## Resources
