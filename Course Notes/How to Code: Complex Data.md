@@ -255,5 +255,249 @@ It seems like the examples are starting to get complex enough such that it's sta
              false)]))
 ```
 
+### Module 8b: Local
+
+#### Avoid Recomputation
+
+**Local P3 - Evaluate Foo**
+
+```ISL
+;; Start
+#;
+(define (foo n)
+  (local [(define x (* 3 n))]
+    (if (even? x)
+        n
+        (+ n (foo (sub1 n))))))
+
+#;
+(foo 3)
+
+
+;; Step 1
+#;
+(local [(define x (* 3 3))]
+  (if (even? x)
+      3
+      (+ 3 (foo (sub1 3)))))
+
+
+;; Step 2
+#;
+(local [(define x 9)]
+  (if (even? x)
+      3
+      (+ 3 (foo (sub1 3)))))
+
+
+;; Step 3
+#;
+(define x_0 9)
+
+#;
+(if (even? x_0)
+    3
+    (+ 3 (foo (sub1 3))))
+
+
+;; Step 4
+#;
+(define x_0 9)
+
+#;
+(if false
+    3
+    (+ 3 (foo (sub1 3))))
+
+
+;; Step 5
+#;
+(define x_0 9)
+
+#;
+(+ 3 (foo (sub1 3)))
+
+
+;; Step 6
+#;
+(define x_0 9)
+
+#;
+(+ 3 (foo (sub1 3)))
+
+
+;; Step 7
+#;
+(define x_0 9)
+
+#;
+(+ 3 (foo 2))
+
+
+;; Step 8
+#;
+(define x_0 9)
+
+#;
+(+ 3 (local [(define x (* 3 2))]
+       (if (even? x)
+           2
+           (+ 2 (foo (sub1 2))))))
+
+
+;; Step 9
+#;
+(define x_0 9)
+
+#;
+(+ 3 (local [(define x (* 3 2))]
+       (if (even? x)
+           2
+           (+ 2 (foo (sub1 2))))))
+
+
+;; Step 10
+#;
+(define x_0 9)
+
+#;
+(+ 3 (local [(define x 6)]
+       (if (even? x)
+           2
+           (+ 2 (foo (sub1 2))))))
+
+
+;; Step 11
+#;
+(define x_0 9)
+(define x_1 6)
+
+#;
+(+ 3 (if (even? x_1)
+         2
+         (+ 2 (foo (sub1 2)))))
+
+
+;; Step 12
+#;
+(define x_0 9)
+(define x_1 6)
+
+#;
+(+ 3 (if true
+         2
+         (+ 2 (foo (sub1 2)))))
+
+
+;; Step 13
+#;
+(define x_0 9)
+(define x_1 6)
+
+#;
+(+ 3 2)
+
+
+;; Step 14
+#;
+(define x_0 9)
+(define x_1 6)
+
+#;
+(+ 5)
+```
+
+**Local P5 - Improved Championship Bracket**
+
+```ISL
+(define (ouster t br)
+  (cond [(false? br) false]
+        [else
+         (if (string=? t (bracket-team-lost br))
+             (bracket-team-won br)
+             (local [(define bbw (ouster t (bracket-br-won br)))] (if (not (false? bbw))
+                 bbw
+                 (ouster t (bracket-br-lost br)))))]))
+
+;; Reason for replacement—the expression (ouster t (bracket-br-won br))
+;; in the original function and one of them was involved in recursion and
+;; was used twice; replacing it removes the need for it to be recomputed
+;; in subsequent recursive calls.
+```
+
+#### Design Quiz
+
+**Problem 1**
+
+```ISL
+;; ========
+;; Function
+;; ========
+
+;; Determine whether or not all the players in two different tennis teams,
+;; as given by two rosters of players, one for each team. If so, return true;
+;; otherwise, return false.
+
+;; Signature:
+;; Roster Roster -> Boolean
+
+;; Cross Product Table:
+;; |                      | empty |  (cons Player Roster)  |
+;; |----------------------|-------|------------------------|
+;; |         empty        | true  |         false          |
+;; | (cons Player Roster) | false |    all-play? r1 r2     |
+
+(check-expect (all-play? empty empty) true)
+(check-expect (all-play? (list "Nadeshiko") empty) false)
+(check-expect (all-play? empty (list "Shirayuri")) false)
+(check-expect (all-play? (list "Nadeshiko") (list "Shirayuri")) true)
+(check-expect (all-play? (list "Nadeshiko" "Renge") (list "Shirayuri")) false)
+(check-expect (all-play? (list "Nadeshiko" "Renge") (list "Shirayuri" "Ayame")) true)
+(check-expect (all-play? (list "Nadeshiko" "Renge" "Tsubaki") (list "Shirayuri" "Ayame")) false)
+
+;; Stub:
+;; (define (all-play? r1 r2) false)
+
+;; Using template from Roster:
+(define (all-play? r1 r2)
+  (cond [(and (empty? r1) (empty? r2)) true]
+        [(or (empty? r1) (empty? r2)) false]
+        [else (all-play? (rest r1) (rest r2))]))
+```
+
+```ISL
+;; ========
+;; Function
+;; ========
+
+;; Given two Rosters, produce a list of all parings (ListOfMatch) for each
+;; pair of players.
+
+
+;; Signature:
+;; Roster Roster -> ListOfMatch
+
+;; Cross Product Table:
+;; |                      |      empty       |  (cons Player Roster)  |
+;; |----------------------|------------------|------------------------|
+;; |         empty        |      empty       |    --not possible--    |
+;; | (cons Player Roster) | --not possible-- |    match-all r1 r2     |
+
+(check-expect (match-all empty empty) empty)
+(check-expect (match-all (list "Nadeshiko") (list "Shirayuri"))
+              (list (make-match "Nadeshiko" "Shirayuri")))
+(check-expect (match-all (list "Nadeshiko" "Renge") (list "Shirayuri" "Ayame"))
+              (list (make-match "Nadeshiko" "Shirayuri")
+                    (make-match "Renge" "Ayame")))
+
+;; Stub:
+;; (define (match-all r1 r2) empty)
+
+;; Using template for ListOfMatch:
+(define (match-all r1 r2)
+  (cond [(and (empty? r1) (empty? r2)) empty]
+        [else (cons (make-match (first r1) (first r2))
+                    (match-all (rest r1) (rest r2)))]))
+```
 
 ## Resources
