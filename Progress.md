@@ -18,7 +18,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles (Seems perfect for the weekend!)
+Current Material: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
@@ -43,8 +43,11 @@ Total Time Spent Since 2018.06.04 (approx.): 123.5 hours
 | 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
 | 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
 |  |  |  |  |
+|  |  |  |  |
 
-Total Time Spent Since 2018.06.04 (approx.): 28 hours
+Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles
+
+Total Time Spent Since 2018.06.04 (approx.): 37 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |   
@@ -67,14 +70,14 @@ Total Time Spent Since 2018.06.04 (approx.): 28 hours
 * [x] Course: [Learn to Code HTML & CSS](http://learn.shayhowe.com/html-css/)
 * [x] Course: [Learn to Code Advanced HTML & CSS](http://learn.shayhowe.com/advanced-html-css/)
 * [x] Book: [DOM Enlightenment](http://domenlightenment.com/)
+* [x] Course: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
+* [ ] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 ## Web Dev with Computer Science
 
 * [ ] Course: [Introduction to Computer Science - CS50](https://www.edx.org/course/introduction-computer-science-harvardx-cs50x#!)
 * [ ] Course: [Getting Sassy with CSS](http://www.sassshop.com/#/)
-* [ ] Course: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
-* [ ] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
 * [ ] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [ ] Course: [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x)
 * [ ] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
