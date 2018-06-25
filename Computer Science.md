@@ -5,7 +5,38 @@
 * [Computer Science](#computer-science)
   * [Terminology](#terminology)
 
-## Science Terminology
+## Computer Science Terminology
+
+### Arity
+
+In computer science, arity refers to the number of arguments a function, or the number of operands an operator, takes. A nullary function is one that takes no arguments, an unary one, a binary two, and a ternary three. Some examples in JavaScript:
+
+```JavaScript
+// Nullary
+
+function hai() {
+  console.log('Shark!');
+}
+
+// Unary
+
+function hai(name) {
+  console.log(`Shark, ${name}!`);
+}
+
+typeof 'nyanpasu';
+delete User.password;
+
+// Binary
+
+'4' + '2'
+
+// Ternary
+
+authenticated ? '/dashboard' : '/signin';
+```
+
+References: [Wikipedia, Arity](https://en.wikipedia.org/wiki/Arity)
 
 ### Data Structure
 
