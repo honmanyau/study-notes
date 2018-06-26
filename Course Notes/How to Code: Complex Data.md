@@ -500,4 +500,337 @@ It seems like the examples are starting to get complex enough such that it's sta
                     (match-all (rest r1) (rest r2)))]))
 ```
 
+**Remarks after finishing module 8**
+
+The comment made at the beginning of the module about how things seem to start deviation from template is certainly true but because of how tightly everything is coupled and the use of cross product table, nothing much has actually changed and everything just falls in place again.
+
+### Module 9: Abstraction
+
+#### From Examples 1
+
+* Prof mentioned that almost no other language have higher-order function syntax as simple as Racket; but JavaScript does!
+
+#### Recommended Problems
+
+**Abstraction P1 - Wide Only**
+
+```ISL
+;; =========
+;; Functions
+;; =========
+
+;; Signature:
+;; Image -> Boolean
+
+;; Given an image, check whether or not its width is greater than its height.
+;; If so, return true, else return false.
+(check-expect (wider? empty-image) false);
+(check-expect (wider? (rectangle 20 10 "solid" "white")) true);
+(check-expect (wider? (rectangle 10 20 "solid" "white")) false);
+
+;; Stub:
+;; (define (wider? img) false)
+
+;; Template rules:
+;; * Atomic-non-distinct: Image
+#;
+(define (wider? img) (... img))
+
+(define (wider? img)
+  (if (> (image-width img) (image-height img))
+      true
+      false))
+
+;; Signature
+;; (listof Image) -> (listof Image)
+
+;; With a list of images as input, return those that are only wider than
+;; they are tall.
+(check-expect (wide-only empty) empty)
+(check-expect (wide-only (list (rectangle 10 20 "solid" "white"))) empty)
+(check-expect (wide-only (list (rectangle 20 10 "solid" "white"))) (list (rectangle 20 10 "solid" "white")))
+(check-expect (wide-only (list (rectangle 20 10 "solid" "white") (rectangle 10 20 "solid" "white")))
+              (list (rectangle 20 10 "solid" "white")))
+(check-expect (wide-only (list (rectangle 20 10 "solid" "white") (rectangle 30 10 "solid" "white")))
+              (list (rectangle 20 10 "solid" "white") (rectangle 30 10 "solid" "white")))
+(check-expect (wide-only (list (rectangle 10 20 "solid" "white") (rectangle 10 30 "solid" "white")))
+              empty)
+
+;; Stub:
+;; (define (wide-only loi) empty-image)
+
+;; Using filter
+(define (wide-only loi) (filter wider? loi))
+```
+
+**Abstraction P8 - Fold Directory**
+
+> Design an abstract fold function for Dir called fold-dir.
+
+Problem 1:
+
+```ISL
+;; Template for Dir:
+#;
+(define (fn-for-dir dir)
+  (... (dir-name dir)
+       (fn-for-lod (dir-sub-dirs dir))
+       (fn-for-loi (dir-images dir))))
+
+;; Template for ListOfDir:
+#;
+(define (fn-for-lod lod)
+  (cond [(empty? lod) (...)]
+        [else (... (fn-for-dir (first lod))
+                   (fn-for-lod (rest lod)))]))
+
+;; Template for ListOfImage:
+#;
+(define (fn-for-loi loi)
+  (cond [(empty? loi) (...)]
+        [else (... (first loi)
+                   (fn-for-loi (rest loi)))]))
+
+;; Not entirely clear what the signature should be yet, but since
+;; it's based on Dir, it must be able to produce a Dir
+(check-expect (fold-dir make-dir cons cons empty empty EMPTY-DIR) EMPTY-DIR)
+;; It should also be able to iterate through all images found and
+;; return the sum of their height
+(check-expect (local [(define (p1 dirname lod loi) (+ lod loi))
+                      (define (p2 dir lod) (+ dir lod))
+                      (define (p3 img cb) (+ (image-height img) cb))]
+                (fold-dir p1 p2 p3 0 0 DIR3))
+              (+ (* (image-height IMG1) 2) (image-height IMG2) (image-height IMG3)))
+
+;; Use template for Dir and expand with ListOfDir and ListOfImages,
+;; Replace lod with (dir-sub-dirs dir)
+
+(define (fold-dir p1 p2 p3 x y dir)
+  (local [;; Template for Dir
+          (define (fn-for-dir dir)
+            (p1 (dir-name dir)
+                (fn-for-lod (dir-sub-dirs dir))
+                (fn-for-loi (dir-images dir))))
+          ;; Template for ListOfDir
+          (define (fn-for-lod lod)
+            (cond [(empty? lod) x]
+                  [else (p2 (fn-for-dir (first lod))
+                            (fn-for-lod (rest lod)))]))
+          ;; Template for ListOfImage
+          (define (fn-for-loi loi)
+            (cond [(empty? loi) y]
+                  [else (p3 (first loi)
+                            (fn-for-loi (rest loi)))]))]
+    (fn-for-dir dir)))
+
+;; After the fact signature:
+;; According to the parameters, where p1 p2 and p3 are functions
+;; and x and y are return values inside the function, we have:
+
+;; 1. () () () X Y Dir -> ???
+
+
+;; p3 has the signature Image Y -> Y because fn-for-loi has to return y
+
+;; 2. () () (Image Y -> Y) X Y Dir -> ???
+
+
+;; p2 has the signature of ??? X -> X for similar reasons, but it's not
+;; clear what ??? should be yet since fn-for-dir is operating on dir
+;; and the first argument to p2 is (fn-for-dir dir)
+
+;; 3. () (??? X -> X) (Image Y -> Y) X Y Dir -> ???
+
+
+;; p1 obviously returns ??? (   -> ???). With reference to the type
+;; coment for Dir, its signature is therefore String Y X -> ???.
+;; As such, as have:
+
+;; 4. (String Y X -> ???) (??? X -> X) (Image Y -> Y) X Y Dir -> ???
+
+
+;; At this point it doesn't matter what ??? is, it's just some unknown
+;; thing, so let's call it Z!
+
+;; 5. (String Y X -> Z) (Z X -> X) (Image Y -> Y) X Y Dir -> Z
+```
+
+Problem 2:
+
+> Design a function that consumes a Dir and produces the number of images in the directory and its sub-directories. Use the fold-dir abstract function.
+
+```ISL
+;; Signature:
+;; DIR -> Natural
+
+;; Examples:
+(check-expect (count-images EMPTY-DIR) 0)
+(check-expect (count-images DIR1) 1)
+(check-expect (count-images DIR2) 2)
+(check-expect (count-images DIR3) 3)
+(check-expect (count-images DIR4) 4)
+
+;; Stub:
+;; (define (count-images dir) 0)
+
+;; Refer to problem 1:
+(define (count-images dir)
+  (local [(define (p1 dirname cblod cbloi) (+ cblod cbloi))
+          (define (p2 cbdir cblod) (+ cbdir cblod))
+          (define (p3 img cbloi) (+ 1 cbloi))]
+    (fold-dir p1 p2 p3 0 0 dir)))
+
+```
+
+Problem 3:
+
+> Design a function that consumes a Dir and a String. The function looks in dir and all its sub-directories for a directory with the given name. If it finds such a directory it should produce true, if not it should produce false. Use the fold-dir abstract function.
+
+```ISL
+;; Signature:
+;; Dir String -> Boolean
+
+;; Examples:
+(check-expect (dir-exist? EMPTY-DIR "") false)
+(check-expect (dir-exist? DIR1 "DIR1") true)
+(check-expect (dir-exist? DIR3 "DIR3") true)
+(check-expect (dir-exist? DIR3 "DIR2") true)
+(check-expect (dir-exist? DIR3 "DIR1") false)
+(check-expect (dir-exist? DIR4 "DIR4") true)
+(check-expect (dir-exist? DIR4 "DIR3") true)
+(check-expect (dir-exist? DIR4 "DIR2") true)
+(check-expect (dir-exist? DIR4 "DIR1") false)
+(check-expect (dir-exist? DIR6 "DIR6") true)
+(check-expect (dir-exist? DIR6 "DIR5") true)
+(check-expect (dir-exist? DIR6 "DIR4") true)
+(check-expect (dir-exist? DIR6 "DIR3") true)
+(check-expect (dir-exist? DIR6 "DIR2") true)
+(check-expect (dir-exist? DIR6 "DIR1") false)
+
+;; Stub:
+;; (define (dir-exist? dir name) false)
+
+;; Refer to problem 1:
+(define (dir-exist? dir name)
+  (local [(define (p1 dirname cblod cbloi)
+            (or (string=? dirname name)
+                cblod))
+          (define (p2 cbdir cblod) (or cbdir cblod))
+          (define (p3 img cbloi) cbloi)]
+    (fold-dir p1 p2 p3 false empty dir)))
+
+#;
+(define (fold-dir p1 p2 p3 x y dir)
+  (local [;; Template for Dir
+          (define (fn-for-dir dir)
+            (p1 (dir-name dir)
+                (fn-for-lod (dir-sub-dirs dir))
+                (fn-for-loi (dir-images dir))))
+          ;; Template for ListOfDir
+          (define (fn-for-lod lod)
+            (cond [(empty? lod) x]
+                  [else (p2 (fn-for-dir (first lod))
+                            (fn-for-lod (rest lod)))]))
+          ;; Template for ListOfImage
+          (define (fn-for-loi loi)
+            (cond [(empty? loi) y]
+                  [else (p3 (first loi)
+                            (fn-for-loi (rest loi)))]))]
+    (fn-for-dir dir)))
+```
+
+Problem 4:
+
+```ISL
+;; Probably not. At least with reference to the answer given for problem 3,
+;; the use of or implies that even if the folder name is already found, the
+;; algorithm will still recursively walk through the "rest" of the folder
+;; structure.
+```
+
+### Quiz
+
+**Problem 1**
+
+```ISL
+;; ========
+;; Solution
+;; ========
+
+(define (arrange-all fn img loi)
+  (cond [(empty? loi) img]
+        [else
+         (fn (first loi)
+             (arrange-all fn img (rest loi)))]))
+```
+
+**Problem 2**
+
+```ISL
+;; ==========
+;; Function 1
+;; ==========
+
+(define (lengths lst) (map string-length lst))
+
+
+;; ==========
+;; Function 2
+;; ==========
+
+(define (odd-only lon) (filter odd? lon))
+
+
+;; ==========
+;; Function 3
+;; ==========
+
+(define (all-odd? lon) (andmap odd? lon))
+
+
+;; ==========
+;; Function 4
+;; ==========
+
+(define (minus-n lon n) (foldr + n lon))
+```
+
+**Problem 3**
+
+```ISL
+(define (fold-region p1 p2 a b c d e f r)
+  (local [(define (fold-region r)
+            (p1 (region-name r)
+                (fn-for-type (region-type r))
+                (fn-for-lor (region-subregions r))))
+
+          (define (fn-for-type t)
+            (cond [(string=? t "Continent") a]
+                  [(string=? t "Country") b]
+                  [(string=? t "Province") c]
+                  [(string=? t "State") d]
+                  [(string=? t "City") e]))
+
+          (define (fn-for-lor lor)
+            (cond [(empty? lor) f]
+                  [else
+                   (p2 (fold-region (first lor))
+                       (fn-for-lor (rest lor)))]))]
+    (fold-region r)))
+
+(define (all-regions region)
+  (local [(define (p1 name typecb lorcb) (cons name lorcb))]
+    (fold-region p1 append "" "" "" "" "" empty region)))
+```
+
+
+
+
+
+
+
+
+
+
+
 ## Resources
