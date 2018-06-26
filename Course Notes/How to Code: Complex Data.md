@@ -823,12 +823,446 @@ Problem 4:
     (fold-region p1 append "" "" "" "" "" empty region)))
 ```
 
+### Module 10a: Generative Recursion
+
+#### Fractals, pt. 1
+
+Sierpinski carpet problem attempt:
+
+```ISL
+;; =========
+;; Constants
+;; =========
+
+(define CUTOFF 3)
+(define BASESQUARE (square CUTOFF "outline" "red"))
+
+;; =========
+;; Function
+;; =========
+
+;; Number -> Image
+;; Produce a Sierpinski carpet of size s
+(check-expect (sarpet CUTOFF) BASESQUARE)
+(check-expect (sarpet (* CUTOFF 3))
+              (overlay (square (* CUTOFF 3) "outline" "red")
+                       (above (beside BASESQUARE
+                                      BASESQUARE
+                                      BASESQUARE)
+                              (beside BASESQUARE
+                                      (square CUTOFF "solid" "white")
+                                      BASESQUARE)
+                              (beside BASESQUARE
+                                      BASESQUARE
+                                      BASESQUARE))))
+
+;; Stub:
+;; (define (sarpet size) BASESQUARE)
+
+;; Using template for generative recursion:
+(define (sarpet size)
+  (if (> size CUTOFF)
+      (local [(define inner-size (/ size 3))
+              (define inner-sq (sarpet inner-size))]
+        (overlay (square size "outline" "red")
+                 (above (beside inner-sq
+                                inner-sq
+                                inner-sq)
+                        (beside inner-sq
+                                (square inner-size "solid" "white")
+                                inner-sq)
+                        (beside inner-sq
+                                inner-sq
+                                inner-sq))))
+      (square size "outline" "red")))
+```
+
+#### Termination Arguments, pt 1
+
+**Three-part termination argument**
+
+* Identify base case
+* Identify reduction step
+* Reason about how repeated application of the reductio step will eventually lead to the base case
+
+#### Recommended Problems
+
+**Generative Recursion P1 - Circle Fractal**
+
+```ISL
+;; =================
+;; Constants:
+
+(define STEP (/ 2 5))
+(define TRIVIAL-SIZE 5)
+(define BASECIRCLE (circle TRIVIAL-SIZE "solid" "blue"))
+
+;; Number -> Image
+;; Produce a fractal image where each circle is surrounded by circles that are
+;; two-fifths smaller of the given size
+(check-expect (fractal-branch TRIVIAL-SIZE "blue") BASECIRCLE)
+(check-expect (fractal-branch (/ TRIVIAL-SIZE STEP) "blue")
+              (local [(define upstepped (/ TRIVIAL-SIZE STEP))]
+                (above (circle TRIVIAL-SIZE "solid" "black")
+                       (beside (rotate 90 (circle TRIVIAL-SIZE "solid" "red"))
+                               (circle upstepped "solid" "blue")
+                               (rotate -90 (circle TRIVIAL-SIZE "solid" "green"))))))
+
+;; Stub:
+;; (define (circle-fractal size) BASECIRCLE)
+
+;; Using template for generative recursion:
+
+(define (fractal-branch size c)
+  (if (<= size TRIVIAL-SIZE)
+      (circle size "solid" c)
+      (local [(define ssize (* size STEP))
+              (define (scircle c) (fractal-branch ssize c))]
+        (above (scircle "black")
+               (beside (rotate 90 (scircle "red")) (circle size "solid" "blue") (rotate -90 (scircle "green")))))))
+
+
+;; Number -> Image
+;; Produce a fractal image where each circle is surrounded by circles that are
+;; two-fifths smaller of the given size
+(check-expect (fractal TRIVIAL-SIZE) BASECIRCLE)
+(check-expect (fractal (/ TRIVIAL-SIZE STEP))
+              (local [(define upstepped (/ TRIVIAL-SIZE STEP))]
+                (beside (rotate 90 BASECIRCLE)
+                        (rotate 90 (beside (rotate 90 BASECIRCLE)
+                                           (circle upstepped "solid" "blue")
+                                           (rotate -90 BASECIRCLE)))
+                        (rotate -90 BASECIRCLE))))
+
+
+;; Stub:
+;; (define (fractal size) BASECIRCLE)
+
+;; Putting everything together into one image
+(define (fractal size)
+  (if (<= size TRIVIAL-SIZE)
+      (circle size "solid" "blue")
+      (local [(define ssize (* size STEP))]
+        (beside (rotate 90 (fractal-branch ssize "blue"))
+                (rotate 90 (beside (rotate 90 (fractal-branch ssize "blue"))
+                                   (circle size "solid" "blue")
+                                   (rotate -90 (fractal-branch ssize "blue"))))
+                (rotate -90 (fractal-branch ssize "blue"))))))
+```
+
+### Module 10b: Search
+
+#### Quiz
+
+```ISL
+(require 2htdp/image)
+(require racket/list)
+
+;  PROBLEM 1:
+;  
+;  In the lecture videos we designed a function to make a Sierpinski triangle fractal.
+;  
+;  Here is another geometric fractal that is made of circles rather than triangles:
+;  
+;  .
+;  
+;  Design a function to create this circle fractal of size n and colour c.
+;  
+
+
+(define CUT-OFF 5)
+
+;; Natural String -> Image
+;; produce a circle fractal of size n and colour c
+(check-expect (circle-fractal CUT-OFF "black")
+              (circle CUT-OFF "outline" "black"))
+(check-expect (circle-fractal CUT-OFF "red")
+              (circle CUT-OFF "outline" "red"))
+(check-expect (circle-fractal (* CUT-OFF 2) "black")
+              (overlay (beside (circle CUT-OFF "outline" "black")
+                               (circle CUT-OFF "outline" "black"))
+                       (circle (* CUT-OFF 2) "outline" "black")))
+
+;; Stub:
+;; (define (circle-fractal n c) empty-image)
+
+;; Using template for generative recursion:
+(define (circle-fractal n c)
+  (cond [(<= n CUT-OFF) (circle n "outline" c)]
+        [else (local [(define inner-circle (circle-fractal (/ n 2) c))]
+                (overlay (beside inner-circle inner-circle)
+                         (circle n "outline" c)))]))
 
 
 
+;  PROBLEM 2:
+;  
+;  Below you will find some data definitions for a tic-tac-toe solver.
+;  
+;  In this problem we want you to design a function that produces all
+;  possible filled boards that are reachable from the current board.
+;  
+;  In actual tic-tac-toe, O and X alternate playing. For this problem
+;  you can disregard that. You can also assume that the players keep
+;  placing Xs and Os after someone has won. This means that boards that
+;  are completely filled with X, for example, are valid.
+;  
+;  Note: As we are looking for all possible boards, rather than a winning
+;  board, your function will look slightly different than the solve function
+;  you saw for Sudoku in the videos, or the one for tic-tac-toe in the
+;  lecture questions.
+;  
+
+
+;; Value is one of:
+;; - false
+;; - "X"
+;; - "O"
+;; interp. a square is either empty (represented by false) or has and "X" or an "O"
+
+(define (fn-for-value v)
+  (cond [(false? v) (...)]
+        [(string=? v "X") (...)]
+        [(string=? v "O") (...)]))
+
+;; Board is (listof Value)
+;; a board is a list of 9 Values
+(define B0 (list false false false
+                 false false false
+                 false false false))
+
+(define B1 (list false "X"   "O"   ; a partly finished board
+                 "O"   "X"   "O"
+                 false false "X"))
+
+(define B2 (list "X"  "X"  "O"     ; a board where X will win
+                 "O"  "X"  "O"
+                 "X" false "X"))
+
+(define B3 (list "X" "O" "X"       ; a board where Y will win
+                 "O" "O" false
+                 "X" "X" false))
+
+(define (fn-for-board b)
+  (cond [(empty? b) (...)]
+        [else
+         (... (fn-for-value (first b))
+              (fn-for-board (rest b)))]))
+
+
+;; ======================
+;; Constants for testing
+;; ======================
+
+(define TB0 (list "X" "O" "X"
+                  "O" "O" "O"
+                  "X" "X" "O"))
+
+(define TB1 (list false "O" "X"
+                  "O"   "O" "O"
+                  "X"   "X" "O"))
+
+(define TB1a (list "X" "O" "X"
+                   "O" "O" "O"
+                   "X" "X" "O"))
+
+(define TB1b (list "O" "O" "X"
+                   "O" "O" "O"
+                   "X" "X" "O"))
+
+(define TB2 (list false false "X"
+                  "O"   "O"   "O"
+                  "X"   "X"   "O"))
+
+(define TB2a (list "X" "X" "X"
+                   "O" "O" "O"
+                   "X" "X" "O"))
+
+(define TB2b (list "X" "O" "X"
+                   "O" "O" "O"
+                   "X" "X" "O"))
+
+(define TB2c (list "O" "X" "X"
+                   "O" "O" "O"
+                   "X" "X" "O"))
+
+(define TB2d (list "O" "O" "X"
+                   "O" "O" "O"
+                   "X" "X" "O"))
+
+(define TB3 (list "X" "X" "X"
+                  "O" "O" "O"
+                  "X" "X" "O"))
+
+(define TB4 (list "X" "O" "X"
+                  "O" "X" "O"
+                  "X" "X" "O"))
+
+;; =========
+;; Functions
+;; =========
+
+;; Board -> (listof Board)
+;; For a given board, produce a list of all possible FILLED
+;; boards, including ones that are normally not considered
+;; valid (all grids filled with the same sign, for example).
+(check-expect (gen-boards TB0) (list TB0))
+(check-expect (gen-boards TB1) (list TB1a TB1b))
+(check-expect (gen-boards TB2) (list TB2a TB2b TB2c TB2d))
+
+;; Stub:
+;; (define (gen-boards board) empty)
+
+;; Using combined template for arbitrary-arity tree and generative recursion
+(define (gen-boards board)
+  (local [(define (solve--bd board)
+            (if (board-full? board) ;; When the board is full, no more board should be generated, hence empty
+                (list board)
+                (solve--lobd (next-boards board))))
+          (define (solve--lobd lobd)
+            (cond [(empty? lobd) empty]
+                  [else
+                   (append (solve--bd (first lobd))
+                           (solve--lobd (rest lobd)))]))]
+    (solve--bd board)))
+
+
+;; Board -> Boolean
+;; Determine if the given board is full
+(check-expect (board-full? TB0) true)
+(check-expect (board-full? TB1) false)
+(check-expect (board-full? TB1a) true)
+(check-expect (board-full? TB2) false)
+(check-expect (board-full? TB2a) true)
+
+;; (define (board-full? board) false)
+
+;; Using andmap primitive:
+(define (board-full? board) (andmap string? board))
+
+
+;; Board -> (listof Boards)
+;; Generate the next possible boards for the given board
+(check-expect (next-boards TB1) (list TB1a TB1b))
+(check-expect (next-boards TB2) (list (cons "X" (rest TB2))
+                                      (cons "O" (rest TB2))))
+
+;; Stub:
+;; (define (next-boards board) empty)
+
+;; Function composition:
+(define (next-boards board)
+  (fill-board (find-empty-pos board) board))
+#;
+(define (next-boards board)
+  (cond [(empty? board) (error "Something went horribly wrong!")]
+        [else
+         (if (false? (first board))
+             (list (cons "X" (rest board)) (cons "O" (rest board)))
+             (cons (first board) (next-boards (rest board))))]))
+
+
+;; Board -> Index
+;; Return the index of the board position to be filled
+(check-expect (find-empty-pos TB1) 0)
+(check-expect (find-empty-pos (cons "X" (rest TB2))) 1)
+
+;; Stub:
+;; (define (find-empty-pos board) 0)
+
+;; Using template for board
+(define (find-empty-pos board)
+  (cond [(empty? board) (error "Something went horribly wrong!")]
+        [else
+         (if (false? (first board))
+             0
+             (+ 1 (find-empty-pos (rest board))))]))
+
+
+;; Index Board -> (listof Board)
+;; Return a list containing a couple of filled boards:
+(check-expect (fill-board 0 TB1) (list TB1a TB1b))
+(check-expect (fill-board 0 TB2) (list (cons "X" (rest TB2)) (cons "O" (rest TB2))))
+(check-expect (fill-board 1 (cons "O" (rest TB2))) (list TB2c TB2d))
+
+;; Stub:
+;; (define (fill-board i board) empty)
+(define (fill-board i board)
+  (list (fill-square i "X" board)
+        (fill-square i "O" board)))
 
 
 
+;; Index Value Board -> Board
+;; Return a board filled with the value provided at the index provided
+(check-expect (fill-square 0 "X" TB1) TB1a)
+(check-expect (fill-square 0 "X" TB2) (cons "X" (rest TB2)))
+(check-expect (fill-square 1 "X" (cons "X" (rest TB2))) (cons "X" (cons "X" (rest (rest TB2)))))
+
+;; Stub:
+;;(define (fill-square i l board) empty)
+
+(define (fill-square i l board)
+  (append (take board i)
+          (list l)
+          (drop board (+ i 1))))
+
+;  PROBLEM 3:
+;  
+;  Now adapt your solution to filter out the boards that are impossible if
+;  X and O are alternating turns. You can continue to assume that they keep
+;  filling the board after someone has won though.
+;  
+;  You can assume X plays first, so all valid boards will have 5 Xs and 4 Os.
+;  
+;  NOTE: make sure you keep a copy of your solution from problem 2 to answer
+;  the questions on edX.
+;  
+
+
+;; (listof Boards) -> (listof Boards)
+;; Filter boards that are invalid in the list of Boards generated using
+;; the function gen-boards designed in Problem 2
+(check-expect (filter-board empty) empty)
+(check-expect (filter-board (list TB0)) empty)
+(check-expect (filter-board (list TB3)) (list TB3))
+(check-expect (filter-board (list TB3 TB4)) (list TB3 TB4))
+(check-expect (filter-board (list TB0 TB3 TB4)) (list TB3 TB4))
+
+;; Stub:
+;; (define (filter-board lob) empty)
+
+(define (filter-board lob)
+  (cond [(empty? lob) empty]
+        [else
+         (if (board-valid (first lob))
+             (cons (first lob) (filter-board (rest lob)))
+             (filter-board (rest lob)))]))
+
+
+;; Board -> Boolean
+;; Check if a board is valid. Since it is a full board, and "X" moves first
+;; it is valid if it has 5 "X"s and 4 "O"x.
+(check-expect (board-valid empty) false)
+(check-expect (board-valid TB3) true)
+(check-expect (board-valid TB4) true)
+(check-expect (board-valid (cons "O" (rest TB4))) false)
+
+;; Stub:
+;; (define (board-valid board) false)
+
+(define (board-valid board)
+  (local [(define (num-of-x board)
+            (length (filter get-x board)))
+
+          (define (get-x value)
+            (string=? value "X"))]
+    (if (= (num-of-x board) 5)
+        true
+        false)))
+```
+
+### Module 11: Accumulators 
 
 
 
