@@ -250,7 +250,9 @@ Reference: [YDKJS, ES6 & Beyond, Chapter 1](https://github.com/getify/You-Dont-K
 
 > This optimization can only be applied in strict mode.
 
-Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md)
+For an illustration of a related scenario of how function calls at the tail position could be a problem, refer to the second reference. It's not done in JavaScript, but the basic idea holds.
+
+References: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond/ch7.md), [How to Code: Complex Data, Module 11: Accumulator, Tail Recursion Part 1–4](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
 
 ### Tail Call Optimisation
 
