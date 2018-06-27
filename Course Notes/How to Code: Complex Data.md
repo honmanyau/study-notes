@@ -1650,6 +1650,227 @@ Problem 4:
     (fn-for-region r 0 empty)))
 ```  
 
+### Module 12: Graphs
+
+* Acyclic graphs—graphs with no cycles
+
+```ASL
+(shared ((-0- (make-room "A" (list (make-room "B" (list (make-room "C" (list -0-))))))) -0-))
+```
+
+#### Recommended Problems
+
+**Graphs P2 - Count Rooms**
+
+```ASL
+;; Room -> Natural
+;; Produces the total number of rooms reachable from the given room.
+;; Include the starting room itself.
+(check-expect (count-rooms (make-room "B" empty)) 1)
+(check-expect (count-rooms H1) 2)
+(check-expect (count-rooms H2) 2)
+(check-expect (count-rooms H3) 3)
+(check-expect (count-rooms H4) 6)
+(check-expect (count-rooms (first (rest (room-exits H4)))) 6)
+
+;; Stub:
+;; (define (count-rooms r) 1)
+
+(define (count-rooms r0)
+  ;; todo is (listof Room); a worklist accumulator
+  ;; visited is (listof String); context preserving accumulator, names of rooms already visited
+  ;; n is Natural; the number of unique rooms that have been visited so far
+  (local [(define (fn-for-room r todo visited n)
+            (if (member (room-name r) visited)
+                (fn-for-lor todo visited n)
+                (fn-for-lor (append (room-exits r) todo)
+                            (cons (room-name r) visited)
+                            (add1 n)))) ; (... (room-name r))
+
+          (define (fn-for-lor todo visited n)
+            (cond [(empty? todo) n]
+                  [else
+                   (fn-for-room (first todo)
+                                (rest todo)
+                                visited
+                                n)]))]
+
+    (fn-for-room r0 empty empty 0)))
+```
+
+**Graphs P4 - Max Exits From**
+
+```ASL
+;; Room -> Room
+;; Produces the room with the most exits (in the case of a
+;; tie you can produce any of the rooms in the tie)
+(check-expect (max-exits (make-room "N" empty)) (make-room "N" empty))
+(check-expect (max-exits H1) H1)
+(check-expect (max-exits H3) H3)
+(check-expect (max-exits H4) H4)
+(check-expect (max-exits (shared ((-A- (make-room "A" (list -B-)))
+                                  (-B- (make-room "B" (list -C-)))
+                                  (-C- (make-room "C" (list -A-))))
+                           -B-))
+              (shared ((-A- (make-room "A" (list -B-)))
+                       (-B- (make-room "B" (list -C-)))
+                       (-C- (make-room "C" (list -A-))))
+                -B-))
+
+;; Stub:
+;; (define (max-exits room) (make-room "N" empty))
+
+
+(define (max-exits r0)
+  ;; todo is (listof Room); a worklist accumulator
+  ;; visited is (listof String); context preserving accumulator, names of rooms already visited
+  ;; rmax is Room; the room with the most exits of all the rooms that have been visited so far
+  (local [(define (fn-for-room r todo visited rmax)
+            (if (member (room-name r) visited)
+                (fn-for-lor todo visited rmax)
+                (fn-for-lor (append (room-exits r) todo)
+                            (cons (room-name r) visited)
+                            (more-exits rmax r)))) ; (... (room-name r))
+
+          (define (fn-for-lor todo visited rmax)
+            (cond [(empty? todo) rmax]
+                  [else
+                   (fn-for-room (first todo)
+                                (rest todo)
+                                visited
+                                rmax)]))
+
+          (define (more-exits r1 r2) ; Room Room -> Room
+            (if (< (length (room-exits r1)) (length (room-exits r2)))
+                r2
+                r1))]
+
+    (fn-for-room r0 empty empty r0)))
+```
+
+**Graphs P5 - Max Exits To**
+
+```ASL
+
+;; Room -> Room
+;; Produces the room to which the greatest number of other rooms
+;; have exits (in the case of a tie you can produce any of the rooms in the tie)
+;; This is depth-first search—the result is particularly apparent for the case
+;; of H3. For H4, the result depends on how far the node with the most exits
+;; is away from the starting node.
+(check-expect (max-exits-to (make-room "N" empty)) (make-room "N" empty))
+(check-expect (max-exits-to H1) (first (room-exits H1)))
+(check-expect (max-exits-to H2) (first (room-exits H2)))
+(check-expect (max-exits-to (first (room-exits H2))) H2)
+(check-expect (max-exits-to H3) (first (room-exits (first (room-exits H3)))))
+(check-expect (max-exits-to (first (room-exits (first (room-exits H3)))))
+              (first (room-exits H3)))
+(check-expect (max-exits-to H4) (shared ((-A- (make-room "A" (list -B- -D-)))
+                                         (-B- (make-room "B" (list -C- -E-)))
+                                         (-C- (make-room "C" (list -B-)))
+                                         (-D- (make-room "D" (list -E-)))
+                                         (-E- (make-room "E" (list -F- -A-)))
+                                         (-F- (make-room "F" (list))))
+                                  -E-))
+(check-expect (max-exits-to (shared ((-A- (make-room "A" (list -B- -D-)))
+                                     (-B- (make-room "B" (list -C- -E-)))
+                                     (-C- (make-room "C" (list -B-)))
+                                     (-D- (make-room "D" (list -E-)))
+                                     (-E- (make-room "E" (list -F- -A-)))
+                                     (-F- (make-room "F" (list))))
+                              -D-))
+              (shared ((-A- (make-room "A" (list -B- -D-)))
+                       (-B- (make-room "B" (list -C- -E-)))
+                       (-C- (make-room "C" (list -B-)))
+                       (-D- (make-room "D" (list -E-)))
+                       (-E- (make-room "E" (list -F- -A-)))
+                       (-F- (make-room "F" (list))))
+                -B-))
+(check-expect (max-exits-to (shared ((-A- (make-room "A" (list -B- -D-)))
+                                     (-B- (make-room "B" (list -C- -E-)))
+                                     (-C- (make-room "C" (list -B-)))
+                                     (-D- (make-room "D" (list -E-)))
+                                     (-E- (make-room "E" (list -F- -A-)))
+                                     (-F- (make-room "F" (list))))
+                              -C-))
+              (shared ((-A- (make-room "A" (list -B- -D-)))
+                       (-B- (make-room "B" (list -C- -E-)))
+                       (-C- (make-room "C" (list -B-)))
+                       (-D- (make-room "D" (list -E-)))
+                       (-E- (make-room "E" (list -F- -A-)))
+                       (-F- (make-room "F" (list))))
+                -E-))
+
+;; Stub
+;; (define (max-exits-to room) (make-room "N" empty))
+
+(define (max-exits-to r0)
+  ;; todo is (listof Room); a worklist accumulator
+  ;; visited is (listof String); context preserving accumulator, names of rooms already visited
+  (local [(define (fn-for-room r todo visited rooms-entered)
+            (if (member r visited)
+                (fn-for-lor todo visited rooms-entered)
+                (fn-for-lor (append (room-exits r) todo)
+                            (cons r visited)
+                            (append rooms-entered (room-exits r)))))
+
+          (define (fn-for-lor todo visited rooms-entered)
+            (cond [(empty? todo) (filter-room visited rooms-entered)]
+                  [else
+                   (fn-for-room (first todo)
+                                (rest todo)
+                                visited
+                                rooms-entered)]))]
+    (fn-for-room r0 empty empty empty)))
+
+
+;; Room -> Room
+;; Return the room that has been visited (most exits) the most
+(check-expect (filter-room (list (make-room "N" empty)) (list (make-room "N" empty))) (make-room "N" empty))
+(check-expect (filter-room (list (make-room "N" empty) (make-room "A" empty))
+                           (list (make-room "N" empty) (make-room "A" empty)))
+              (make-room "N" empty))
+(check-expect (filter-room (list (make-room "N" empty) (make-room "A" empty))
+                           (list (make-room "N" empty) (make-room "N" empty) (make-room "A" empty)))
+              (make-room "N" empty))
+(check-expect (filter-room (list (make-room "N" empty) (make-room "A" empty))
+                           (list (make-room "N" empty) (make-room "A" empty) (make-room "A" empty)))
+              (make-room "A" empty))
+
+;; Stub:
+;; (define (filter-room visited rooms-entered) (make-room "N" empty))
+
+(define (filter-room visited rooms-entered)
+  ;; todo is (listof Room); a worklist accumulator
+  ;; visited is (listof String); context preserving accumulator, names of rooms already visited
+  (local [(define (fn-for-room room uncounted max rmax)
+            (if (> (get-count room) max)
+                (fn-for-lor uncounted (get-count room) room)
+                (fn-for-lor uncounted max rmax)))
+
+          (define (fn-for-lor uncounted max rmax)
+            (cond [(empty? uncounted) rmax]
+                  [else
+                   (fn-for-room (first uncounted)
+                                (rest uncounted)
+                                max
+                                rmax)]))
+
+          (define (get-count room)
+            (length (filter (lambda (r) (string=? (room-name r) (room-name room))) rooms-entered)))]
+
+    (fn-for-room (first visited) (rest visited) 0 (first visited))))
+```
+
+
+
+
+
+
+
+
+
+
 
 ## Resources
 
