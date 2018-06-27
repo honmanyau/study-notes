@@ -1262,9 +1262,395 @@ Sierpinski carpet problem attempt:
         false)))
 ```
 
-### Module 11: Accumulators 
+### Module 11: Accumulators
+
+#### Sample Problem: skipn
+
+```ISL
+;; (listof X) Natural -> (listof X)
+(check-expect (skipn empty 2) empty)
+(check-expect (skipn (list "a" "b" "c") 2) (list "a"))
+(check-expect (skipn (list "a" "b" "c" "d" "e" "f") 2) (list "a" "d"))
+(check-expect (skipn (list "a" "b" "c" "d" "e" "f") 1) (list "a" "c" "e"))
+(check-expect (skipn (list 1 2 3 4 5 6) 2) (list 1 4))
+
+;; Using design template for accumulator
+(define (skipn lox0 n)
+  (local [(define (skipn lox n acc)
+            (cond [(empty? lox) empty]
+                  [else
+                   (if (= (remainder acc (add1 n)) 0)
+                        (cons (first lox) (skipn (rest lox) n (+ acc 1)))
+                        (skipn (rest lox) n
+                               (+ acc 1)))]))]
+
+    (skipn lox0 n 0)))
+```
+
+* n = 0 is a good test case to include as well
 
 
+**Note to self**
+
+It may sometimes be helpful to write examples for accumulator as well.
+
+#### Tail Recursion Part 1
+
+* There is a nice explanation involving the stepper in DrRacket for showing a case of stack overflow
+* AND a nice example that I assume will lead to TCO, too!
+
+#### Tail Recursion Part 4
+
+* TCO!
+
+#### Worklist Accumulators 1, Part 2
+
+The inconsistent titles with "Part" and "pt" is driving me nuts. Yes, OCD.
+
+```ISL
+;; Wizard -> (listof Wizard)
+;; Produces the names of every wizard in the tree that was placed in the
+;; same house as their immediate parent. (From problem statement)
+
+(check-expect (list-wiz Wa) (list "A"))
+(check-expect (list-wiz Wg) (list "G" "A"))
+(check-expect (list-wiz Wh) (list "H"))
+(check-expect (list-wiz Wk) (list "K" "B"))
+
+(define (list-wiz w)          
+  (local [(define house (wiz-house w))
+
+          (define (fn-for-wiz w)
+            (if (string=? (wiz-house w) house)
+                (cons (wiz-name w) (fn-for-low (wiz-kids w)))
+                (fn-for-low (wiz-kids w))))
+
+          (define (fn-for-low low)
+            (cond [(empty? low) empty]
+                  [else
+                   (append (fn-for-wiz (first low))
+                           (fn-for-low (rest low)))]))]
+    (fn-for-wiz w)))
+```
+
+Oops... that was an incorrect attempt that lists all children in the same house as the ancestor input. Not sure what I was thinking just now and completely ignored the problem statement.
+
+Reattempt:
+
+```ISL
+;; Wizard -> (listof Wizard)
+;; Produces the names of every wizard in the tree that was placed in the
+;; same house as their immediate parent. (From problem statement)
+
+(check-expect (list-wiz2 We) empty)
+(check-expect (list-wiz2 Wg) (list "A"))
+(check-expect (list-wiz2 Wj) (list "E" "F" "A"))
+(check-expect (list-wiz2 Wk) (list "E" "F" "A"))
+
+(define (list-wiz2 w)          
+  (local [(define (fn-for-wiz w pouse)
+            (if (string=? (wiz-house w) pouse)
+                (cons (wiz-name w) (fn-for-low (wiz-kids w) (wiz-house w)))
+                (fn-for-low (wiz-kids w) (wiz-house w))))
+
+          (define (fn-for-low low pouse)
+            (cond [(empty? low) empty]
+                  [else
+                   (append (fn-for-wiz (first low) pouse)
+                           (fn-for-low (rest low) pouse))]))]
+    (fn-for-wiz w "")))
+```
+
+Urgh, clearly not focusing today. Was told to write the template in the video and jumped to the solution instead.
+
+#### Worklist Accumulators 1, Part 2
+
+* In a tail recursive tree traversal of arbitrary tree, each node is only called once
+* Following from above, and depending on the order of parameters used to build the work-list, it's either depth-first or breadth first
+
+#### Recommended Problems
+
+**Accumulators P1 - Drop n**
+
+```ISL
+;; (listof X) -> (list of X)
+;; Drop ever nth element in (listof X) and return the corresponding list with
+;; elements dropped
+(check-expect (dropn empty 0) empty)
+(check-expect (dropn (list 0 1 2) 0) empty)
+(check-expect (dropn (list 0 1 2) 1) (list 0 2))
+(check-expect (dropn (list 0 1 2) 2) (list 0 1))
+(check-expect (dropn (list 1 2 3 4 5 6 7) 1) (list 1 3 5 7))
+(check-expect (dropn (list 1 2 3 4 5 6 7) 2) (list 1 2 4 5 7))
+
+;; Stub:
+;; (define (dropn lox n) empty)
+
+;; Template:
+#;
+(define (fn-for-lox lox n)
+  (cond [(empty? lox) ...]
+        [else (... (first lox)
+                   (fn-for-lox (rest lox) n))]))
+
+(define (dropn lox n)
+  (local [(define (inner-dropn lox n index)
+            ;; If index is 0, drop everything
+            ;; If index is 1 drop every second
+            ;; If index is 2 drop every third... etc
+            ;; The accumulator index is keeps track of how many elements
+            ;; have been retained, when n = index, the current item will
+            ;; not be added to the list
+            (cond [(or (empty? lox) (= n 0)) empty]
+                  [else (if (= index n)
+                            (inner-dropn (rest lox) n 0)
+                            (cons (first lox) (inner-dropn (rest lox) n (add1 index))))]))]
+    (inner-dropn lox n 0)))
+```
+
+**Accumulators P4 - Average Tail Recursive**
+
+```ISL
+;; (listof Number) -> Number
+;; Produces the average of the numbers in the a given list of Number
+(check-expect (average empty) 0)
+(check-expect (average (list 0)) 0)
+(check-expect (average (list 1)) 1)
+(check-expect (average (list 2 2)) 2)
+(check-expect (average (list 2 2 5)) 3)
+
+;; Stub:
+;; (define (average lon) 0)
+
+;; Template:
+#;
+(define (fn-for-lon lon)
+  (cond [(empty? lon) ...]
+        [else (... (first lon)
+                   (fn-for-lon (rest lon)))]))
+
+(define (average lon)
+  (local [(define (fn-for-lon lon sum nums)
+            (cond [(and (empty? lon) (= 0 nums)) 0]
+                  [(empty? lon) (/ sum nums)]
+                  [else (fn-for-lon (rest lon) (+ sum (first lon)) (add1 nums))]))]
+    (fn-for-lon lon 0 0)))
+```
+
+**Accumulators P12 - Contains Key Tail Recursive**
+
+```ISL
+(define-struct node (k v l r))
+;; BT is one of:
+;;  - false
+;;  - (make-node Integer String BT BT)
+;; Interp. A binary tree, each node has a key, value and 2 children
+(define BT1 false)
+(define BT2 (make-node 1 "a"
+                       (make-node 6 "f"
+                                  (make-node 4 "d" false false)
+                                  false)
+                       (make-node 7 "g" false false)))
+
+
+;; Number BT -> Boolean
+;; Consumes a key and a binary tree and produces true if the tree contains the key
+(check-expect (contains? 1 (make-node 1 "a" false false)) true)
+(check-expect (contains? 1 (make-node 2 "b" false false)) false)
+(check-expect (contains? 1 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      false)) true)
+(check-expect (contains? 2 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      false)) true)
+(check-expect (contains? 3 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      false)) false)
+(check-expect (contains? 1 (make-node 1 "a"
+                                      false
+                                      (make-node 2 "b" false false))) true)
+(check-expect (contains? 2 (make-node 1 "a"
+                                      false
+                                      (make-node 2 "b" false false))) true)
+(check-expect (contains? 3 (make-node 1 "a"
+                                      false
+                                      (make-node 2 "b" false false))) false)
+(check-expect (contains? 1 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      (make-node 3 "c" false false))) true)
+(check-expect (contains? 2 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      (make-node 3 "c" false false))) true)
+(check-expect (contains? 3 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      (make-node 3 "c" false false))) true)
+(check-expect (contains? 4 (make-node 1 "a"
+                                      (make-node 2 "b" false false)
+                                      (make-node 3 "c" false false))) false)
+(check-expect (contains? 4 (make-node 1 "a"
+                                      (make-node 2 "b"
+                                                 (make-node 4 "d" false false)
+                                                 false)
+                                      (make-node 3 "c" false false))) true)
+
+;; Stub:
+;; (define (contains? key bt) false)
+
+;; Template:
+#;
+(define (fn-for-bt bt)
+  (... (node-k bt)
+       (node-v bt)
+       (fn-for-bt (node-l bt))
+       (fn-for-bt (node-r bt))))
+
+;; Intermediate:
+#;
+(define (contains? key bt)
+  (local [(define (fn-for-bt key bt)
+            (... key
+                 (node-k bt)
+                 (node-v bt)
+                 (fn-for-bt ... (node-l bt))
+                 (fn-for-bt ... (node-r bt))))]
+    (fn-for-bt key bt)))
+
+(define (contains? key bt)
+  (local [(define (fn-for-bt bt lon)
+            (if (= (node-k bt) key)
+                true
+                (fn-for-lon (append lon (valid-children (node-l bt) (node-r bt))))))
+
+          (define (fn-for-lon lon)
+            (cond [(empty? lon) false]
+                  [else (fn-for-bt (first lon) (rest lon))]))
+
+          (define (valid-children l r)
+            (cond [(and (false? l) (false? r)) empty]
+                  [(false? l) (list r)]
+                  [(false? r) (list l)]
+                  [else (list l r)]))]
+    (fn-for-bt bt empty)))
+```
+
+#### Quiz
+
+Problem 1:
+
+```ISL
+;; (listof String) -> Natural
+;; Get the length of the longest string in a list of string
+
+;; Examples:
+(check-expect (longest-string-length empty) 0)
+(check-expect (longest-string-length (list "a")) 1)
+(check-expect (longest-string-length (list "a" "ab")) 2)
+(check-expect (longest-string-length (list "ab" "a")) 2)
+(check-expect (longest-string-length (list "a" "ab" "abc")) 3)
+(check-expect (longest-string-length (list "1" "12" "123")) 3)
+
+;; Stub:
+;; (define (longest-string-length str) 0)
+
+;; Template:
+#;
+(define (fn-for-los los)
+  (cond [(empty? los) ...]
+        [else (... (first los)
+                   (fn-for-los (rest los)))]))
+
+(define (longest-string-length los)
+  (local [(define (fn-for-los los acc)
+            (cond [(empty? los) acc]
+                  [else (fn-for-los (rest los)
+                                    (max (string-length (first los)) acc))]))]
+    (fn-for-los los 0)))
+```
+
+Problem 2:
+
+```ISL
+;; (listof Natural) -> Boolean
+;; Determines if the list obeys the fibonacci rule, n-2 + n-1 = n. If so,
+;; return true, else return false.
+
+;; Examples:
+(check-expect (valid-fib (list 0 1)) true)
+(check-expect (valid-fib (list 1 3)) true)
+(check-expect (valid-fib (list 0 1 1 2)) true)
+(check-expect (valid-fib (list 0 1 1 3)) false)
+(check-expect (valid-fib (list 2 3 5 8)) true)
+(check-expect (valid-fib (list 2 3 5 9)) false)
+
+;; Stub:
+;; (define (valid-fib lon) false)
+
+;; Template:
+#;
+(define (fn-for-lon lon)
+  (cond [(empty? lon) ...]
+        [else (... (first lon)
+                   (fn-for-lon (rest lon)))]))
+
+(define (valid-fib lon)
+  (local [(define m-init (first lon))
+          (define j-init (first (rest lon)))
+          (define lon-init (rest (rest lon)))
+
+          (define (fn-for-lon lon m n)
+            (cond [(empty? lon) true]
+                  [else (if (= (first lon) (+ m n))
+                            (fn-for-lon (rest lon) n (first lon))
+                            false)]))]
+
+    (fn-for-lon lon-init m-init j-init)))
+```
+
+Problem 3:
+
+```ISL
+;; Natural -> Natural
+;; produces the factorial of the given number
+(check-expect (fact 0) 1)
+(check-expect (fact 3) 6)
+(check-expect (fact 5) 120)
+
+#;
+(define (fact n)
+  (cond [(zero? n) 1]
+        [else
+         (* n (fact (sub1 n)))]))
+
+(define (fact n)
+  (local [(define (local-fact n acc)
+            (cond [(zero? n) acc]
+                  [else (local-fact (sub1 n) (* acc n))]))]
+    (local-fact n 1)))
+```
+
+Problem 4:
+
+```ISL
+;; Region -> Natural
+;; Produces the number of regions within and including a given Region
+(check-expect (count-regions VANCOUVER) 1)
+(check-expect (count-regions BC) 3)
+(check-expect (count-regions CANADA) 7)
+
+;; Stub:
+;; (define (count-regions region) 1)
+
+(define (count-regions r)
+  (local [(define (fn-for-region r c todo)
+            (fn-for-lor (append todo (region-subregions r)) (add1 c)))
+
+          (define (fn-for-lor todo c)
+            (cond [(empty? todo) c]
+                  [else (fn-for-region (first todo) c (rest todo))]))]
+    (fn-for-region r 0 empty)))
+```  
 
 
 ## Resources
+
+* Worklist Accumulators 1, Part 2 is particularly worth revisiting for those who have been following the curriculum. I personally think that it's a very good example of depth-first and breadth-first search.
