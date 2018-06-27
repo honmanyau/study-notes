@@ -62,6 +62,10 @@ Some examples of expressions include, but not limited to, literal value expressi
 
 Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md).
 
+### Higher-order Function
+
+A function that consumes one or more function in its argument and returns a function.
+
 ### Operators
 
 Operators are used to perform actions on values and variables.
