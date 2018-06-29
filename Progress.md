@@ -18,7 +18,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
+Current Material:
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
@@ -42,7 +42,7 @@ Total Time Spent Since 2018.06.04 (approx.): 161 hours
 | 2018.06.12 | Book | 200 | [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond) |
 | 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
 | 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
-|  |  |  |  |
+| 2018.06.29 | Course | 500 | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x) |
 |  |  |  |  |
 
 Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles
