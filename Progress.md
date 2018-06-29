@@ -26,7 +26,7 @@ Books Completed: 9
 
 Courses Completed: 0
 
-Total Points Earned: 2300 + 300
+Total Points Earned: 2800 + 300
 
 Total Time Spent Since 2018.06.04 (approx.): 161 hours
 
@@ -71,7 +71,7 @@ Total Time Spent Since 2018.06.04 (approx.): 37.5 hours
 * [x] Course: [Learn to Code Advanced HTML & CSS](http://learn.shayhowe.com/advanced-html-css/)
 * [x] Book: [DOM Enlightenment](http://domenlightenment.com/)
 * [x] Course: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
-* [ ] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
+* [x] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 ## Web Dev with Computer Science
