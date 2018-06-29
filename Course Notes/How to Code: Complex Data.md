@@ -1,8 +1,8 @@
-# How to Code: Simple Data
+# How to Code: Complex Data
 
 ## Table of Contents
 
-* [How to Code: Simple Data](#how-to-code-simple-data)
+* [How to Code: Complex Data](#how-to-code-complex-data)
   * [Disclaimer](#disclaimer)
   * [Notes](#notes)
   * [Resources](#resources)
