@@ -1862,14 +1862,383 @@ Problem 4:
     (fn-for-room (first visited) (rest visited) 0 (first visited))))
 ```
 
+### Final Project
+
+#### Part 1
+
+Problem 1:
+
+```ASL
+(require racket/list)
 
 
+;  PROBLEM 1:
+;  
+;  Consider a social network similar to Twitter called Chirper. Each user has a name, a note about
+;  whether or not they are a verified user, and follows some number of people.
+;  
+;  Design a data definition for Chirper, including a template that is tail recursive and avoids
+;  cycles.
+;  
+;  Then design a function called most-followers which determines which user in a Chirper Network is
+;  followed by the most people.
+;  
 
 
+;; ================
+;; Data Definitions
+;; ================
+
+(define-struct user (name verified following))
+;; User is (make-user String Boolean (listof User))
+;; interp. String is a user's name, Boolean indicates whether or not a user is verified, and
+;; (listof User) is a list of other uers that a given user follows.
+
+;; Images for graphs borrowed from max-exits-to-starter.rkt from recommended problems.
+; .
+
+(define C1 (shared ((-A- (make-user "A" true (list -B-)))
+                    (-B- (make-user "B" true (list))))
+             -A-))
+
+; .
+
+(define C2 (shared ((-A- (make-user "A" true (list -B-)))
+                    (-B- (make-user "B" true (list -A-))))
+             -A-))
+
+; .
+
+(define C3 (shared ((-A- (make-user "A" true (list -B-)))
+                    (-B- (make-user "B" true (list -C-)))
+                    (-C- (make-user "C" true (list -A-))))
+             -A-))
+
+; .
+
+(define C4
+  (shared ((-A- (make-user "A" true (list -B- -D-)))
+           (-B- (make-user "B" true (list -C- -E-)))
+           (-C- (make-user "C" true (list -B-)))
+           (-D- (make-user "D" true (list -E-)))
+           (-E- (make-user "E" true (list -F- -A-)))
+           (-F- (make-user "F" true (list))))
+    -A-))
+
+;; Template:
+;; Structural recursion, tail recursive, avoids cycles, accumulator for user with the most followers
+
+;; Base template based on data definitions:
+#;
+(define (fn-for-chirper user)
+  (local [(define (fn-for-user user)
+            (... (user-name user)
+                 (user-verified user)
+                 (fn-for-lou (user-following user)))) ;; Reference rule
+
+          (define (fn-for-lou lou)
+            (cond [(empty? lou) (...)]
+                  [else
+                   (... (fn-for-user (first lou))
+                        (fn-for-lou (rest lou)))]))]
+
+    (fn-for-user user)))
+
+;; Make tail-recursive
+(define (fn-for-chirper user)
+  (local [(define (fn-for-user user todo visited)
+            (if (member user visited)
+                (fn-for-lou todo
+                            visited) ;; Nothing needs to be done if algorithm has already been here
+                (fn-for-lou (append todo (user-following user)) ;; Otherwise add list of child users to todo
+                            (append visited user)))) ;; And add the current user to visited
+
+          (define (fn-for-lou todo visited)
+            (cond [(empty? todo) (...)]
+                  [else (fn-for-user (first todo)
+                                     (rest todo)
+                                     visited)]))]
+
+    (fn-for-user user empty empty)))
 
 
+;; User -> User
+;; Given a user determine which user in the network has the most followers
+;; If there is more than one user with the same amount of max followers, the first
+;; user that the algorithm comes across will be returned
+(check-expect (most-followers C1) (first (user-following C1)))
+(check-expect (most-followers (first (user-following C1))) (first (user-following C1)))
+(check-expect (most-followers C2) C2)
+(check-expect (most-followers (first (user-following C2))) (first (user-following C2)))
+(check-expect (most-followers C3) C3)
+(check-expect (most-followers (first (user-following (first (user-following C3))))) (first (user-following (first (user-following C3)))))
+(check-expect (most-followers C4) (shared ((-A- (make-user "A" true (list -B- -D-)))
+                                           (-B- (make-user "B" true (list -C- -E-)))
+                                           (-C- (make-user "C" true (list -B-)))
+                                           (-D- (make-user "D" true (list -E-)))
+                                           (-E- (make-user "E" true (list -F- -A-)))
+                                           (-F- (make-user "F" true (list))))
+                                    -B-))
+(check-expect (most-followers (shared ((-A- (make-user "A" true (list -B- -D-)))
+                                       (-B- (make-user "B" true (list -C- -E-)))
+                                       (-C- (make-user "C" true (list -B-)))
+                                       (-D- (make-user "D" true (list -E-)))
+                                       (-E- (make-user "E" true (list -F- -A-)))
+                                       (-F- (make-user "F" true (list))))
+                                -D-))
+              (shared ((-A- (make-user "A" true (list -B- -D-)))
+                       (-B- (make-user "B" true (list -C- -E-)))
+                       (-C- (make-user "C" true (list -B-)))
+                       (-D- (make-user "D" true (list -E-)))
+                       (-E- (make-user "E" true (list -F- -A-)))
+                       (-F- (make-user "F" true (list))))
+                -E-))
+
+;; Stub:
+;; (define (most-followers user) C1)
+
+;; Using template from above:
+(define (most-followers user)
+  (local [(define (fn-for-user user todo visited followed)
+            (if (member user visited)
+                (fn-for-lou todo
+                            visited
+                            followed)
+                (fn-for-lou (append todo (user-following user))
+                            (append visited (list user))
+                            followed)))
+
+          (define (fn-for-lou todo visited followed)
+            (cond [(empty? todo) (most-followed visited followed)]
+                  [else (fn-for-user (first todo)
+                                     (rest todo)
+                                     visited
+                                     (cons (first todo) followed))]))
+
+          (define (most-followed visited followed)
+            (list-ref visited (index-of-max (get-max visited followed))))
+
+          (define (get-max visited followed)
+            (map (lambda (user)
+                   (length
+                    (filter (lambda (follow) (string=? (user-name user) (user-name follow)))
+                            followed)))
+                 visited))
+
+          (define (index-of-max lon)
+            (index-of lon (find-max lon 0)))
+
+          (define (find-max lon acc)
+            (cond [(empty? lon) acc]
+                  [else (if (> (first lon) acc)
+                            (find-max (rest lon) (first lon))
+                            (find-max (rest lon) acc))]))]
+
+    (fn-for-user user empty empty empty)))
+```
+
+#### Part 2:
+
+```ASL
+;; Slot is Natural
+;; interp. each TA slot has a number, is the same length, and none overlap
+
+(define-struct ta (name max avail))
+;; TA is (make-ta String Natural (listof Slot))
+;; interp. the TA's name, number of slots they can work, and slots they're available for
+
+(define SOBA (make-ta "Soba" 2 (list 1 3)))
+(define UDON (make-ta "Udon" 1 (list 3 4)))
+(define RAMEN (make-ta "Ramen" 1 (list 2)))
+(define SOMEN (make-ta "Somen" 3 (list 1 2 3)))
+(define TSUKEMEN (make-ta "Tsukemen" 1 (list 5)))
+
+(define NOODLE-TAs (list SOBA UDON RAMEN))
+
+(define ERIKA (make-ta "Erika" 1 (list 1 3 7 9)))
+(define RYAN (make-ta "Ryan" 1 (list 1 8 10)))
+(define REECE (make-ta "Reece" 1 (list 5 6)))
+(define GORDON (make-ta "Gordon" 2 (list 2 3 9)))
+(define DAVID (make-ta "David" 2 (list 2 8 9)))
+(define KATIE (make-ta "Katie" 1 (list 4 6)))
+(define AASHISH (make-ta "Aashish" 2 (list 1 10)))
+(define GRANT (make-ta "Grant" 2 (list 1 11)))
+(define RAEANNE (make-ta "Raeanne" 2 (list 1 11 12)))
+
+(define PROJECT-TAs (list ERIKA RYAN REECE GORDON DAVID KATIE AASHISH GRANT RAEANNE))
 
 
+(define-struct assignment (ta slot))
+;; Assignment is (make-assignment TA Slot)
+;; interp. the TA is assigned to work the slot
+
+;; Schedule is (listof Assignment)
+
+
+;; ============================= FUNCTIONS
+
+
+;; (listof TA) (listof Slot) -> (listof Assignment) or false
+;; produce valid schedule given TAs and Slots; false if impossible
+
+(check-expect (schedule-tas empty empty) empty)
+(check-expect (schedule-tas empty (list 1 2)) false)
+(check-expect (schedule-tas (list SOBA) empty) empty)
+
+(check-expect (schedule-tas (list SOBA) (list 1)) (list (make-assignment SOBA 1)))
+(check-expect (schedule-tas (list SOBA) (list 2)) false)
+(check-expect (schedule-tas (list SOBA) (list 1 3)) (list (make-assignment SOBA 1)
+                                                          (make-assignment SOBA 3)))
+
+(check-expect (schedule-tas NOODLE-TAs (list 1 3 4))
+              (list
+               (make-assignment SOBA 1)
+               (make-assignment SOBA 3)
+               (make-assignment UDON 4)))
+
+(check-expect (schedule-tas NOODLE-TAs (list 1 2 3 4))
+              (list
+               (make-assignment SOBA 1)
+               (make-assignment RAMEN 2)
+               (make-assignment SOBA 3)
+               (make-assignment UDON 4)))
+
+(check-expect (schedule-tas NOODLE-TAs (list 1 2 3 4 5)) false)
+(check-expect (schedule-tas (cons TSUKEMEN NOODLE-TAs) (list 1 2 3 4 5))
+              (list
+               (make-assignment SOBA 1)
+               (make-assignment RAMEN 2)
+               (make-assignment SOBA 3)
+               (make-assignment UDON 4)
+               (make-assignment TSUKEMEN 5)))
+
+(check-expect (schedule-tas (list ERIKA RYAN REECE GORDON DAVID KATIE AASHISH GRANT RAEANNE) (list 1 2 4 3 5 6)) false)
+(check-expect (schedule-tas (list ERIKA RYAN REECE GORDON DAVID KATIE AASHISH GRANT RAEANNE) (list 1 2 3 5 6))
+              (list
+               (make-assignment RAEANNE 1)
+               (make-assignment DAVID 2)
+               (make-assignment GORDON 3)
+               (make-assignment REECE 5)
+               (make-assignment KATIE 6)))
+(check-expect (schedule-tas (list ERIKA RYAN REECE GORDON DAVID KATIE AASHISH GRANT RAEANNE) (list 1 2 3 4 6))
+              (list
+               (make-assignment RAEANNE 1)
+               (make-assignment DAVID 2)
+               (make-assignment GORDON 3)
+               (make-assignment KATIE 4)
+               (make-assignment REECE 6)))
+
+;; Stub:
+;; (define (schedule-tas tas slots) empty)
+
+;; After drawing a few trees on paper, it appears that the problem appears
+;; is likely solvable using arbitrary tree, recursive generation
+;; and backtracking search.
+
+;; Using template from the design recipes:
+(define (schedule-tas tas slots)
+  (local [(define (solve--slots tas slots)
+            (cond [(solved? slots) slots]
+                  [(empty? tas) false]
+                  [else (solve--loslots (rest tas) (cons slots (next-loslots (first tas) slots)))])) ;; (cons slots ...) includes slots or otherwise the algorithm won't be able to backtrack to the current slot
+
+          (define (solve--loslots tas loslots)
+            (cond [(empty? loslots) false]
+                  [else
+                   (local [(define try (solve--slots tas (first loslots)))]
+                     (if (not (false? try))
+                         try
+                         (solve--loslots tas (rest loslots))))]))]
+
+    (solve--slots tas slots)))
+
+
+;; (listof Slot) -> Boolean
+;; Determines whether or not a list of Slot is a valid Schedule
+(check-expect (solved? empty) true)
+(check-expect (solved? (list 1)) false)
+(check-expect (solved? (list 1 2 3)) false)
+(check-expect (solved? (list (make-assignment SOBA 1))) true)
+(check-expect (solved? (list (make-assignment SOBA 1) 2)) false)
+(check-expect (solved? (list (make-assignment SOBA 1) (make-assignment RAMEN 2))) true)
+(check-expect (solved? (list (make-assignment SOBA 1) 2 3)) false)
+(check-expect (solved? (list (make-assignment SOBA 1) (make-assignment RAMEN 2) 3)) false)
+(check-expect (solved? (list (make-assignment SOBA 1) (make-assignment RAMEN 2) (make-assignment UDON 3))) true)
+
+;; Stub:
+;; (define (solved? slots) false)
+
+(define (solved? slots)
+  (if (empty? slots)
+      true
+      (= (length (filter number? slots)) 0)))
+
+;; TA (listof Slot) -> (listof (listof Slot))
+;; Generate the next possibe slots for a given TA
+(check-expect (next-loslots SOBA empty) empty)
+
+(check-expect (next-loslots SOBA (list 2)) empty)
+(check-expect (next-loslots SOBA (list 1)) (list (list (make-assignment SOBA 1))))
+(check-expect (next-loslots RAMEN (list 2)) (list (list (make-assignment RAMEN 2))))
+(check-expect (next-loslots SOBA (list 3)) (list (list (make-assignment SOBA 3))))
+
+(check-expect (next-loslots SOBA (list (make-assignment SOBA 1) 3))
+              (list (list (make-assignment SOBA 1) (make-assignment SOBA 3))))
+(check-expect (next-loslots SOBA (list 1 3))
+              (list (list (make-assignment SOBA 1) 3)
+                    (list 1 (make-assignment SOBA 3))
+                    (list (make-assignment SOBA 1) (make-assignment SOBA 3))))
+(check-expect (next-loslots SOMEN (list 1 2 3))
+              (list (list (make-assignment SOMEN 1) 2 3)
+                    (list 1 (make-assignment SOMEN 2) 3)
+                    (list 1 2 (make-assignment SOMEN 3))
+                    (list 1 (make-assignment SOMEN 2) (make-assignment SOMEN 3))
+                    (list (make-assignment SOMEN 1) (make-assignment SOMEN 2) 3)
+                    (list (make-assignment SOMEN 1) 2 (make-assignment SOMEN 3))
+                    (list (make-assignment SOMEN 1) (make-assignment SOMEN 2) (make-assignment SOMEN 3))))
+
+;; Stub:
+;; (define (next-loslots ta slots) empty)
+
+(define (next-loslots ta slots)
+  (local [(define orig-ta ta)
+
+          (define (gen ta slots)
+            (cond [(zero? (ta-max ta)) empty]
+                  [(empty? (ta-avail ta)) empty]
+                  [else (local [(define fav (first (ta-avail ta)))
+                                (define rav (rest (ta-avail ta)))
+                                (define filled (fill-one-slot fav slots))]
+                          (append filled
+                                  (gen (make-ta (ta-name ta)
+                                                (ta-max ta)
+                                                rav)
+                                       slots)
+                                  (if (empty? filled)
+                                      empty
+                                      (gen (make-ta (ta-name ta)
+                                                    (sub1 (ta-max ta))
+                                                    (ta-avail ta))
+                                           (first filled)))))]))
+
+          (define (fill-one-slot slot slots)
+            (local [(define i (index-of slots slot))]
+              (if (false? i)
+                  empty
+                  (list (append (take slots i)
+                                (list (make-assignment orig-ta slot))
+                                (drop slots (add1 i)))))))
+
+          (define (sub-max ta)
+            (make-ta (ta-name ta) (sub1 (ta-max ta)) (ta-avail ta)))]
+
+    (gen ta slots)))
+
+
+(schedule-tas PROJECT-TAs (list 1 2 3 4 5 6 7 8 9 10 11 12))
+(schedule-tas (cons (make-ta "Alex" 1 (list 7)) PROJECT-TAs) (list 1 2 3 4 5 6 7 8 9 10 11 12))
+(schedule-tas (cons (make-ta "Erin" 1 (list 4)) PROJECT-TAs) (list 1 2 3 4 5 6 7 8 9 10 11 12))
+```
 
 
 ## Resources
