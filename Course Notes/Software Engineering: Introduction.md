@@ -149,6 +149,151 @@ Usually three high-level stakeholder roles:
 3. Ceremony—demo to product owners and feedback occurs here. Reflection
 4. Plan the next sprint
 
+### Specification
+
+A collection of documents that is an abstraction of what the system is intended to be like at the end and one of the most important documentation for connecting the customer and the engineering team.
+
+#### Requirements
+
+* Functional—what should the system do
+* Non-functional—properties a system should have. Importance varies depending on the stakeholder in question but important for all of them to be involved as implement one thing usually comes at the expense of another. Some examples:
+  * Usability
+  * Performance
+  * Scalability
+  * Reliability
+  * Complexity
+  * Testability
+
+#### Requirements Properties
+
+* Complete
+* Consistent
+* Precise
+* Concise
+
+#### Requirements Elicitation
+
+Formalising requirement is iterative. Requirements elicitation is the first step.
+
+1. Elicitation—figuring out what should be built
+2. Analysis—looking at requirements gathered and making sure that they are consistency, make sure there are not concerns from both development team and customer
+3. Reification—formalising requirements as documents that will be used during the development process
+4. Validation—make sure that things match customer expectations. Iterate from Step 1 if not.
+
+#### Additional Requirements
+
+* Design constraints: constraints inside an organisation that may influence how software is built; e.g. budget, regulatory requirements, internal processes... etc.
+* Environmental constraints: software isn't built in isolation and needs to work with external resources
+* Preferences: what the customer thinks is more important than others
+
+#### Validating Requirements
+
+* A way to evaluate features added are implemented and function correctly
+* Make sure that everyone is on the same page
+* Could be a flag for additional time spent in the analysis and reification stage
+
+What can be measured and how they can be measured? These need to be explicit, quantifiable, and actionable.
+
+For example: "should be performant"
+
+* Time (how long it takes things to happen)
+  * Throughput: the number of customer/transactions that can be handled
+    * Peak
+    * Off-peak
+  * Response. For example, should respond within 150 ms
+* Space
+  * Memory. For example: should never use more than 1GB of disk space
+  * Disk For example: should never use more than 100 MB of memory
+
+#### User Stories
+
+* Who are features for
+* What are the values
+* What's involved in creating the feature
+* Costs—must be implementable within a single iteration
+* How long it takes to build
+
+Five main parts:
+
+1. Role Goal Benefit (role can be non-human entities, too). Typical example: As a <Role> I want <Goal> so that <Benefit / Expected outcome> (reference: [Agile Digest, User Story](https://agiledigest.com/agile-digest-tutorial/user-story/))
+2. Limitations
+3. Definition of Done
+4. Engineering Tasks (how the features interacts with the system or subssytems???)
+5. Effort Estimate
+
+More Clarification on engineering notes from the quiz:
+
+> Engineering notes should discuss at a technical level any notes to bear in mind or steps to take; they should not describe desirable traits or make estimates on time.
+
+#### INVEST Guidelines
+
+Mnemonic for writing effective user stories.
+
+* Independence—user stories should be independent from each other as much as possible; not least because so that they are compatible with a product backlog as much as possible and so that the right set of user stories can be selected for the next iteration
+* Negotiation—extra detail may be added through negotiation by considering that they are WIP
+* Valuable—make sure that a user story is providing meaningful value, as things may change after each iteration
+* Estimable—should provide a concrete, meaningful cost
+* Small—easier to reason about, negotiate, estimate costs for, independent, develop
+* Testable—makes sure that things are testable so that everyone can evaluate and agree to what is done when done
+
+#### User Story and INVEST Example
+
+Example:
+
+1. RGB: As a **prof** I want to **create repositories** so that **students can work**
+2. Limitations: need repository names, student IDs
+3. DoD: runnable as a single command; automated test cases—programatically verifiable
+4. Engineering Notes: This is an existing system, so should use GitHub manager
+5. Cost: 1.5 units
+
+#### Decomposing User Stories: Part 1
+
+* Role: as a player
+* Goal: move Mario
+* Benefit: Dodge/attack enemies
+* Limitations: keyboard input
+* Engineering notes:
+* Notes: use existing `Level` class
+* Cost: +1 unit for key control; +1 unit for movement handling; +1 unit for collision
+
+* DoD: key input controls Mario's movements; Mario should be able to move through the level; when Mario ~~attacks/hits~~ collides, enemy should be ~~hurt~~ hit
+
+**INVEST**
+
+* Independent? No.
+* Negotiable? Yes. There is a lot of flexibility in how things can be implemented.
+* Valuable? Yes. Otherwise game cannot be played
+* Estimable? It is estimable, but it can be reasoned about.
+* Small? Nooooooope.
+* Testable? Yes.
+
+#### Decomposing User Stories: Part 2
+
+* Not a linear process—iterative.
+* Methodology varies based on team.
+
+To decompose a user story:
+
+1. Find entities
+2. Link entities
+3. Bind actions (to entities)
+4. Prototype (make sure that it matches the story that will unfold)
+5. Formalise (writing down designs in a formal location)
+6. Implementation
+
+Example from DoD above:
+
+* Entities: key, Mario, Level, enemies
+
+Is anything missing? Figures
+
+* Sketch entities out and link them with a graph
+
+* Binding actions—usually verbs in the user stories, for example, "controls", "move", "collisions", "hits", and bind them to the graph
+
+#### Decomposing User Stories: Part 3-5
+
+Much of part 3-5 are explained with diagrams and it's better to refer to the videos instead.
 
 
 
