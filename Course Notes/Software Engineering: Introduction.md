@@ -295,6 +295,142 @@ Is anything missing? Figures
 
 Much of part 3-5 are explained with diagrams and it's better to refer to the videos instead.
 
+### Why Test?
+
+1. **Choose** what needs to be tested
+2. **Create** tests
+3. **Execute** tests
+4. **Examine** results
+5. **Evaluate** the testing process and ask whether or not things have been tested enough for the feature to be confidently shipped
+
+Aspects of testing:
+
+* White box testing
+* Black box testing
+* Assertions
+* Testability
+
+#### Terminology
+
+* Test case
+* Test suite
+* CUT (Code Under Test)/SUT (System under Test)
+
+* White box—designing tests by examining the internals of the code and how they work
+* Black box—according to specification, usually involves **not** looking at how things work
+
+#### Properties of Tests
+
+* Fast
+* Reliable—failure corresponds to defects in the system
+* Isolate—a failure should quickly indicate what part of the code is the problem
+* Simulate users
+
+#### Kinds of Tests
+
+* Fast/Slow
+* Isolated/Non-isolated
+
+* Unit test (fast, isolated)—checking a single, small part of the code to see if something is wrong
+* Acceptance test (Slow, Isolated, usually manual)—performed by the person receiving a product to see whether or not things are working according to specification
+* Smoke/Integration test (fast ish, less isolated than unit tests but much more isolated than integration tests)—check whether or not a collection of smaller features is behaving as intended
+* System test—test a broader part of the system (usually integration tested) and usually with synthetic data
+
+#### Red Green Refactor
+
+* Make sure that a test fails before implementation
+* Fail -> Pass -> Refactor + Extend
+
+#### Introduction to Coverage
+
+Two broad categories of coverage.
+
+1. Flow independent
+  * Cheap to compute
+  * Easy tor reason about
+  * Makes sure that each piece can be executed successfully
+  * Block coverage
+  * Line coverage
+  * Statement coverage (similar to line coverage, but consider `for (let i = 0; i < 10; i++)`)
+
+2. Flow-dependent
+  * Making sure that different pieces of the code can execute together
+  * Harder to reason about
+  * More expensive to compute
+  * But "more insights on how stringently we have executed our system"???
+  * Branch coverage
+  * Path coverage
+  * MCC coverage
+
+Coverage-guided testing is iterative:
+1. Identify
+2. Design
+3. Write and execute
+4. Repeat
+
+> Coverage does let us know if any exceptions are raised during execution, but cannot tell us that our program actually did the right thing. A method may do the wrong thing (e.g. return the wrong value) but would achieve the same level of code coverage that a correctly-implemented method would.
+
+#### Coverage Wrap-Up
+
+* Coverage is **not** about correctness of behaviours.
+* Writing high-quality tests is more important than writing low-quality tests simply with the goal of higher coverage in mind
+
+#### Equivalence Class Partitioning
+
+Less data available for analysis in Black Box Testing, only according to specification. It's more appropriate for other stakeholders to write who are not the original developers.
+
+* Focuses on **what** the system is doing, not **how**
+
+#### Input Partitioning
+
+#### Output Partitioning
+
+#### Boundary Value Analysis
+
+#### Assertions
+
+Assertion allows ones to reason about whether or not **execution** is correct.
+
+Four Phase Test:
+
+1. Set up test spectra
+2. Run tests
+3. A series of assertions that check the behaviour
+4. After after/after each method for cleaning up test fixture
+
+Given When Then:
+
+* Strong emphasis on readability
+
+1. Given a state of a program
+2. Apply some test behaviours
+3. Assert that the behaviour is correct
+
+#### Introduction to Testability
+
+1. Reach
+2. Trigger
+3. Propagate
+4. Observe
+5. Interpret
+
+#### Controllability
+
+#### Observability
+
+#### Isolateability
+
+Umm... seems to be a CS spelling. Isolability...? Also, why isn't observability spelt "obesrveability" instead, too. The same goes for "automatability" which comes later. Urgh, OCD triggers.
+
+#### Automatability
+
+#### Testability Wrap-Up
+
+When tests fail, it is important to consider whether or not the defects are actually in the tests.
+
+### High Level Design 
+
+
 
 
 
