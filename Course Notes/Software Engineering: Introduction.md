@@ -428,11 +428,130 @@ Umm... seems to be a CS spelling. Isolability...? Also, why isn't observability 
 
 When tests fail, it is important to consider whether or not the defects are actually in the tests.
 
-### High Level Design 
+### High Level Design
+
+#### Abstraction
+
+#### Structured Programming
+
+#### Decomposition
+
+* Decomposition—taking a highly level description and successively add more and more details to it; however, leaf nodes usually end up conflicting with each other and may not match the best design in practice
+* Bottom up—the reverse of top-down, inconsistencies may still occur for the opposite reason
+
+#### Encapsulation
+
+#### Information Hiding
+
+#### Views
+
+* Structural—class diagrams, deployment diagrams
+* Behaviour—sequence diagrams, state machine diagrams
+
+#### Deployment Diagrams
+
+"Overlay class diagrams to add additional information about where modules and classes will exist at runtime", useful in distributed and cloud-based applications.
+
+#### State Machine Diagrams
+
+Illustrate the core states that a system could be in and how it transitions from one state to another.
+
+#### High Level API Design
+
+Balance between utility and technical debt.
+
+* An API method should do one thing and do it well
+* Should never expose internal implementation details
+* As small as possible
+* Usability
+
+#### Low Level API Design
+
+* Avoid long list of parameters
+* Return descriptive objects
+* Avoid exceptional returns
+* Handle exceptional circumstances. Example:
+  ```JavaScript
+  throw new Error({ code, message, info });
+  ```
+* Favour immutability
+* Favour private classes, fields and methods
+
+#### API Design Process
+
+* What is the goal?
+  * Languages
+  * Protocols
+  * Platform
+  * Formats
+* Who is the customer?
+  * Versioning
+  * Licensing
+  * Authentication
+
+#### API Usability
+
+* Visibility
+* Model
+* Mapping
+* Feedback
+
+#### REST Development: Part 3
+
+> Statelessness is a core architectural constraint for all REST based systems.
+
+> ... it makes REST based servers much easier to scale, and enables caching and server switching in a way that wouldn't otherwise.
 
 
+#### Coupling: Part 1
 
+How strongly connected program elements are to one another.
 
+#### Coupling: Part 2
+
+Data coupling -> stamp coupling -> stamp coupling -> global coupling -> content coupling
+
+#### Cohesion: Part 2
+
+The degree to which members of a class serve a unifying task or concept.
+
+Functional cohesion -> sequential cohesion -> communication cohesion -> procedural cohesion -> temporal cohesion -> logical cohesion -> coincidental cohesion
+
+#### Design Guidance and Symptoms
+
+* Rigidity
+* Fragility
+* Immobility
+* Viscosity
+* Needless complexity
+* Repetition
+* Opacity
+
+#### Single Responsibility Principle
+
+A software module should do one thing and do it well.
+
+Design patterns that help:
+
+* Strategy patter—small, independent algorithms
+* Command pattern—abstract actions an object takes from its internal Implementation
+* State pattern—abstract away how an object behaves in different states that can change dynamically at runtime
+
+#### Open/Closed Principle
+
+System should be open to extension but closed to modification.
+
+#### Liskov Substitution Principle
+
+Any object in a program should be interchangeable with any other that has the same parent type.
+
+#### Interface Segregation Principle
+
+Clients should not be forced to depend on interfaces that they do not use.
+
+#### Dependency Inversion Principle
+
+Classes should depend on abstractions, not on implementation.
 
 
 
