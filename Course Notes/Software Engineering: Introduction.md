@@ -553,6 +553,128 @@ Clients should not be forced to depend on interfaces that they do not use.
 
 Classes should depend on abstractions, not on implementation.
 
+### Low Level Design
+
+#### Introduction to Low Level Design
+
+* Encapsulate what varies
+* Design to interfaces
+* Favour composition over inheritance
+
+#### Design Patterns
+
+A set of guidelines, based on problems that others have encountered before, that helps software engineers to design better systems by avoiding evolutionary problems as much as possible. They also function as a shared vocabulary between developers.
+
+* Creational—helps to build objects in an extensible way
+* Structural—helps structure systems in a way to avoid evolutionary problems
+* Behavioural—helps to add new behaviours at runtime
+
+#### Singleton
+
+* Creational pattern
+* Simplest design pattern
+
+* Constructor is private
+* Accessed through a public method `getInstance()`
+
+* Singleton is effectively just a global variable
+* They rely on a static `getInstance()` method, its make a system harder to evolve
+* They spread dependencies to singleton classes throughout the system
+* Singleton makes testing harder
+
+#### Strategy
+
+Provides a mechanism for encapsulating algorithms to allow for facile future extension.
+
+* Classic example of O in SOLID
+* Using polymorphism to hide concrete types behind more abstract interfaces
+
+#### State
+
+Abstracts away the need for state management inside a client. (Like Redux?)
+
+* Often helpful to state with a state diagram
+* Flexible way to manage state transition
+* Localises state decisions within individual state classes
+
+#### Facade
+
+Simplifies client access to subsystems by reducing their apparent complexity through providing high-level support for tasks that depend on the subsystems.
+
+* It is important that a facade does not block direct access to the subsystems
+* Encourages weak coupling between clients and subsystems
+* Violate the single responsibility principle as a trade off
+
+#### Decorator
+
+Allows the layering of "arbitrary combinations of behaviours to individual instances of objects."
+
+* Well understood example of composition over inheritance
+* A new object is created by instantiating an instantiated component wrapped with `Decorator`
+* Removes the need to generate combination of subtypes
+* An example of Single Responsibility principle
+* Supports the Open/Closed principle
+
+* Might want to consider the strategy pattern if behaviours being added is more involved
+* Does lead to proliferation of small classes
+* Debugging is more difficult for layered objects
+
+#### MVC
+
+Separates the view of an application from its implementation so that they can be changed independently because, in practice, the view changes the most.
+
+* Business logic and UI logic is usually separate
+* Eases testability
+
+Main components:
+
+* Model
+  * Contains all the data for an application and can validate its own integrity
+  * Domain independent
+  * A data-centric that doesn't know how to render itself
+  * Highly reusable
+* View
+  * Model notifies it of any changes
+  * Retrieves states from Model
+  * There can be multiple views that depend on the same Model
+* Controller
+  * Tightly bound to the view it's associated with
+  * Responses to changes in the view and updates the Model accordingly
+
+1. Changes occur in the view and Controller handles those changes
+2. Controller updates the Model
+3. Model notifies View of changes
+4. View retrieves state from Model for render
+
+* The massive view controller paradigm—to easy to put too much logic in the view, which is the most difficult part to test. Functionalities should be implemented in Controller as much as possible
+* Performance could be an issue if there are too many objects in Model
+* Deconstruction can be difficult
+
+#### MVP
+
+A modernisation on MVC that aims to improve testability, by decreasing the code that's in the View and forcing them onto the Presenter.
+
+* Presenter
+  * Should not have dependencies on UI components
+  * Needs to be easy to test
+  * Updates the Model and retrieve states from it
+  * Make sure that View does not interact with Model
+
+1. Actions in the View get passed to the presented
+2. Presenter updates the Model
+3. Model notifies Presenter of changes/event bus
+4. Presenter updates the View
+
+### Construction
+
+
+
+
+
+
+
+
+
 
 
 
