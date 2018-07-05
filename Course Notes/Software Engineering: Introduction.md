@@ -667,17 +667,65 @@ A modernisation on MVC that aims to improve testability, by decreasing the code 
 
 ### Construction
 
+#### Non-Structural Properties: Readability
 
+* Easier to understand
+* Easier to make changes
+* Reduce the chance of introducing bugs
 
+**Anti-patterns**
 
+* Deep nesting
+* Bad naming—one shouldn't need to go into the implementation of a method to know what is going on
+* Individual style
+* No comments
+* Large blocks with significant sub-blocks
 
+#### Static Analysis and Linters
 
+* Simplest form of static analysis is the compiler
 
+#### Automation
 
+#### Code Smells
 
+Software changes:
 
+* Corrective—fix defects
+* Adaptive—help systems with external changes
+* Perfective—add or modify functionality
+* Preventative—improve structure
 
+Code smells:
 
+* Bloaters
+* OO Abusers
+* Change preventers
+* Dispensables
+* Couplers
+
+#### Refactoring
+
+* Often triggered by quality concerns
+* Indication from code review
+* Benefits are mainly for technical teams, risks and costs are borne by other stakeholders
+* Often suffers from second system effect
+* Earlier is easier
+* Integrates well with Agile
+
+**Rule of Threes**
+
+1. Code the feature
+2. Code but take note
+3. Refactor first
+
+* Premature refactoring could be a problem itself
+
+**Refactoring Steps**
+
+1. Understand
+2. Transform
+3. Refine
 
 
 ## Resources
