@@ -18,7 +18,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
+Current Material: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
@@ -26,7 +26,7 @@ Books Completed: 9
 
 Courses Completed: 0
 
-Total Points Earned: 2800 + 300
+Total Points Earned: 3300 + 300
 
 Total Time Spent Since 2018.06.04 (approx.): 176.5 hours
 
@@ -43,6 +43,7 @@ Total Time Spent Since 2018.06.04 (approx.): 176.5 hours
 | 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
 | 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
 | 2018.06.29 | Course | 500 | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x) |
+| 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) |
 |  |  |  |  |
 
 Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles
@@ -72,14 +73,14 @@ Total Time Spent Since 2018.06.04 (approx.): 37.5 hours
 * [x] Book: [DOM Enlightenment](http://domenlightenment.com/)
 * [x] Course: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
 * [x] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
+* [x] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
+* [ ] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
-* [ ] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
 
 ## Web Dev with Computer Science
 
 * [ ] Course: [Introduction to Computer Science - CS50](https://www.edx.org/course/introduction-computer-science-harvardx-cs50x#!)
 * [ ] Course: [Getting Sassy with CSS](http://www.sassshop.com/#/)
-* [ ] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [ ] Course: [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x)
 * [ ] Course: [Programming for the Web with JavaScript](https://www.edx.org/course/programming-web-javascript-pennx-sd4x) on edX or [M101JS: MongoDB for Node.js Developers](https://university.mongodb.com/courses/M101JS/about) on MongoDB University (or both, your choice)
 * [ ] Course: [Calculus One](https://www.coursera.org/learn/calculus1)
