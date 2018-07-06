@@ -22,3 +22,46 @@ Everything in this file is derived from going through [Software Construction: Da
 * Relate the app to the code
 * Inter-package relationship
 * Inter-file relationship
+
+### 2a. Control and Data Flow: Structures
+
+#### Call Graphs
+
+A graph showing what methods is called by other methods.
+
+#### Classes and Objects
+
+* Class is a way of encapsulating information
+* A class contains the characteristics of the data it represents
+* A class contains operations which can be performed on the data it represents (methods)
+
+#### Anatomy of a Class
+
+* `final`: immutable
+* `static`: stays within a class and not instantiated with an object
+
+**Style conventions**
+
+1. Important statements
+2. Class declaration
+3. Constants and fields
+4. Constructors
+5. Public and private methods
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
