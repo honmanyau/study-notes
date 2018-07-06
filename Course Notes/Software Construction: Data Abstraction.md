@@ -48,20 +48,22 @@ A graph showing what methods is called by other methods.
 4. Constructors
 5. Public and private methods
 
+### 2b: Control and Data Flow: Models
 
+#### Data Flow
 
+How information is passed around in a program.
 
+#### Debugging, Part 3
 
+> What is the main reason to avoid magic numbers?
 
+> Because we don't do magic, we do computer science
 
+Gold!
 
+#### Quiz
 
+> if the condition at A was changed to (!(condition at A)) then how would the flowchart for the method change: (Assume only labels are used for the flowchart)
 
-
-
-
-
-
-
-
-//
+That last bit about "Assume only labels are used for the flowchart" is misleading. D: The chart would reverse if we were not using labels, but if the label `A` is used to abstract away all the detail, as suggested by the provided assumption, then it does not matter if the conditions inside A is now the reverse of what it was before—because `A` will always evaluate to either `true` or `false` and the branches in the flow chart does not reverse...
