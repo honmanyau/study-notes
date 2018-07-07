@@ -67,3 +67,78 @@ Gold!
 > if the condition at A was changed to (!(condition at A)) then how would the flowchart for the method change: (Assume only labels are used for the flowchart)
 
 That last bit about "Assume only labels are used for the flowchart" is misleading. D: The chart would reverse if we were not using labels, but if the label `A` is used to abstract away all the detail, as suggested by the provided assumption, then it does not matter if the conditions inside A is now the reverse of what it was before—because `A` will always evaluate to either `true` or `false` and the branches in the flow chart does not reverse...
+
+### 3a: Data Abstraction: Specifying and Using
+
+#### What is Abstraction?
+
+* Hiding implementation detail behind an interface/container
+* There are different levels of abstraction
+
+Examples:
+
+* Statement
+* Functional
+* Data abstraction
+  * Classes
+
+#### Visibility
+
+Four phase process for designing and implementing abstraction:
+
+1. Specify
+2. Use
+3. Test
+4. Implement
+
+#### Specifying a Data Abstraction
+
+1. Requires clause—preconditions for correctness
+2. Modifies clause—what does the method change
+3. Effects clause—what does the method do
+
+#### Requires
+
+Examples:
+
+* Requires: `amount >= 0`
+* Requires: `y != 0`
+
+#### Modifies
+
+Examples:
+
+* Modifies: `this` (implementation detail)
+* Modifies: `this`, `deposits`
+
+#### Effects
+
+Examples:
+
+* Effects: Adds `amount` fo `balance`
+
+#### Using a Data Abstraction
+
+Going through possible usage scenarios for how a data abstraction may be called by a client.
+
+#### Discussion: Black Box and White Box Testing
+
+> Black Box Testing is a way of testing software without knowing any of the internal structure or implementation details of the system being tested. In this case, we are interested in testing the functionality of the software.
+
+> White Box Testing is a way of testing software that actually tests the internal structure and implementation details of the system.
+
+#### JUnit, part 1 (\@Test and Fields)
+
+* `@Test`
+* `@Before`
+
+#### Testability
+
+### 3b: Data Abstraction: Testing and Implementing
+
+#### Implementing a Data Abstraction
+
+
+
+
+## Resources
