@@ -28,7 +28,7 @@ Courses Completed: 0
 
 Total Points Earned: 3300 + 300
 
-Total Time Spent Since 2018.06.04 (approx.): 197 hours
+Total Time Spent Since 2018.06.04 (approx.): 210 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -46,14 +46,14 @@ Total Time Spent Since 2018.06.04 (approx.): 197 hours
 | 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) |
 |  |  |  |  |
 
-Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles
+Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles (accumulated time: 9.5)
 
-Total Time Spent Since 2018.06.04 (approx.): 37.5 hours
+Total Time Spent Since 2018.06.04 (approx.): 15 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |   
-| 2018.06.17 | Book | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |
-| 2018.06.23 | Project | 200 | Final Project for [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
+| 2018.06.17 | Project | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |
+|  |  |  |  |
 |  |  |  |  |
 
 ## Interruptions
