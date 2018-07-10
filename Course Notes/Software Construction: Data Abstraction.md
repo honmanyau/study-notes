@@ -5,7 +5,6 @@
 * [Software Construction: Data Abstraction](#software-construction-data-abstraction)
   * [Disclaimer](#disclaimer)
   * [Notes](#notes)
-  * [Resources](#resources)
 
 ## Disclaimer
 
@@ -1762,9 +1761,3 @@ private void createTools() {
       setActiveTool(rectTool);
 }
 ```
-
-
-
-
-
-## Resources
