@@ -18,17 +18,17 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
+Current Material:
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 Books Completed: 9
 
-Courses Completed: 0
+Courses Completed: 4
 
-Total Points Earned: 3300 + 200
+Total Points Earned: 3800 + 200
 
-Total Time Spent Since 2018.06.04 (approx.): 213 hours
+Total Time Spent Since 2018.06.04 (approx.): 217 hours
 
 | Date Finished | Activity                  | Points | Links  |
 | ------------- | ------------------------- | ------ | ------ |         
@@ -44,6 +44,7 @@ Total Time Spent Since 2018.06.04 (approx.): 213 hours
 | 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
 | 2018.06.29 | Course | 500 | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x) |
 | 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) |
+| 2018.07.10 | Course | 500 | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) |
 |  |  |  |  |
 
 Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles (accumulated time: 9.5)
@@ -74,7 +75,7 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 * [x] Course: [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x)
 * [x] Course: [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x)
 * [x] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
-* [ ] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
+* [x] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 ## Web Dev with Computer Science
