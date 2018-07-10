@@ -1505,6 +1505,265 @@ public class Main {
 }
 ```
 
+#### Quiz
+
+> In Java, multiple inheritance is not possible.
+
+```Java
+// src/model/Shape
+
+// getters
+public int getX() { return x; }
+
+public int getY() { return y; }
+
+public int getWidth() { return width; }
+
+public int getHeight() { return height; }
+
+public MidiSynth getMidiSynth() {
+    return midiSynth;
+}
+
+public int getInstrument() {
+    return instrument;
+}
+
+// EFFECTS: return a velocity based on the area of a Shape
+//          The only meaningful velocities are between 0 and 127
+//          Velocities less than 60 are too quiet to be heard
+public int areaToVelocity() {
+    return Math.max(60, Math.min(127, calcArea() / 30));
+}
+
+// EFFECTS: maps a given integer to a valid associated note
+public int coordToNote(int y) {
+    return 70 - y / 12;
+}
+
+//EFFECTS: draws the shape
+//    public void drawGraphics(Graphics g) {
+//        g.drawRect(x, y, width, height);
+//    }
+public abstract void drawGraphics(Graphics g);
+
+//EFFECTS: fills the shape
+//    public void fillGraphics(Graphics g) {
+//        g.fillRect(x, y, width, height);
+//    }
+public abstract void fillGraphics(Graphics g);
+
+public abstract int calcArea();
+
+public abstract boolean contains(Point point);
+```
+
+```Java
+// src/model/Rectangle
+
+package model;
+
+import sound.MidiSynth;
+
+import java.awt.*;
+
+public class Rectangle extends Shape {
+    private int x;
+    private int y;
+
+    public Rectangle(Point topLeft, MidiSynth midiSynth) {
+        super(topLeft, midiSynth, 0, new Color(255, 139, 148));
+
+        this.x = getX();
+        this.y = getY();
+    }
+
+    public void drawGraphics(Graphics g) {
+        g.drawRect(this.x, this.y, getWidth(), getHeight());
+    }
+
+    public void fillGraphics(Graphics g) {
+        g.fillRect(this.x, this.y, getWidth(), getHeight());
+    }
+
+    public int calcArea() {
+        return getWidth() * getHeight();
+    }
+
+    public boolean contains(Point p) {
+        return containsX(p.x) && containsY(p.y);
+    }
+}
+```
+
+```Java
+// src/model/Oval
+
+package model;
+
+import sound.MidiSynth;
+
+import java.awt.*;
+
+public class Oval extends Shape {
+    private int x;
+    private int y;
+
+    public Oval(Point topLeft, MidiSynth midiSynth) {
+        super(topLeft, midiSynth,10, new Color(168, 230, 207));
+
+        this.x = getX();
+        this.y = getY();
+    }
+
+    public void drawGraphics(Graphics g) {
+        g.drawOval(x, y, getWidth(), getHeight());
+    }
+
+    public void fillGraphics(Graphics g) {
+        g.fillOval(x, y, getWidth(), getHeight());
+    }
+
+    public int calcArea() {
+        return (int) Math.floor(Math.PI * getWidth() / 2 * getHeight() / 2);
+    }
+
+    public boolean contains(Point p) {
+        final double TOL = 1.0e-6;
+        double halfWidth = getWidth() / 2.0;
+        double halfHeight = getHeight() / 2.0;
+        double diff = 0.0;
+
+        if (halfWidth > 0.0) {
+            diff = diff + sqrDiff(this.x + halfWidth, p.x) / (halfWidth * halfWidth);
+        } else {
+            diff = diff + sqrDiff(this.x + halfWidth, p.x);
+        }
+        if (halfHeight > 0.0) {
+            diff = diff + sqrDiff(this.y + halfHeight, p.y) / (halfHeight * halfHeight);
+        } else {
+            diff = diff + sqrDiff(this.y + halfHeight, p.y);
+        }
+        return  diff <= 1.0 + TOL;
+    }
+
+    // Compute square of difference
+    // EFFECTS: returns the square of the difference of num1 and num2
+    private double sqrDiff(double num1, double num2) {
+        return (num1 - num2) * (num1 - num2);
+    }
+}
+```
+
+```Java
+// src/ui/tools/ShapeTools
+
+	//EFFECTS: Constructs and returns the new shape
+	private void makeShape(MouseEvent e) {
+		shape = makeSpecificShape(e.getPoint(), editor.getMidiSynth());
+	}
+
+    //EFFECTS: Returns the string for the label.
+//    private String getLabel() {
+//        return "Rectangle";
+//    }
+  public abstract String getLabel();
+
+	public abstract Shape makeSpecificShape(Point topLeft, MidiSynth midiSynth);
+
+```
+
+```Java
+// src/ui/tools/RectangleTool
+
+package ui.tools;
+
+import model.Shape;
+import model.Rectangle;
+import sound.MidiSynth;
+import ui.DrawingEditor;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class RectangleTool extends ShapeTool {
+    public RectangleTool(DrawingEditor editor, JComponent parent) {
+        super(editor, parent);
+    }
+
+    public String getLabel() {
+        return "Rectangle";
+    }
+
+    public Shape makeSpecificShape(Point topLeft, MidiSynth midiSynth) {
+        return new Rectangle(topLeft, midiSynth);
+    }
+}
+```
+
+```Java
+// src/ui/tools/OvalTool
+
+package ui.tools;
+
+import model.Oval;
+import model.Shape;
+import sound.MidiSynth;
+import ui.DrawingEditor;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class OvalTool extends ShapeTool {
+    public OvalTool(DrawingEditor editor, JComponent parent) {
+        super(editor, parent);
+    }
+
+    public String getLabel() {
+        return "Oval";
+    }
+
+    public Shape makeSpecificShape(Point topLeft, MidiSynth midiSynth) {
+        return new Oval(topLeft, midiSynth);
+    }
+}
+```
+
+```Java
+// src/ui/DrawingEditor
+
+private void createTools() {
+	JPanel toolArea = new JPanel();
+	toolArea.setLayout(new GridLayout(0,1));
+	toolArea.setSize(new Dimension(0, 0));
+	add(toolArea, BorderLayout.SOUTH);
+
+      ShapeTool rectTool = new RectangleTool(this, toolArea);
+      tools.add(rectTool);
+
+      ShapeTool ovalTool = new OvalTool(this, toolArea);
+      tools.add(ovalTool);
+
+      MoveTool moveTool = new MoveTool(this, toolArea);
+      tools.add(moveTool);
+
+      ResizeTool resizeTool = new ResizeTool(this, toolArea);
+      tools.add(resizeTool);
+
+      DeleteTool deleteTool = new DeleteTool(this, toolArea);
+      tools.add(deleteTool);
+
+      PlayShapeTool playShapeTool = new PlayShapeTool(this, toolArea);
+	tools.add(playShapeTool);
+
+      PlayDrawingTool playDrawingTool = new PlayDrawingTool(this, toolArea);
+      tools.add(playDrawingTool);
+
+      setActiveTool(rectTool);
+}
+```
+
+
 
 
 
