@@ -22,6 +22,8 @@ Current Material:
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
+Concurrent Non-CS/Programming Material: [Music Technology Foundations](https://www.edx.org/course/music-technology-foundations)
+
 Books Completed: 9
 
 Courses Completed: 4
