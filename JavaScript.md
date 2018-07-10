@@ -1080,7 +1080,7 @@ No, not necessarily; and that statement suggests a lack of understanding of the 
 
 > The JavaScript engine actually compiles the program on the fly and then immediately runs the compiled code.
 
-Reference: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md)
+References: [YDKJS, Up & Going, Chapter 1](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch1.md), [Software Engineering: Introduction, Programming Language Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
 
 ### What are some potential gotchas that you may run into When updating older code to use the newer `let` and `const` variable declaration keywords?
 
