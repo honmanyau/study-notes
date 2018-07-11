@@ -18,7 +18,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material:
+Current Material: [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
