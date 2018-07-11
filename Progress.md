@@ -4,11 +4,13 @@
 
 I came across [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea a few days after starting the [Computer Science and Web Development](https://github.com/P1xt/p1xt-guides/blob/master/cs-wd.md) guide—just as I was wondering how long it will all take (well, the goal is a bit of a moving target at the time of writing). It seems like the perfect way to keep myself accountable and motivated, as well as to serve as an indication of what can and cannot be achieved to others. This document is derived from the [Computer Science and Web Development template](https://github.com/P1xt/speedstudy/blob/master/progress-2018/template/template-wd-cs.md) in the SpeedStudy repository.
 
-In addition to keep track of my progress, the [study notes](https://github.com/honmanyau/study-notes) found in the other files and directories in this repository are also there to keep myself accountable and are intended to be review material for myself (or perhaps others). They are not organised by the material they are collected/interpreted from. Due references to resources are made wherever possible.
+In addition to keep track of my progress, the [study notes](https://github.com/honmanyau/study-notes) found in the other files and directories in this repository are also there to keep myself accountable and are intended to be review material for myself (or perhaps others). They are not organised by the material they are collected/interpreted from. Due references to resources are made wherever possible; and in the cases of course notes, even though I do try to reword things to make sure that I understand, please treat everything that are not attempts for problems, quizzes and exams as content quoted directly from the course.
 
-In case the speed at which I go through materials seems unusually fast to anyone who comes across this repository—when I just started I am already quite comfortable working with JavaScript, HTML and CSS and have done some computer science basics. Also, I was unemployed when this first started on 2018.06.04 and am dedicating approximately 8–12 hours a day, excluding breaks, on studying. I will try my best to document "interruptions" so that the picture is realistic for anyone who happens to come across this.
+In case the speed at which I go through materials seems unusually fast to anyone who comes across this repository—when I just started I am already quite comfortable working with JavaScript, HTML and CSS and have done some computer science basics. Also, I was unemployed when this first started on 2018.06.04 and am dedicating approximately 8–12 hours on most days, excluding breaks, on studying. Watching videos at 1.5x speed on average is perhaps a factor, too.
 
 I envisage that there will also be times when I seem to be going through material too slowly (if there are no documented interruptions). In those cases it is most likely because for each task/type of material I am going through, I would usually check the references suggested in it, too. An good example is understanding how the (call) stack, queue, heap, event loop, and the "microqueue" used by the JavaScript `Promise`s fit together and what each individual parts do—which took a substantial amount of time.
+
+At the end of the day, I honestly don't care if you think I'm lying about my commitments or that I'm not actually learning anything—as I said, this is to keep myself accountable and intended to provide other people who are going through, or intend to go through, something similar the kind of commitment involved.
 
 ## Goals
 
@@ -32,21 +34,21 @@ Total Points Earned: 3800 + 200
 
 Total Time Spent Since 2018.06.04 (approx.): 224.5 hours
 
-| Date Finished | Activity                  | Points | Links  |
-| ------------- | ------------------------- | ------ | ------ |         
-| 2018.06.04 | Book | 200 | [You Don't Know JS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |
-| 2018.06.04 | Book | 200 | [You Don't Know JS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |
-| 2018.06.05 | Book | 200 | [You Don't Know JS: `this` & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |
-| 2018.06.06 | Book | 200 | [You Don't Know JS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |
-| 2018.06.07 | Book | 200 | [You Don't Know JS: Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&%20performance/README.md#you-dont-know-js-async--performance) |
-| 2018.06.09 | Book | 200 | [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css) |
-| 2018.06.11 | Book | 200 | [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css) |
-| 2018.06.12 | Book | 200 | [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond) |
-| 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |
-| 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) |
-| 2018.06.29 | Course | 500 | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x) |
-| 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) |
-| 2018.07.10 | Course | 500 | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) |
+| Date Finished | Activity                  | Points | Links  | Remarks |
+| ------------- | ------------------------- | ------ | ------ | ------- |
+| 2018.06.04 | Book | 200 | [You Don't Know JS: Up & Going](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20&%20going/README.md#you-dont-know-js-up--going) |  |
+| 2018.06.04 | Book | 200 | [You Don't Know JS: Scope & Closures](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/README.md#you-dont-know-js-scope--closures) |  |
+| 2018.06.05 | Book | 200 | [You Don't Know JS: `this` & Object Prototypes](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&%20object%20prototypes/README.md#you-dont-know-js-this--object-prototypes) |  |
+| 2018.06.06 | Book | 200 | [You Don't Know JS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20&%20grammar/README.md#you-dont-know-js-types--grammar) |  |
+| 2018.06.07 | Book | 200 | [You Don't Know JS: Async & Performance](https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&%20performance/README.md#you-dont-know-js-async--performance) |  |
+| 2018.06.09 | Book | 200 | [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css) |  |
+| 2018.06.11 | Book | 200 | [Learn to Code Advanced HTML & CSS](https://learn.shayhowe.com/advanced-html-css) |  |
+| 2018.06.12 | Book | 200 | [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20%26%20beyond) |  |
+| 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |  |
+| 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) | Grade: 94% |
+| 2018.06.29 | Course | 500 | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x) | Grade: 90% |
+| 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) | Grade: 54%. Final exam is worth 40% and I did not attempt because it's brainless copypasta. Probably the most pointless 40% I've come across on edX |
+| 2018.07.10 | Course | 500 | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) | Grade: 89% |
 |  |  |  |  |
 |  |  |  |  |
 
@@ -54,15 +56,11 @@ Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles (accumu
 
 Total Time Spent Since 2018.06.04 (approx.): 18 hours
 
-| Date Finished | Activity                  | Points | Links  |
-| ------------- | ------------------------- | ------ | ------ |   
-| 2018.06.17 | Project | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |
-| 2018.07.09 | Mini-Project | 100 | [Front-end Puzzles: Puzzle 2—Getting Stylish](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/002-getting-stylish) |
+| Date Finished | Activity                  | Points | Links  | Remarks |
+| ------------- | ------------------------- | ------ | ------ | ------- |
+| 2018.06.17 | Project | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |  |
+| 2018.07.09 | Mini-Project | 100 | [Front-end Puzzles: Puzzle 2—Getting Stylish](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/002-getting-stylish) |  |
 |  |  |  |  |
-
-## Interruptions
-
-* 2018.06.17: Started [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) on 2018.06.13 but decided to do it concurrently with computer science material because the latter is more important for now.
 
 ## Materials Finished
 
