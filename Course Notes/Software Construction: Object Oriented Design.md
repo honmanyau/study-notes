@@ -352,6 +352,31 @@ public class WaterException extends Exception {
 }
 ```
 
+### 6: Extracting Object-Oriented Design
+
+#### Extracting Associations
+
+* Aggregration (empty diamond before arrow)
+* Bidirectional relationship—no arrow head
+
+#### Extracting Sequence Diagrams
+
+#### Quiz
+
+Select each of the following that describes an aggregation relationship (as opposed to a general association):
+
+[x] A Body that has fields for different body parts correct
+[ ] A Country that has fields for the countries it has trade relationships with
+[x] A House that has fields for its rooms correct
+[x] A Book that has fields for each of its chapters correct
+[ ] A University Faculty that has fields for the other faculties at the university it interacts with
+
+What's shown above is the "correct" answer but I tend to disagree (not because I picked the other two that are "incorrect"). The "correct" answers are **compositions** and not **aggregations** (the book example is ambiguous)—a body part cannot exist without a body (well, in a natural sort of sense—this becomes debatable if we consider things that biotechnology have managed), a rooms cannot exist without a container (otherwise they would not be rooms). Conceptually a brain can exist without a body (Psycho Pass!?) and a room can exist without a container (Chrono Trigger!?), and I suppose the latter is a counter-argument to my argument (WAAAAAH), but... you get the idea! It's at best ambiguous!
+
+Time to find a corner and hide.
+
+
+
 
 
 
