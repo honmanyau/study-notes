@@ -47,7 +47,7 @@ Total Time Spent Since 2018.06.04 (approx.): 224.5 hours
 | 2018.06.13 | Book | 200 | [DOM Enlightenment](http://domenlightenment.com) |  |
 | 2018.06.23 | Course | 500 | [How to Code: Simple Data](https://www.edx.org/course/how-code-simple-data-ubcx-htc1x) | Grade: 94% |
 | 2018.06.29 | Course | 500 | [How to Code: Complex Data](https://www.edx.org/course/how-code-complex-data-ubcx-htc2x) | Grade: 90% |
-| 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) | Grade: 54%. Final exam is worth 40% and I did not attempt because it's brainless copypasta. Probably the most pointless 40% I've come across on edX |
+| 2018.07.05 | Course | 500 | [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x) | Grade: 54%. Final exam is worth 40% and I did not attempt because it's brainless copypasta. Probably the most pointless 40% I've come across on edX. |
 | 2018.07.10 | Course | 500 | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) | Grade: 89% |
 |  |  |  |  |
 |  |  |  |  |
