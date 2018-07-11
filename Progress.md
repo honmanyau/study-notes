@@ -30,7 +30,7 @@ Books Completed: 9
 
 Courses Completed: 4
 
-Total Points Earned: 3800 + 200
+Total Points Earned: 3800 + 120
 
 Total Time Spent Since 2018.06.04 (approx.): 224.5 hours
 
@@ -59,7 +59,7 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 | Date Finished | Activity                  | Points | Links  | Remarks |
 | ------------- | ------------------------- | ------ | ------ | ------- |
 | 2018.06.17 | Project | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |  |
-| 2018.07.09 | Mini-Project | 100 | [Front-end Puzzles: Puzzle 2—Getting Stylish](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/002-getting-stylish) |  |
+| 2018.07.09 | Mini-Project | 20 | [Front-end Puzzles: Puzzle 2—Getting Stylish](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/002-getting-stylish) |  |
 |  |  |  |  |
 
 ## Materials Finished
