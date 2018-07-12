@@ -486,6 +486,660 @@ public class PetStore {
 
 ### 8: Design Principles
 
+#### What are Design Principles?
+
+* Single Responsibiliy Principle
+* Listkov Principle
+
+#### Single Responsibility Principle
+
+Each class/function should code that is as cohesive as possible.
+
+#### Busy'sDiner 1 Long-form Problem
+
+```Java
+// src/model/Chef
+
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Chef {
+    private static final double DISH_PRICE = 10.00;
+    private static final String PREFIX = "CHEF - ";
+
+    private Order order;
+
+    public Chef() {
+        this.order = null;
+    }
+
+    //MODIFIES: this, order
+    //EFFECTS: makes food and logs order as prepared
+    public void makeDish(Order order) {
+        this.order = order;
+
+        prepareIngredients();
+        followRecipe();
+        cookFood();
+        plate(order);
+    }
+
+    //EFFECTS: prints out a doing dishes message
+    public void doDishes() {
+        System.out.println(PREFIX + "Cleaning, scrubbing...");
+        System.out.println("Dishes done.");
+    }
+
+    //EFFECTS: prints out the ingredients being prepared
+    private void prepareIngredients() {
+        System.out.println(PREFIX + "Slicing tomatoes... Shredding lettuce...");
+    }
+
+    //EFFECTS: prints out the recipe being followed
+    private void followRecipe() {
+        System.out.println(PREFIX + "Stacking meat... Placing veggies.... ");
+    }
+
+    //EFFECTS: prints out a message about cooking food
+    private void cookFood() {
+        System.out.println(PREFIX + "Grilling sandwich...");
+    }
+
+    //MODIFIES: order
+    //EFFECTS: logs order as prepared and prints out a plating message
+    private void plate(Order order) {
+        order.setIsPrepared();
+        System.out.print(PREFIX + "Plated order: ");
+        order.print();
+
+        this.order = null;
+    }
+
+}
+```
+
+```Java
+// src/model/Server
+
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Server {
+
+    private static final double DISH_PRICE = 10.00;
+    private static final String PREFIX = "SERVER - ";
+
+    private List<Order> orders;
+    private double cash;
+    private int currentOrderNumber;
+
+    public Server() {
+        this.orders = new ArrayList<>();
+        currentOrderNumber = 100;
+    }
+
+
+    //getter
+    public List<Order> getActiveOrders() {
+        return orders;
+    }
+
+    public double getCash() { return cash; }
+
+    //MODIFIES: this
+    //EFFECTS: creates new order with the dish on the menu
+    public Order takeOrder() { //5: signature
+        System.out.println(PREFIX + "Taking order...");
+        Order o = new Order("Turkey club sandwich", currentOrderNumber++);
+        orders.add(o);
+        System.out.print("Order taken: ");
+        o.print();
+        return o;
+    }
+
+    //EFFECTS: prints out a description of the dish on the menu
+    public void describeDish() {
+        System.out.println("\"Our somewhat bland sandwich has bread, lettuce, tomato, " +
+                "cheddar cheese, turkey and bacon.\"");
+    }
+
+    //EFFECTS: prints out a greeting
+    public void greet() {
+        System.out.println("\"Hello and welcome to Busy's, the home of the mediocre turkey club sandwich.\"");
+    }
+
+    //MODIFIES: this
+    //EFFECTS: takes payment for the guest and removes order from system
+    public void takePayment(Order order) {
+        System.out.println(PREFIX + "Taking payment...");
+        orders.remove(order);
+        cash += DISH_PRICE;
+        System.out.println("\"Thanks for visiting Busy's Diner!\"");
+    }
+
+    //MODIFIES: this, order
+    //EFFECTS: logs order as served and brings to table
+    public void deliverFood(Order order) {
+        order.setIsServed();
+        System.out.print(PREFIX + "Delivered food: ");
+        order.print();
+    }
+}
+```
+
+```Java
+// src/ui/Diner
+
+package ui;
+
+import model.Chef;
+import model.Server;
+import model.Order;
+
+public class Diner {
+
+    public static void main(String[] args) {
+        Server server = new Server();
+        Chef chef = new Chef();
+
+        for (int i=0; i < 2 ; i++) {
+            System.out.println("Table " + (i + 1) + ":\n");
+
+            server.greet();
+            server.describeDish();
+            Order o = server.takeOrder();
+
+            System.out.println();
+            chef.makeDish(o);
+
+            doOrderRoutine(server, o);
+            System.out.println();
+        }
+
+        System.out.println();
+        chef.doDishes();
+    }
+
+    private static void doOrderRoutine(Server e, Order o) {
+        System.out.println();
+        if (o.isReadyToBeServed())
+            e.deliverFood(o);
+        if(o.isReadyToBePaid())
+            e.takePayment(o);
+    }
+
+}
+```
+
+#### Coupling
+
+Relationship between modules (for example, if changes are made to one class, how large would the effect be another class that has a relationship with it).
+
+#### Busy'sDiner 2 Long-form Problem
+
+```Java
+// src/model/Chef
+
+package model;
+
+public class Chef {
+
+    private static final String PREFIX = "CHEF - ";
+
+    private Order order;
+
+    public Chef() {
+        order = null;
+    }
+
+    //MODIFIES: this, order
+    //EFFECTS: makes food and logs order as prepared
+    public void makeDish(Order order) {
+        this.order = order;
+
+        prepareIngredients();
+        followRecipe();
+        cookFood();
+        plate();
+    }
+
+    //EFFECTS: prints out a doing dishes message
+    public void doDishes() {
+        System.out.println(PREFIX + "Cleaning, scrubbing...");
+        System.out.println("Dishes done.");
+    }
+
+    //EFFECTS: prints out the ingredients being prepared
+    private void prepareIngredients() {
+        for (String ingredient : this.order.getIngredients()) {
+            System.out.println(PREFIX + "preparing " + ingredient);
+        }
+    }
+
+    //EFFECTS: prints out the recipe being followed
+    private void followRecipe() {
+        System.out.println(PREFIX + "following receipe:");
+        System.out.print(this.order.getRecipe());
+    }
+
+    //EFFECTS: prints out a message about cooking food
+    private void cookFood() {
+        System.out.println(PREFIX + "Grilling sandwich...");
+    }
+
+    //MODIFIES: order
+    //EFFECTS: logs order as prepared and prints out a plating message
+    private void plate() {
+        order.setIsPrepared();
+        System.out.print(PREFIX + "Plated order: ");
+        order.print();
+        this.order = null;
+    }
+}
+```
+
+```Java
+// src/model/Dish
+
+package model;
+
+import java.util.ArrayList;
+
+public class Dish {
+    private String name;
+    private String description;
+    private ArrayList<String> ingredients;
+    private String recipe;
+
+    public Dish(String name) {
+        this.name = "";
+    }
+
+    public Dish(String name, String description, ArrayList<String> ingredients, String recipe) {
+        this.name = name;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.recipe = recipe;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ArrayList<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
+    }
+}
+```
+
+```Java
+// src/model/Server
+
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Server {
+
+    private static final double DISH_PRICE = 10.00;
+    private static final String PREFIX = "SERVER - ";
+
+    private Dish dish;
+    private List<Order> orders;
+    private double cash;
+    private int currentOrderNumber;
+
+    public Server(Dish dish) {
+        this.dish = dish;
+        this.orders = new ArrayList<>();
+        currentOrderNumber = 100;
+    }
+
+
+    //getter
+    public List<Order> getActiveOrders() {
+        return orders;
+    }
+
+    public double getCash() { return cash; }
+
+    //MODIFIES: this
+    //EFFECTS: creates new order with the dish on the menu
+    public Order takeOrder() { //5: signature
+        System.out.println(PREFIX + "Taking order...");
+        Order o = new Order(dish, currentOrderNumber++);
+        orders.add(o);
+        System.out.print("Order taken: ");
+        o.print();
+        return o;
+    }
+
+    //EFFECTS: prints out a description of the dish on the menu
+    public void describeDish() {
+        System.out.println("\"Our somewhat bland sandwich has bread, lettuce, tomato, " +
+                "cheddar cheese, turkey and bacon.\"");
+    }
+
+    //EFFECTS: prints out a greeting
+    public void greet() {
+        System.out.println("\"Hello and welcome to Busy's, the home of the mediocre turkey club sandwich.\"");
+    }
+
+    //MODIFIES: this
+    //EFFECTS: takes payment for the guest and removes order from system
+    public void takePayment(Order order) {
+        System.out.println(PREFIX + "Taking payment...");
+        orders.remove(order);
+        cash += DISH_PRICE;
+        System.out.println("\"Thanks for visiting Busy's Diner!\"");
+    }
+
+    //MODIFIES: this, order
+    //EFFECTS: logs order as served and brings to table
+    public void deliverFood(Order order) {
+        order.setIsServed();
+        System.out.print(PREFIX + "Delivered food: ");
+        order.print();
+    }
+
+}
+```
+
+```Java
+// src/ui/Diner
+
+package ui;
+
+import model.Chef;
+import model.Dish;
+import model.Server;
+import model.Order;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Diner {
+
+    public static void main(String[] args) {
+        Server server = new Server(generateTurkeyClubSandwich());
+        Chef chef = new Chef();
+
+        for (int i=0; i < 2 ; i++) {
+            System.out.println("Table " + (i + 1) + ":\n");
+
+            server.greet();
+            server.describeDish();
+            Order o = server.takeOrder();
+
+            System.out.println();
+            chef.makeDish(o);
+
+            doOrderRoutine(server, o);
+            System.out.println();
+        }
+
+        System.out.println();
+        chef.doDishes();
+    }
+
+    private static void doOrderRoutine(Server s, Order o) {
+        System.out.println();
+        if (o.isReadyToBeServed())
+            s.deliverFood(o);
+        if(o.isReadyToBePaid())
+            s.takePayment(o);
+    }
+
+    private static Dish generateTurkeyClubSandwich() {
+        ArrayList<String> ingredients = new ArrayList<>();
+        ingredients.add("avocado");
+        ingredients.add("sriracha");
+        ingredients.add("cheddar cheese");
+        ingredients.add("bread");
+        ingredients.add("lettuce");
+        ingredients.add("tomato");
+        ingredients.add("turkey");
+        ingredients.add("bacon");
+        return new Dish("Turkey club sandwich",
+                "\"Our trendy sandwich has avocado, sriracha sauce, cheese, veggies, turkey and bacon.\"",
+                ingredients,
+                "\t1. Pour sriracha\n\t2. Spread avocado\n\t3. Stack meat\n\t4. Place veggies");
+    }
+}
+```
+
+#### Liskov Substitution Principle
+
+Whether one should substitute one subtype for another.
+
+* Substitution Test:
+  * Just try substituting a subtype for a supertype and see if it makes sense
+* Concatenation Test:
+  * Example: `StudentRegSys Student` (makes no sense), `Eagle bird` (makes sense)
+* Is-a Test
+
+* Postcondition—similar to what is described in the EFFECTS clause
+* Preconditions—similar to what is described in the REQUIRES clause
+
+* Strengthening preconditions-subclass accepts a narrower range of inputs
+* Weakening postconditions-subclass cannot fulfill the EFFECTS clauses specified in Server
+
+#### Busy'sDiner 3 Long-form Problem
+
+```Java
+// src/model/FOHEmployee
+
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class FOHEmployee {
+    private static final double DISH_PRICE = 10.00;
+
+    protected Dish dish;
+
+    public FOHEmployee(Dish dish) {
+        this.dish = dish;
+    }
+
+    public abstract String getPrefix();
+
+    //EFFECTS: prints out a description of the dish on the menu
+    public void describeDish() {
+        System.out.println(dish.getDescription());
+    }
+
+    //EFFECTS: prints out a greeting
+    public void greet() {
+        System.out.println("\"Hello and welcome to Busy's, the home of the trendy turkey club sandwich.\"");
+    }
+
+    //MODIFIES: this, order
+    //EFFECTS: logs order as served and brings to table
+    public void deliverFood(Order order) {
+        order.setIsServed();
+        System.out.print(getPrefix() + "Delivered food: ");
+        order.print();
+    }
+}
+```
+
+```Java
+// src/model/Host
+
+package model;
+
+public class Host extends FOHEmployee {
+    private static final String ERROR = "ERROR!! ";
+    private static final String PREFIX = "HOST - ";
+
+    public Host(Dish dish) {
+        super(dish);
+    }
+
+    public String getPrefix() {
+        return PREFIX;
+    }
+}
+```
+
+```Java
+// src/model/Server
+
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Server extends FOHEmployee {
+    private static final double DISH_PRICE = 10.00;
+    private static final String PREFIX = "SERVER - ";
+
+    private List<Order> orders;
+    private double cash;
+    private int currentOrderNumber;
+    private Dish dish;
+
+    public Server(Dish dish) {
+        super(dish);
+
+        this.orders = new ArrayList<>();
+        currentOrderNumber = 100;
+        this.dish = dish;
+    }
+
+    //getter
+    public List<Order> getActiveOrders() {
+        return orders;
+    }
+
+    public double getCash() { return cash; }
+
+    public String getPrefix() {
+        return PREFIX;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: creates new order with the dish on the menu
+    public Order takeOrder() {
+        System.out.println(PREFIX + "Taking order...");
+        Order o = new Order(this.dish, currentOrderNumber++);
+        orders.add(o);
+        System.out.print("Order taken: ");
+        o.print();
+        return o;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: takes payment for the guest and removes order from system
+    public void takePayment(Order order) {
+        System.out.println(PREFIX + "Taking payment...");
+        orders.remove(order);
+        cash += DISH_PRICE;
+        System.out.println("\"Thanks for visiting Busy's Diner!\"");
+    }
+}
+```
+
+```Java
+// src/ui/Diner
+
+// ...
+
+public class Diner {
+    public static void main(String[] args) {
+        Dish dish = generateTurkeyClubSandwich();
+        Server server = new Server(dish);
+        Chef chef = new Chef();
+        Host host = new Host(dish);
+
+        //Table 1
+        System.out.println("Table " + 1 + ":\n");
+
+        server.greet();
+        server.describeDish();
+        Order o = server.takeOrder();
+
+        System.out.println();
+        chef.makeDish(o);
+
+        doFOHOrderRoutine(server, o);
+        doServerOrderRoutine(server, o);
+        System.out.println();
+
+
+        //Table 2
+        System.out.println("Table " + 2 + ":\n");
+
+        host.greet();
+        host.describeDish();
+        System.out.println();
+
+        Order o2 = server.takeOrder();
+        System.out.println();
+        chef.makeDish(o2);
+
+        doFOHOrderRoutine(host, o2);
+        doServerOrderRoutine(server, o2);
+
+
+        System.out.println();
+        chef.doDishes();
+    }
+
+    public static void doFOHOrderRoutine(FOHEmployee e, Order o) {
+        System.out.println();
+        if (o.isReadyToBeServed())
+            e.deliverFood(o);
+    }
+
+    public static void doServerOrderRoutine(Server s, Order o) {
+        if(o.isReadyToBePaid())
+            s.takePayment(o);
+    }
+
+    // ...
+}
+```
+
+#### Quiz
+
+Waaaah, looking at the feedbacks, it looks like I have mentally inverted what is and isn't a violation of preconditions and postconditions according to the Listkov Substitution Principle. D:
+
+### 9: Design Patterns 
+
+
+
 
 
 
