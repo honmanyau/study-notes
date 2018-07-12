@@ -375,11 +375,116 @@ What's shown above is the "correct" answer but I tend to disagree (not because I
 
 Time to find a corner and hide.
 
+### 7: Implementing Object-Oriented Design
 
+#### PetPairs Long-form Problem
 
+```Java
+// src/model/pets/Pet
 
+public class Pet {
+    // ...
+    protected Human human;
 
+    public Pet(String species, String color, boolean friendly, boolean needsAttention, double price){
+        // ...
+        this.human = null;
+    }
 
+    public void adoptHuman(Human human) {
+        System.out.println("Adopting a human!");
+
+        if (human != null && !human.hasPet(this)){
+            human.adoptPet(this);
+            System.out.println("Success! Adopted " + human);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Pet)) return false;
+        Pet pet = (Pet) o;
+        return Objects.equals(species, pet.species) &&
+                Objects.equals(color, pet.color);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(species, color);
+    }
+}
+```
+
+```Java
+// src/model/Human
+
+// ...
+
+import java.util.ArrayList;
+
+public class Human {
+    // ...
+    private ArrayList<Pet> pets = new ArrayList<Pet>();
+
+    // ...
+    //EFFECTS: returns the number of pets belonging to species
+    public int numPetsOfSpecies(String species) {
+        int num = 0;
+
+        for (Pet p : pets) {
+            if (p.getSpecies() == species) {
+                num++;
+            }
+        }
+
+        return num;
+    }
+}
+```
+
+```Java
+// src/model/PetStore
+
+// ...
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+public class PetStore {
+    private HashMap<String, ArrayList<Pet>> animals = new HashMap<>();
+
+    // ...
+
+    //EFFECTS: prints out all pets in the store matching given attributes
+    public void displayAllPetsWithAttributes(boolean friendly, boolean needsAttention, double price) {
+        Collection<ArrayList<Pet>> allPets = animals.values();
+
+        for (ArrayList<Pet> species : allPets) {
+            displayOneSpeciesWithAttributes(species, friendly, needsAttention, price);
+        }
+    }
+
+    //EFFECTS: prints out all pets of this species matching given attributes
+    public void displayOneSpeciesWithAttributes(List<Pet> petList, boolean friendly, boolean needsAttention, double price) {
+        for (Pet p : petList) {
+            if (
+                p.isFriendly() == friendly &&
+                p.needsAttention() == needsAttention &&
+                p.getPrice() <= price
+            ) {
+                System.out.println("Has attributes: " + p);
+            }
+        }
+    }
+}
+```
+
+### 8: Design Principles
 
 
 
