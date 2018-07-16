@@ -950,8 +950,8 @@ Whether one should substitute one subtype for another.
 * Postcondition—similar to what is described in the EFFECTS clause
 * Preconditions—similar to what is described in the REQUIRES clause
 
-* Strengthening preconditions-subclass accepts a narrower range of inputs
-* Weakening postconditions-subclass cannot fulfill the EFFECTS clauses specified in Server
+* Strengthening preconditions-subclass should not accept a narrower range of inputs
+* Weakening postconditions-subclass should fulfil the EFFECTS clauses specified in Server
 
 #### Busy'sDiner 3 Long-form Problem
 
@@ -1577,10 +1577,465 @@ public class SillyWordGameUI {
 }
 ```
 
+### Final Project
 
+```Java
+// src/filters/AndFilter
 
+package filters;
 
+import twitter4j.Status;
 
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * A filter that represents the logical and of its child filters
+ */
+public class AndFilter implements Filter {
+    private final Filter child1;
+    private final Filter child2;
+
+    public AndFilter(Filter child1, Filter child2) {
+        this.child1 = child1;
+        this.child2 = child2;
+    }
+
+    /**
+     * An and filter matches when both of it its children match
+     * @param s     the tweet to check
+     * @return      whether or not it matches
+     */
+    @Override
+    public boolean matches(Status s) {
+        return child1.matches(s) && child2.matches(s);
+    }
+
+    @Override
+    public List<String> terms() {
+        ArrayList<String> terms = new ArrayList<String>();
+        terms.addAll(child1.terms());
+        terms.addAll(child2.terms());
+
+        return terms;
+    }
+
+    public String toString() {
+        return "(" + child1.toString() + " and " + child2.toString() + ")";
+    }
+}
+```
+
+```Java
+// src/filters/OrFilter
+package filters;
+
+import twitter4j.Status;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A filter that represents the logical and of its child filters
+ */
+public class OrFilter implements Filter {
+    private final Filter child1;
+    private final Filter child2;
+
+    public OrFilter(Filter child1, Filter child2) {
+        this.child1 = child1;
+        this.child2 = child2;
+    }
+
+    /**
+     * An and filter matches when both of it its children match
+     * @param s     the tweet to check
+     * @return      whether or not it matches
+     */
+    @Override
+    public boolean matches(Status s) {
+        return child1.matches(s) || child2.matches(s);
+    }
+
+    @Override
+    public List<String> terms() {
+        ArrayList<String> terms = new ArrayList<String>();
+        terms.addAll(child1.terms());
+        terms.addAll(child2.terms());
+
+        return terms;
+    }
+
+    public String toString() {
+        return "(" + child1.toString() + " or " + child2.toString() + ")";
+    }
+}
+```
+
+```Java
+// src/filters/Parser
+
+public class Parser {
+    // ...
+
+    private Filter orexpr() throws SyntaxError {
+        Filter sub = andexpr();
+        String token = scanner.peek();
+        while (token != null && token.equals(OR)) {
+            scanner.advance();
+            Filter right = andexpr();
+            // At this point we have two subexpressions ("sub" on the left and "right" on the right)
+            // that are to be connected by "or"
+            // TODO: Construct the appropriate new Filter object
+            // The new filter object should be assigned to the variable "sub"
+            sub = new OrFilter(sub, right); ////
+            token = scanner.peek();
+        }
+        return sub;
+    }
+
+    private Filter andexpr() throws SyntaxError {
+        Filter sub = notexpr();
+        String token = scanner.peek();
+        while (token != null && token.equals(AND)) {
+            scanner.advance();
+            Filter right = notexpr();
+            // At this point we have two subexpressions ("sub" on the left and "right" on the right)
+            // that are to be connected by "and"
+            // TODO: Construct the appropriate new Filter object
+            // The new filter object should be assigned to the variable "sub"
+            sub = new AndFilter(sub, right); ////
+            token = scanner.peek();
+        }
+        return sub;
+    }
+
+    //...
+}
+```
+
+```Java
+// src/filters/test/TestFilters
+
+// ...
+
+public class TestFilters {
+    // ...
+
+    @Test void testAnd() {
+        Filter f = new AndFilter(new BasicFilter("fred"), new BasicFilter("george"));
+        assertFalse(f.matches(makeStatus("Fred Flintstone")));
+        assertFalse(f.matches(makeStatus("George Flintstone")));
+        assertTrue(f.matches(makeStatus("Fred George Flintstone")));
+        assertTrue(f.matches(makeStatus("George Fredstone")));
+    }
+
+    @Test void testOr() {
+        Filter f = new OrFilter(new BasicFilter("fred"), new BasicFilter("george"));
+        assertFalse(f.matches(makeStatus("Gred Flintstone")));
+        assertTrue(f.matches(makeStatus("Fred Flintstone")));
+        assertTrue(f.matches(makeStatus("George Flintstone")));
+    }
+
+    // ...
+}
+```
+
+```Java
+// src/filters/TestParser
+
+// ...
+
+public class TestParser {
+    // ...
+
+    @Test
+    public void testAnd() throws SyntaxError {
+        Filter x = new Parser("blue and green").parse();
+
+        assertTrue(x.toString().equals("(blue and green)"));
+    }
+
+    @Test
+    public void testNestedAnd() throws SyntaxError {
+        Filter x = new Parser("blue and green and red").parse();
+
+        assertTrue(x.toString().equals("((blue and green) and red)"));
+    }
+
+    @Test
+    public void testOr() throws SyntaxError {
+        Filter x = new Parser("blue or green").parse();
+
+        assertTrue(x.toString().equals("(blue or green)"));
+    }
+
+    @Test
+    public void testNestedOr() throws SyntaxError {
+        Filter x = new Parser("blue or green or red").parse();
+
+        assertTrue(x.toString().equals("((blue or green) or red)"));
+    }
+
+    // ...
+}
+```
+
+```Java
+// src/twitter/TwitterSource
+
+// ...
+
+public abstract class TwitterSource extends Observable {
+    // ...
+
+    protected void handleTweet(Status s) {
+        setChanged();
+        notifyObservers(s);
+    }
+}
+
+```
+
+```Java
+// src/query/Query
+
+package query;
+
+import filters.Filter;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.Layer;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
+import twitter.TwitterSource;
+import twitter4j.Status;
+import ui.DummyImage;
+import ui.MapMarkerInteresting;
+import ui.MapMarkerSimple;
+import util.Util;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
+public class Query implements Observer {
+    // ...
+
+    public void terminate() {
+        this.setVisible(false);
+        map.repaint();
+        layer = null;
+        checkBox = null;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Status s  = (Status) arg;
+        DummyImage di = new DummyImage();
+        Image image = di.getImage();
+
+        if (filter.matches(s)) {
+            Coordinate coor = Util.statusCoordinate(s);
+            MapMarker marker = new MapMarkerInteresting(this.layer, coor, color, s.getText(), image);
+            map.addMapMarker(marker);
+        }
+    }
+}
+```
+
+```Java
+// src/ui/Application
+
+package ui;
+
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.Layer;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
+import org.openstreetmap.gui.jmapviewer.tilesources.BingAerialTileSource;
+import query.Query;
+import sun.applet.Main;
+import twitter.PlaybackTwitterSource;
+import twitter.TwitterSource;
+import util.SphericalGeometry;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.*;
+import java.util.List;
+import java.util.Timer;
+
+/**
+ * The Twitter viewer application
+ * Derived from a JMapViewer demo program written by Jan Peter Stotz
+ */
+public class Application extends JFrame {
+    public void addQuery(Query query) {
+        queries.add(query);
+        Set<String> allterms = getQueryTerms();
+        twitterSource.setFilterTerms(allterms);
+        contentPanel.addQuery(query);
+
+        twitterSource.addObserver(query);
+    }
+
+    // ...
+
+    public Application() {
+        // ...
+
+        // Set up a motion listener to create a tooltip showing the tweets at the pointer position
+        map().addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                // https://docs.oracle.com/javase/tutorial/uiswing/components/html.html
+                // https://www.java2s.com/Tutorial/Java/0240__Swing/Useimagesintooltips.htm
+                Point p = e.getPoint();
+                ICoordinate pos = map().getPosition(p);
+                // TODO: Use the following method to set the text that appears at the mouse cursor
+                String tooltipText = "<html><b>";
+                List<MapMarker> coveredMarkers = getMarkersCovering(pos, pixelWidth(p));
+
+                for (MapMarker m: coveredMarkers) {
+                    MapMarkerInteresting im = (MapMarkerInteresting) m;
+                    String s = im.getDescription();
+                    Image i = im.getImage();
+
+                    tooltipText += "<p><img src=\"https://redacted.com/redacted.png\" height=\"40\" width=\"40\"  />&nbsp;";
+                    tooltipText += s + "</p>";
+                }
+
+                map().setToolTipText(tooltipText + "</b></html>");
+            }
+        });
+    }
+
+    //...
+
+    // A query has been deleted, remove all traces of it
+    public void terminateQuery(Query query) {
+        twitterSource.deleteObserver(query);
+        queries.remove(query);
+        Set<String> allterms = getQueryTerms();
+        twitterSource.setFilterTerms(allterms);
+    }
+}
+```
+
+```Java
+// src/ui/DummyImage
+
+package ui;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class DummyImage {
+    private Image image;
+
+    public DummyImage() {
+        try {
+            this.image = ImageIO.read(new URL("https://redacted.com/redacted.png"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Image getImage() {
+        return this.image;
+    }
+}
+```
+
+```Java
+// src/ui/MapMarkerInteresting
+
+package ui;
+
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.Layer;
+import org.openstreetmap.gui.jmapviewer.MapMarkerCircle;
+
+import java.awt.*;
+
+public class MapMarkerInteresting extends MapMarkerCircle {
+    public static final double defaultMarkerSize = 16.0;
+    private String description;
+    private Image image;
+
+    public MapMarkerInteresting(Layer layer, Coordinate coord, Color color, String description, Image image) {
+        super(layer, null, coord, defaultMarkerSize, STYLE.FIXED, getDefaultStyle());
+        setColor(Color.BLACK);
+        setBackColor(color);
+        this.description = description;
+        this.image = image;
+    }
+
+    // Getters
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Image getImage() {
+        return this.image;
+    }
+
+    @Override
+    public void paint(Graphics g, Point position, int radius) {
+        int size = radius * 2;
+        int halfSize = size / 2;
+        int quarterSize = halfSize / 2;
+
+        if (g instanceof Graphics2D && this.getBackColor() != null) {
+            Graphics2D g2 = (Graphics2D)g;
+            Composite oldComposite = g2.getComposite();
+            g2.setComposite(AlphaComposite.getInstance(3));
+            g2.setPaint(this.getBackColor());
+            g.fillOval(position.x - radius, position.y - radius, size, size);
+            g2.setComposite(oldComposite);
+        }
+
+        g.setColor(this.getColor());
+        g.drawOval(position.x - radius, position.y - radius, size, size);
+        if (this.getLayer() == null || this.getLayer().isVisibleTexts()) {
+            this.paintText(g, position);
+        }
+
+        if (!this.image.equals(null)) {
+            g.drawImage(this.image, position.x - quarterSize, position.y - quarterSize, halfSize, halfSize, null);
+        }
+    }
+}
+```
+
+**Remarks**
+
+Quite a lot of time was wasted on trying to figure out how Java works than learning design patterns. Twitter4J doesn't have an HTTPS-enabled site at the time of writing that really bothered me to have to blindly trust those `.jar` files.
+
+JMapViewer is okay but, as with using library in other languages, if one doesn't know the fundamental of a language well then much time is spent on fighting with getting things done the hard way—getting the tooltip to work ate up a lot more time than I would have liked, in the process of getting it to work, I often thought about how active the JavaScript community is—it's not easy to find something that hasn't been answered properly before (the GitHub source code of JMapViewer also appears to be a few years old, that's... kind of unthinkable for a useful library in JavaScript)
+
+The images URL for the mocked Twitter doesn't work anymore, a placeholder image is used so that I don't have to set up yet another zombie Twitter app that I'm never going to tend to (also, it doesn't really add any value in terms of what I really wanted to learn from the course).
+
+It was a bit of an anticlimax for an otherwise mostly excellent course.
 
 ## Resources
