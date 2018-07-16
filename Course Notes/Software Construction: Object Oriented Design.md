@@ -1136,7 +1136,446 @@ public class Diner {
 
 Waaaah, looking at the feedbacks, it looks like I have mentally inverted what is and isn't a violation of preconditions and postconditions according to the Listkov Substitution Principle. D:
 
-### 9: Design Patterns 
+### 9: Design Patterns
+
+* Composite Pattern, an OO solution for a hierarchical structure
+* Observer Pattern, a solution for when one (or more) object(s) wants to watch the state of one (or more) other object(s)
+* Iterator Pattern, which allows us to collect behaviour related to iterating over a collection
+
+#### Composite
+
+* Classic example folders and files
+* Nodes with children (Composite) differ in behaviour to those without children (Leaf)
+* Both composite and leaf extend a Component superclass
+* Composite has a list of Component with an associated set method
+* Without Component, Composite would have to have methods and fields for each type of Leaf/Composite (well, they wouldn't be Leaf and Composites anymore in that case!)
+
+#### Long-form Problem Console Arcade - Monster Maze III
+
+```Java
+// src/model/Choice
+
+package model;
+
+public abstract class Choice {
+    protected String optionMessage;
+
+    public Choice(String optionMessage) {
+        this.optionMessage = optionMessage;
+    }
+
+    public void printOptionMessage() {
+        System.out.println(optionMessage);
+    }
+}
+```
+
+```Java
+// src/model/Monster
+
+package model;
+
+public class Monster extends Choice {
+    private Treasure treasure;
+
+    public Monster() {
+        super("Fight a monster.");
+        treasure = null;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets the treasure to t
+    public void setTreasure(Treasure t) {
+        this.treasure = t;
+    }
+
+    //EFFECTS: prints the result of choosing this choice
+    public void printOutcome() {
+        if (treasure == null) {
+            System.out.println("Ha! I killed you!");
+        } else {
+            System.out.println("Ahh! You killed me!");
+            treasure.printOutcome();
+        }
+    }
+
+}
+```
+
+```Java
+// src/model/Treasure
+
+package model;
+
+public class Treasure extends Choice {
+    private int prize;
+
+    public Treasure(int prize) {
+        super("Claim your treasure!");
+        this.prize = prize;
+    }
+
+    //EFFECTS: prints the result of choosing this choice
+    public void printOutcome() {
+        System.out.println("Your prize is " + prize + " spendibees.");
+    }
+
+}
+```
+
+```Java
+// src/model/Room
+
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Room extends Choice {
+    private List<Choice> choices;
+    private int id;
+
+    public Room(int id) {
+        super("Enter Room " + id + ".");
+
+        this.id = id;
+        choices = new ArrayList<>();
+    }
+
+    //EFFECTS: prints all possible next choices
+    public void printNextChoices() {
+        System.out.println("You are now in Room " + id + ".\n");
+        System.out.println("You have the following options: ");
+
+        int counter = 1;
+
+        for (Choice c: choices) {
+            System.out.print("\tOption " + counter + ": ");
+            c.printOptionMessage();
+            counter++;
+        }
+    }
+
+    public void addChoice(Choice c) {
+        choices.add(c);
+    }
+
+    //getters for gameplay
+    public Choice getChoice(int i) {
+        return choices.get(i);
+    }
+}
+```
+
+```Java
+// src/ui/Game
+
+package ui;
+
+import model.Choice;
+import model.Monster;
+import model.Room;
+import model.Treasure;
+
+import java.util.Scanner;
+
+public class Game {
+    // ...
+
+    //MODIFIES: this
+    //EFFECTS: displays the next option chosen from the options displayed by current room
+    private void printNextChoiceById(int id) {
+        System.out.println("Nya: " + (id + 1));
+
+        Choice c = current.getChoice(id);
+
+        if (c instanceof Room) {
+            current = (Room) c;
+            return;
+        }
+        // Further abstracting Monster and Treasure as Objects can reduce repetition here
+        else if (c instanceof Monster) {
+            Monster m = (Monster) c;
+            m.printOutcome();
+            roundOver = true;
+            return;
+        }
+        else if (c instanceof Treasure) {
+            Treasure m = (Treasure) c;
+            m.printOutcome();
+            roundOver = true;
+            return;
+        }
+        else {
+            System.out.println(INVALID_CHOICE);
+        }
+    }
+
+    // ...
+}
+```
+
+```Java
+// src/ui/MonsterMaze
+
+// ...
+
+public class MonsterMaze {
+
+    public static void main(String[] args) throws InterruptedException {
+        // ...
+
+        m3.setTreasure(t1);
+
+        r1.addChoice(r2);
+        r1.addChoice(r4);
+        r1.addChoice(m1);
+a
+        r2.addChoice(r3);
+        r2.addChoice(r6);
+
+        r3.addChoice(m3);
+
+        r4.addChoice(r5);
+
+        r5.addChoice(m2);
+
+        r6.addChoice(t1);
+
+        Game g = new Game(r1);
+    }
+}
+```
+
+#### Observer Pattern
+
+> The Observer Pattern is a design that lets one or more objects watch (Observer) the state of one or more other objects (Subject)
+
+(MobX?)
+
+#### Console Arcade - Bingo II
+
+```Java
+// src/model/PlayingCard
+
+package model;
+
+import model.observer_pattern.Observer;
+
+// ...
+
+public class PlayerCard implements Observer {
+    private List<NumberSquare> numbers;
+    private List<Collection<Integer>> colIndices;
+    private List<Collection<Integer>> rowIndices;
+    private List<Collection<Integer>> diagonalIndices;
+    private int numberSquaresStamped;
+    private boolean hasBingo;
+
+    public PlayerCard(){
+        numbers = new ArrayList<>();
+        populateIndices();
+
+        for(int i=0; i < CARD_SIZE; i++){
+            numbers.add(new NumberSquare());
+        }
+    }
+
+    @Override
+    public void update(Object o) {
+        BingoNumber bc = (BingoNumber) o;
+        int i = numberSquaresMatch(bc);
+        for (int j=0; j < i; j++) {
+            int index = getSquareIndexOfNextUnstamped(bc);
+            stampSquare(index);
+            checkIfBingo(index);
+        }
+    }
+
+    // ...
+}
+```
+
+```Java
+// src/model/Game
+
+// ...
+
+public class Game extends Subject {
+
+    public static final int CARD_SIZE = 25;
+    public static final int SIDE_LENGTH = (int) Math.sqrt(CARD_SIZE);
+
+    private BingoNumber currentCall;
+    private boolean gameOver;
+
+    public Game() {
+        super();
+
+        callNext();
+    }
+
+    // ...
+
+    public List<PlayerCard> getCards() {
+        List<PlayerCard> playerCards = new ArrayList<>();
+        for (Observer o : this.getObservers()) {
+            if (o.getClass().getSimpleName().equals("PlayerCard"))
+                playerCards.add((PlayerCard) o);
+        }
+        return playerCards;
+    }
+
+    public void callNext() {
+        currentCall = new BingoNumber();
+        notifyObservers();
+        refreshGameOver();
+    }
+
+    public void addCard(Observer pc) {
+        this.addObserver(pc);
+    }
+
+    public void refreshGameOver(){
+        for (Observer o : this.getObservers()) {
+            PlayerCard p = (PlayerCard) o;
+            if (p.hasBingo()) {
+                gameOver = true;
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Observer o: this.getObservers()) {
+            o.update(currentCall);
+        }
+    }
+}
+```
+
+#### Basic Iterator Pattern
+
+> The Iterator Pattern allows us to separate out all the logic for iterating over a collection
+
+#### Long-form Problem: Console Arcade
+
+```Java
+// src/model/SillyWordGame
+
+package model;
+
+import java.util.Iterator;
+import java.util.List;
+
+public class SillyWordGame implements Iterable<Phrase> {
+
+    private List<Phrase> phrases;
+
+    public SillyWordGame(List<Phrase> phrases) {
+        this.phrases = phrases;
+    }
+
+    public List<Phrase> getAllPhrases() {
+        return phrases;
+    }
+
+    @Override
+    public Iterator<Phrase> iterator() {
+        return new PhraseIterator();
+    }
+
+    private class PhraseIterator implements Iterator<Phrase> {
+        Iterator<Phrase> it = phrases.iterator();
+        Phrase p;
+
+        @Override
+        public boolean hasNext() {
+            return it.hasNext();
+        }
+
+        @Override
+        public Phrase next() {
+            p = (Phrase) it.next();
+
+            while(!p.needsWord()) {
+                p = (Phrase) it.next();
+            }
+
+            return p;
+        }
+    }
+}
+```
+
+```Java
+// src/ui/SillyWordGame
+
+package ui;
+
+import model.SillyWordGame;
+import model.Phrase;
+import model.words.WordEntry;
+
+import java.util.Iterator;
+import java.util.Scanner;
+
+public class SillyWordGameUI {
+
+    private SillyWordGame wordGame;
+    private Scanner s;
+
+    public static void main(String[] args) {
+        new SillyWordGameUI(new PhraseResource());
+    }
+
+    public SillyWordGameUI(PhraseResource pr) {
+        s = new Scanner(System.in);
+        wordGame = new SillyWordGame(pr.generatePhraseList());
+        System.out.println(wordGame);
+        userInteraction();
+        printSillyGame();
+    }
+
+    //MODIFIES: this
+    //EFFECTS: fills each needed word entry with user input
+    private void userInteraction(){
+        System.out.println("NYA!");
+        for (Phrase p: wordGame) {
+            WordEntry w = p.getNeededWordEntry();
+            printWordInputDescription(w);
+
+            String input = "";
+            while (input.length() == 0) {
+                if (s.hasNext())
+                    input = s.nextLine();
+            }
+            input = input.trim();
+
+            p.fillWordEntry(input);
+        }
+//        }
+    }
+
+    //EFFECTS: prints out all phrases in this game
+    private void printSillyGame() {
+        for(Phrase p : wordGame.getAllPhrases())
+            System.out.println(p.toString());
+    }
+
+    //EFFECTS: prints out the correct description for the next word needed
+    private void printWordInputDescription(WordEntry w) {
+        StringBuilder str = new StringBuilder(w.getType().getInstructions());
+        String desc = w.getDescription();
+        if (desc.length() > 0) {
+            str.append(" (" ).append(desc).append( ")");
+        }
+        str.append(": ");
+        System.out.println(str.toString());
+    }
+}
+```
 
 
 
