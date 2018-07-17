@@ -148,7 +148,11 @@ Doesn't protect the idea itself, just the representation of that idea.
 
 ### 3. Ethics
 
+#### Ethics: Privacy
 
+Anonymising data while maintaining its utility is usually not trivial.
+
+K-anonymity: for each linked record, there should be another k entries grouped together with it. Can still suffer from homogeneity attack if not carefully designed.
 
 
 
