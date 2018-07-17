@@ -134,13 +134,19 @@ Fuzz testing—black box, complementary to other techniques listed above and can
 
 ### 2. Intellectual Property Introduction
 
+#### Trade Secrets
 
+#### Trademark
 
+#### Copyright
 
+Doesn't protect the idea itself, just the representation of that idea.
 
+#### Patents
 
+#### License
 
-
+### 3. Ethics
 
 
 
