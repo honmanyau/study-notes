@@ -20,7 +20,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material:
+Current Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
@@ -28,7 +28,7 @@ Concurrent Non-CS/Programming Material: [Music Technology Foundations](https://w
 
 Books Completed: 9
 
-Courses Completed: 4
+Courses Completed: 5
 
 Total Points Earned: 4300 + 120
 
@@ -51,6 +51,7 @@ Total Time Spent Since 2018.06.04 (approx.): 248 hours
 | 2018.07.10 | Course | 500 | [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x) | Grade: 89% |
 | 2018.07.16 | Course | 500 | [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x) | Grade: 95% |
 |  |  |  |  |  |
+|  |  |  |  |  |
 
 Current Material: [CodinGame](https://www.codingame.com) Classic Puzzles (accumulated time: 9.5 hours)
 
@@ -60,7 +61,8 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 | ------------- | ------------------------- | ------ | ------ | ------- |
 | 2018.06.17 | Project | 100 | [Front-end Puzzles: Puzzle 1—Blocked Blog](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/001-blocked-blog) |  |
 | 2018.07.09 | Mini-Project | 20 | [Front-end Puzzles: Puzzle 2—Getting Stylish](https://github.com/honmanyau/front-end-puzzles/tree/master/src/puzzles/002-getting-stylish) |  |
-|  |  |  |  |
+|  |  |  |  |  |
+|  |  |  |  |  |
 
 ## Materials Finished
 
@@ -78,6 +80,7 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 * [x] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
 * [x] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [x] Course: [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x)
+* [ ] Course: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
 ## Non-CS/Programming Materials Finished
