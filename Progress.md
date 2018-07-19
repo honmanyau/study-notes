@@ -20,7 +20,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx)
+Current Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
