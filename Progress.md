@@ -20,7 +20,9 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours)
+Current Material: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix)
+
+Concurrent Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours)
 
 Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) (accumulated time: 6 hours)
 
@@ -80,6 +82,7 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 * [x] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
 * [x] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [x] Course: [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x)
+* [ ] Book: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix)
 * [ ] Course: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx)
 * [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
 
@@ -109,7 +112,6 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 ## Book Suggestions
 
 * [ ] Book: [Setting Up ES6](https://leanpub.com/setting-up-es6/read)
-* [ ] Book: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix)
 * [ ] Book: [JavaScript Design Patterns](https://addyosmani.com/resources/essentialjsdesignpatterns/book/)
 * [ ] Article: Read [Project Specification Documents](http://www.pixelearth.net/pages/project-specification) and get in the habit of including every bit of information it details that makes sense for a project in the README.md or other supporting documentation for your projects
 * [ ] Article: Read [Algorithms and Flowcharts](http://www.academia.edu/7857144/ALGORITHMS_AND_FLOWCHARTS) and then familiarize yourself with [Pencil](http://pencil.evolus.vn/) ... start flowcharting complex portions of your code logic as part of your documentation
