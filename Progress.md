@@ -22,7 +22,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 Current Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours)
 
-Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
+Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) (accumulated time: 6 hours)
 
 Concurrent Non-CS/Programming Material: [Music Technology Foundations](https://www.edx.org/course/music-technology-foundations) (accumulated time: 1.5 hours)
 
@@ -32,7 +32,7 @@ Courses Completed: 5
 
 Total Points Earned: 4300 + 120
 
-Total Time Spent Since 2018.06.04 (approx.): 250 hours
+Total Time Spent Since 2018.06.04 (approx.): 244 hours
 
 | Date Finished | Activity                  | Points | Links  | Remarks |
 | ------------- | ------------------------- | ------ | ------ | ------- |
