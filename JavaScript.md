@@ -448,6 +448,32 @@ Reference: [YDKJS, Types & Grammar, Chapter 2](https://github.com/getify/You-Don
 
 ## Patterns
 
+In addition to the patterns below, there are great/interesting examples in the following resources (some of which are included below, simply according to personal taste):
+
+* [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix/read), Recipes with Basic Functions
+
+### Compose
+
+```JavaScript
+function compose(fnA, fnB) {
+  return function(x) {
+    return fnA(fnB(x));
+  }
+}
+
+function addOne(m) {
+  return m + 1;
+}
+
+function doubleOf(n) {
+  return n * 2;
+}
+
+const doubleOfAddOne = compose(doubleOf, addOne);
+```
+
+Reference: [JavaScript Allongé, the "Six" Edition, Recipes with Basic Functions, Compose and Pipeline](https://leanpub.com/javascriptallongesix/read)
+
 ### Cooperativity
 
 An approach that employs asynchrony to break a task into smaller chunks such that the thread can be freed up temporarily for other tasks queued in the call stack. For example:
@@ -832,7 +858,31 @@ cat.init('Nyan', 'Pasu');
 cat.meow(); // "Meow, Nyan Pasu!"
 ```
 
-Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md) and [YDKJS, Scope & Closures, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch5.md).
+Reference: [YDKJS, Up & Going, Chapter 2](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md) and [YDKJS, Scope & Closures, Chapter 5](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch5.md)
+
+### Pipeline
+
+```JavaScript
+function pipeline(...fns) {
+  return function(x) {
+    return fns.reduce(function(acc, fn) {
+      return fn(acc);
+    }, x);
+  }
+}
+
+function addOne(m) {
+  return m + 1;
+}
+
+function doubleOf(n) {
+  return n * 2;
+}
+
+const doubleOfAddOne = pipeline(addOne, doubleOf);
+```
+
+Reference: [JavaScript Allongé, the "Six" Edition, Recipes with Basic Functions, Compose and Pipeline](https://leanpub.com/javascriptallongesix/read)
 
 ### Self-adjusted Recursion Mitigation
 
@@ -958,6 +1008,24 @@ Reference: [YDKJS, ES6 & Beyond, Chapter 7](https://github.com/getify/You-Dont-K
 
 `Placeholder`
 
+### Describe how one would create a function that takes a variable number of arguments prior to, and after the introduction of, ES6.
+
+```JavaScript
+// Before ES6
+function fnA() {
+  var first = arguments[0],
+      rest  = [].slice.call(arguments, 1);
+
+  // ...
+}
+
+function fnB(first, ...rest) {
+  // ...
+}
+```
+
+Reference: [JavaScript Allongé, the "Six" Edition, A Pull of the Lever: Prefaces](https://leanpub.com/javascriptallongesix/read)
+
 ### Discuss the difference and use cases for `Array.prorotype.indexOf()`, `Array.prorotype.some()`, `Array.prorotype.every()`, `Array.prorotype.find()` and `Array.prorotype.findIndex()`.
 
 `Placeholder`
@@ -1002,6 +1070,10 @@ Reference: [YDKJS, Async & Performance, Chapter 6](https://github.com/getify/You
 
 `Placeholder`
 
+### Given a function `fnA(x, y, z)`, write another function `fnB` by currying `fnA`, such that `fnA(1, 2, 3)` produces the same result as `fnB(1)(2)(3)`.
+
+`Placeholder`
+
 ### Given an object, `a`, how does one create another object, `b`, that is prototype-linked to `a` using 1. `Object.create()` and 2. `Object.setPrototypeOf()`? How would you do this with ES6 classes?
 
 `Placeholder`
@@ -1024,7 +1096,7 @@ Reference: [YDKJS, Async & Performance, Chapter 1](https://github.com/getify/You
 
 `Placeholder`
 
-### Given three variables `a`, `b` and `c`, and that they are assigned, **in no particular order** the following expressions `new String('nyanpasu')`, `new Array('nyanpasu')`, `{ 'nyan': 'pasu' }`; what would the `typeof` operator return for each of the variables? How would you determine whether the given variables is a string, an array, or an object?
+### Given three variables `a`, `b` and `c`, and that they are assigned, **in no particular order**, the following expressions `new String('nyanpasu')`, `new Array('nyanpasu')`, `{ 'nyan': 'pasu' }`; what would the `typeof` operator return for each of the values? How would you determine whether the given variables is a string, an array, or an object?
 
 `typeof` will return `"object"` in all cases. One way to quickly inspect the internal classification of the object is to use `Object.prototype.toString.call()`.
 
@@ -1130,6 +1202,10 @@ Reference: [YDKJS, Async & Performance, Chapter 3](https://github.com/getify/You
 
 The thrown error will force a `reject`ion and none of the code beyond that point inside the `Promise` will be executed. If the error is thrown inside a `then()`, another `Promise` object that carries a rejection will be returned and can be caught by the next `then()`, if present.
 
+### What is the difference between a function expression and a function declaration? Illustrate with examples.
+
+`Placeholder`
+
 ### What is the difference between a `Map` and a `WeakMap`?
 
 `Placeholder`
@@ -1154,7 +1230,11 @@ Reference: [YDKJS, `this` & Object Prototypes, Chapter 3](https://github.com/get
 
 ### What is the difference between arrow functions and functions created with the `function` keyword?
 
-`Placeholder`
+Any discussion that does not include the following should be considered unsatisfactory:
+* `this`
+* The ability/inability to name a function and the corresponding impact on debugging
+
+Answers that focus exclusively on stylistic discussion is a huge red flag, not least because of the points discussed above and that, in reality, there is minimal difference between typing `function() {}` and `() => {}` because of keyboard layouts.
 
 ### Where does the prototype chain end? (Potential follow-up question: what can be found there?)
 
