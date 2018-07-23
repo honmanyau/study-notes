@@ -969,23 +969,25 @@ function trampoline(response) {
   return response;
 }
 
-let factorial = (function() {
-  function _factorial(n, product = 1) {
-    if (n === 2) {
-      return product * 2;
+let sumOfIntsBelow = (function() {
+  function _sumOfIntsBelow(n, sum = 0) {
+    if (n === 0) {
+      console.log(sum);
+      
+      return sum;
     }
 
-    return function partial() {
-      return _factorial(n - 1, n * product);
+    return function() {
+      return _sumOfIntsBelow(n - 1, sum + n);
     }
   }
 
   return function(n) {
-    return trampoline(_factorial(n));
+    return trampoline(_sumOfIntsBelow(n));
   }
 })();
 
-factorial(100000);
+sumOfIntsBelow(10000000);
 ```
 
 When `factorial` is initially called, the `trampoline` function is returned along with the "private" function, `_factorial`, as the argument.
