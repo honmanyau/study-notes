@@ -1180,6 +1180,10 @@ They both return the current time; however, `new Date()` returns a `Date` object
 
 `Placeholder. Discuss function vs. block scope; hoisting; reasssignment; what happens when and object or array is declared with const; merits and common pitfalls (where applicable) of each of them.`
 
+### What are the return values of `true && 'nyanpasu'` and `true || 'nyanpasu'` and why?
+
+`Placeholder`
+
 ### What does the `new` operator do?
 
 > ... sort of hijacks any normal function and calls it in a fashion that constructs an object, in addition to whatever else it was going to do.
