@@ -973,12 +973,14 @@ let sumOfIntsBelow = (function() {
   function _sumOfIntsBelow(n, sum = 0) {
     if (n === 0) {
       console.log(sum);
-      
+
       return sum;
     }
 
     return function() {
-      return _sumOfIntsBelow(n - 1, sum + n);
+      return function() {
+        return _sumOfIntsBelow(n - 1, sum + n);
+      }
     }
   }
 
