@@ -796,7 +796,7 @@ Reference: [YDKJS, Async & Performance, Chapter 4](https://github.com/getify/You
 
 A function that is immediately executed after it is created. This pattern is used to avoid scope-based variable conflicts as variables declared inside the IIFE are only scoped to that function.
 
-By taking advantage of closure, it is possible to have create a stateful function with IIFE:
+An example of a stateful function created with an IIFE:
 
 ```JavaScript
 const fibonacci = (function() {
