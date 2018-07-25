@@ -20,7 +20,7 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix) (accumulated time: 5 hours)
+Current Material: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix) (accumulated time: 8 hours)
 
 Concurrent Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours)
 
