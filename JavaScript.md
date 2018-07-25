@@ -1148,9 +1148,9 @@ Promise.race([timeoutPromise, fetchPromise])
 );
 ```
 
-### Implicit in JavaScript coercion is evil.
+### Implicit coercion is evil.
 
-No, not necessarily; and that statement suggests a lack of understanding of the rules behind implicit coercion.
+No, not necessarily; and that statement typically suggests a lack of understanding of the rules behind implicit coercion.
 
 ### Is JavaScript a compiled language or an interpreted language?
 
