@@ -22,6 +22,8 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 Current Book: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix) (accumulated time: 8 hours)
 
+Current Course: [Principles of Machine Learning: Python Edition](https://www.edx.org/course/principles-of-machine-learning-python-edition)
+
 Current Non-CS/Programming Course: [Music Technology Foundations](https://www.edx.org/course/music-technology-foundations) (accumulated time: 1.5 hours)
 
 Books Completed: 9
