@@ -89,4 +89,63 @@ Disadvantage:
 
 Refer to [/Module1/IntroductionToMachineLearning.ipynb](https://pomlpython-honmanyau.notebooks.azure.com/nb/notebooks/Module1/IntroductionToMachineLearning.ipynb)
 
+### Module 2: Exploring Data
+
+#### Data Exploration
+
+An **iterative** process in understanding the data before performing machine learning.
+
+* Characteristics of the data
+* Summary statics of the dataset
+* Errors and outliers (the latter may be interesting data)
+* Distribution of features and labels
+* Frequencies of categorical features
+* Relationship between features and labels
+
+#### Data Visualisation
+
+A powerful method for data exploration.
+
+#### Visualizing Distributions
+
+#### Visualizing Data Relationships
+
+Dealing with overplotting:
+* Transparency
+* 2D Kernel Density Estimate (contour)
+* Hex Spin (~2D histogram)
+
+#### Visualizing Categorical Relationships
+
+* Box plot
+* Violin plot (area under each set of curves is the same)
+
+#### Using Aesthetics to Visualize High Dimensions
+
+Another dimension can be added using (optionally a combination of):
+* Shape
+* Size
+* Colour
+
+#### Visualizing High Dimensional Relationships
+
+* Pairwise Scatter Plot
+* Conditioned/Faceted Plot
+
+#### Visualizing for Classification
+
+#### Frequency Tables
+
+For examining distribution and frequency of data numerically, which is important for determining the significance of subsets of data. Example: finding class imbalance in classification.
+
+
+
+
+
+
+
+
+
+
+
 ## Resources
