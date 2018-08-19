@@ -20,13 +20,9 @@ It appears that I focused too much on the coding part in the last year or so of 
 
 ## Progress
 
-Current Material: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix) (accumulated time: 8 hours)
+Current Book: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix) (accumulated time: 8 hours)
 
-Concurrent Material: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours)
-
-Concurrent Material: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) (accumulated time: 6 hours)
-
-Concurrent Non-CS/Programming Material: [Music Technology Foundations](https://www.edx.org/course/music-technology-foundations) (accumulated time: 1.5 hours)
+Current Non-CS/Programming Course: [Music Technology Foundations](https://www.edx.org/course/music-technology-foundations) (accumulated time: 1.5 hours)
 
 Books Completed: 9
 
@@ -82,9 +78,13 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 * [x] Course: [Software Engineering: Introduction](https://www.edx.org/course/software-engineering-introduction-ubcx-softeng1x)
 * [x] Course: [Software Construction: Data Abstraction](https://www.edx.org/course/software-construction-data-abstraction-ubcx-softconst1x)
 * [x] Course: [Software Construction: Object-Oriented Design](https://www.edx.org/course/software-construction-object-oriented-ubcx-softconst2x)
-* [ ] Book: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix)
-* [ ] Course: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx)
-* [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x)
+
+## Non-CS/Programming Materials Finished
+
+## Suspended
+
+* [ ] Course: [Software Development Capstone Project](https://www.edx.org/course/software-development-capstone-project-ubcx-softengprjx) (accumulated time: 11 hours, ubcbot was down and it wasn't possible to run tests, get graded, and move onto the next stages)
+* [ ] Course: [Effective Thinking Through Mathematics](https://www.edx.org/course/effective-thinking-through-mathematics-utaustinx-ut-9-01x) (accumulated time: 6 hours)
 
 ## Non-CS/Programming Materials Finished
 
@@ -111,6 +111,7 @@ Total Time Spent Since 2018.06.04 (approx.): 18 hours
 
 ## Book Suggestions
 
+* [ ] Book: [JavaScript Allongé, the "Six" Edition](https://leanpub.com/javascriptallongesix)
 * [ ] Book: [Setting Up ES6](https://leanpub.com/setting-up-es6/read)
 * [ ] Book: [JavaScript Design Patterns](https://addyosmani.com/resources/essentialjsdesignpatterns/book/)
 * [ ] Article: Read [Project Specification Documents](http://www.pixelearth.net/pages/project-specification) and get in the habit of including every bit of information it details that makes sense for a project in the README.md or other supporting documentation for your projects
