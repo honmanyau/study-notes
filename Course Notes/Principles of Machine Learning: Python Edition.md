@@ -138,12 +138,80 @@ Another dimension can be added using (optionally a combination of):
 
 For examining distribution and frequency of data numerically, which is important for determining the significance of subsets of data. Example: finding class imbalance in classification.
 
+### Data Preparation
 
+Data preparation ensures that machine learning algorithms work optimally on a given set of data and is vital to learning performance.
 
+* Data exploration
+* Remove duplicates
+* Treat missing values
+* Handle errors and outliers
+* Scale features
+* Split dataset
+* Visualisation
 
+#### Duplicates
 
+Introduces bias.
 
+* Identify duplicates
+* Develop removal strategies
 
+#### Missing Values
+
+* Typically detected in data exploration
+
+#### Errors and Outliers
+
+Errors are, well, errors. Outliers are potentially valuable depending on what one is attempting to achieve with the data.
+
+#### Scaling
+
+Introduces biases that depend on absolute values.
+
+* Z-Score scaling
+  * mean = 0, S.D. approx. 1
+* Min-max
+  * scales values according to min-max
+  * messes things up when outliers are present
+
+#### Data Splitting
+
+* Usually split before training so that test and evaluation sets are different
+* Not splitting will lead to information leakage
+* Examples:
+  * Bernoulli sampling
+  * Cross validation (resampling method)
+
+#### Finding and Treating Missing Data
+
+#### Finding and Treating Duplicates
+
+#### Scaling Data
+
+* Must split data first, then train scaler on training set, and apply scale to evaluation data
+
+#### Overview of Feature Engineering
+
+* Understand data relationships through data exploration
+* Transform features
+* Compute interaction terms
+* Visualisation to check results
+* Test with ML models
+* Rinse and repeat
+
+#### Transforming Features
+
+Common transformations:
+  * log, exp, square, sqrt, variance... etc.
+  * Diff, cumulative sum... etc.
+  * Nonlinearly transformed features are not colinear with pre and post transformation
+
+#### Interaction Terms
+
+Black magic.
+
+In all seriously, the bottom line is that there is no recipe for this. Depends on domain knowledge, how well one knows about a problem, whether or not one is experienced and/or lucky enough to identify features... etc.
 
 
 
