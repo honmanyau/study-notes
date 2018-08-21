@@ -222,7 +222,7 @@ In all seriously, the bottom line is that there is no recipe for this. Depends o
 **Simple linear regression**
 
 * One feature (x)
-* SSE (Squared Standard Error)/MSE (Mean Squared Error)
+* SSE (Squared Standard Error)/MSE (Mean Square Error)
 * Fitting f(x) = a + bx by choosing values for a and b such that SSE is minimised
 
 #### Multiple Linear Regression
@@ -236,7 +236,7 @@ Ehhhhhh!? Why not this video earlier?
 #### Evaluating Regression Models
 
 * MAE (Mean Absolute Error)
-* RMSE (Root Mean Squared Error)
+* RMSE (Root Mean Square Error)
 * Ideally most errors should be closed to zero
 * If an unusual pattern (for example, where not all of the residuals are normally distributed with a mean of 0 for linear models) exists in a residual count vs. residual plot, the model is likely imperfect
 * Plotting residual vs. feature (perhaps even higher-dimension plots) may be useful in identifying how a model can be improved
@@ -317,6 +317,92 @@ For a particular FPR, what is the TPR?
 * Use weights on the algorithm
 
 ### Module 5: Improving Model Performance
+
+#### Improving Models
+
+**Greedy Backward Selection**
+
+* Start with all features
+* Remove the feature that reduces the predictive power the least
+* Rinse and repeat until some arbitrary criteria are met
+
+**Greedy Forward Selection**
+
+* Start with no features
+* Find the feature that is the best as a model by itself
+* Add another one where the combined outcome is the best
+* Rinse and repeat until some arbitrary criteria are met
+
+Use adjusted R^2 to compare the different models above; R^2 is agnostic to the number of terms involved.
+
+#### Regularization
+
+* Regularisation limits the complexity of a model
+* Regularisation term measures the simplicity of a model
+* `C` determines the relative importance of accuracy and simplicity
+* Linear example:
+  * Sum of coefficients should be small
+  * One option is to calculate the sum of the squares of the coefficients (l2 norm/l2 regularisation)
+  * Another is to sum the absolute values of the coefficients (l1 norm/l1 regularisation)
+* l2 regularisation tends to make all coefficients smaller
+* l1 useful for making sparse solutions
+* Regularisation is also known as shrinkage
+* l2 term is also called Ridge regression
+* l1 term is also called Lasso penalty
+
+#### Interpreting Features
+
+Interpreting coefficients of ML model is a bad idea:
+* Collinear are highly correlated features
+* Highly correlated coefficients that are large but cancel out each other could lead to incorrect interpretation
+* Highly correlated features that are related to each other could be combined and still have equal predictive performance, in this case the importance of feature could be misleading
+* Bad scaling means different coefficients that have the same value could have vastly different weighting
+  * Bad scaling actually also messes up regularisation since different weightings are given to coefficients, and reduction of larger coefficients will be preferred
+
+#### Features Selection
+
+Feature selection is used for dealing with overfitted/overparameterised ML models.
+
+#### Sweeping Parameters
+
+#### Cross Validation
+
+* For evaluating the performance of a ML algorithm on a dataset
+* Divide data into k folds
+* Train data on k - 1 folds and evaluate on the test fold
+* Repeat k times using each fold as a test fold once
+* Report mean and SD of all test folds
+
+#### Nested Cross Validation
+
+* For tuning parameters of a algorithm
+* Need a dataset, algorithm, an evaluation measure and a parameter K that needs tuning
+* Use one fold as test fold
+* Within training set, divided into nested training set and one fold as validation set
+* Rotate validation set amongst nest training set and for each value of K, train on the nested training set and evaluate on the validation fold
+* Repeat k - 1 times by rotating the validation fold and the nested training set using different fold as validation fold
+* Choose K that minimises the average training error over the k - 1 folds, evaluate the test set with this K
+* Rinse and repeat
+* Report mean and SD
+
+#### Model Selection and Cross Validation
+
+#### Overview of Dimensionality Reduction
+
+* To find a small number of transformed features that contains most useful information
+* PCA—find the fewest components that explain the variance of the data
+* Pitfalls of PCA
+  * PCA is a linear model
+  * Non-linear data, for example with many modes or separated cluster may suffer
+  * Outliers may substantially skew results
+
+#### Principal Component Analysis Demo
+
+
+
+
+
+
 
 
 
