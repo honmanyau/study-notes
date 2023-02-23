@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-* [How to Code: Complex Data](#how-to-code-complex-data)
+* [Software Engineering: Introduction](#software-engineering-introduction)
   * [Disclaimer](#disclaimer)
   * [Notes](#notes)
   * [Resources](#resources)

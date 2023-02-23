@@ -30,36 +30,42 @@ The questions are meant for myself and are written to cater to my own taste. A g
 
 ## Progress
 
-I started keeping track of my study progress after bumping into [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea. The details can be found [here](https://github.com/honmanyau/study-notes/blob/master/Progress.md).
+I started keeping track of my study progress after bumping into [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea. The details can be found [here](./Progress.md).
 
 ## Notes by Topic
 
 ### JavaScript
 
-Study notes for JavaScript-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/JavaScript.md).
+Study notes for JavaScript-related things! They can be found [here](./JavaScript.md).
 
 ### HTML
 
-Study notes for HTML-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/HTML.md).
+Study notes for HTML-related things! They can be found [here](./HTML.md).
 
 ### CSS
 
-Study notes for CSS-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/CSS.md).
+Study notes for CSS-related things! They can be found [here](./CSS.md).
 
 ### Web Development
 
-Study notes for computer web development-related things, concepts that involve at least two of JavaScript, HTML and CSS can be found here. They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Web%20Development.md).
+Study notes for computer web development-related things, concepts that involve at least two of JavaScript, HTML and CSS can be found here. They can be found [here](./Web%20Development.md).
 
 ### Computer Science
 
-Study notes for computer science-related things! They can be found [here](https://github.com/honmanyau/study-notes/blob/master/Computer%20Science.md).
+Study notes for computer science-related things! They can be found [here](./Computer%20Science.md).
 
 ### Course Notes
 
 Notes and attempts to questions and answers for online courses:
 
-* [Effective Thinking through Mathematics](https://github.com/honmanyau/study-notes/blob/master/Course%20Notes/Effective%20Thinking%20through%20Mathematics.md)
-* [How to Code: Simple Data](https://github.com/honmanyau/study-notes/blob/master/Course%20Notes/How%20to%20Code:%20Simple%20Data.md)
+* [Effective Thinking through Mathematics](./Course%20Notes/Effective%20Thinking%20through%20Mathematics.md)
+* [How to Code: Simple Data](./Course%20Notes/How%20to%20Code:%20Simple%20Data.md)
+* [How to Code: Complex Data](./Course%20Notes/How%20to%20Code:%20Complex%20Data.md)
+* [Principles of Machine Learning: Python Edition](./Course%20Notes/Principles%20of%20Machine%20Learning:%20Python%20Edition.md)
+* [Software Construction: Data Abstraction](./Course%20Notes/Software%20Construction:%20Data%20Abstraction.md)
+* [Software Construction: Object-Oriented Design](./Course%20Notes/Software%20Construction:%20Object%20Oriented%20Design.md)
+* [Software Development Capstone Project](./Course%20Notes/Software%20Development%20Capstone%20Project.md)
+* [Software Engineering: Introduction](./Course%20Notes/Software%20Engineering:%20Introduction.md)
 
 
 ## Contributing

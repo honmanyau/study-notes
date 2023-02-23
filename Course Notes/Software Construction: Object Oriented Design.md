@@ -1,8 +1,8 @@
-# Software Engineering: Introduction
+# Software Construction: Object-Oriented Design
 
 ## Table of Contents
 
-* [Software Construction: Data Abstraction](#software-construction-data-abstraction)
+* [Software Construction: Object-Oriented Design](#software-construction-object-oriented-design)
   * [Disclaimer](#disclaimer)
   * [Notes](#notes)
 
