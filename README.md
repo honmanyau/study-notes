@@ -30,7 +30,12 @@ The questions are meant for myself and are written to cater to my own taste. A g
 
 ## Progress
 
-I started keeping track of my study progress after bumping into [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea. The details can be found [here](./Progress.md).
+### 2023
+I have been a software engineering for bit over a year and a half now and have finally decided to make an effort to go through the OSSU curriculum! I'm using this repository to keep study notes; progress can be found in [this Trello board](https://trello.com/b/te7rshQ2/ossu-progress).
+
+### 2018
+
+I initially started this in 2018 to keep track of my study progress after bumping into [P1xt's SpeedStudy](https://github.com/P1xt/speedstudy) idea. The details can be found [here](./progress-2018.md).
 
 ## Notes by Topic
 
